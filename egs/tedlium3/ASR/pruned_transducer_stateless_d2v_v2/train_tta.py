@@ -1043,7 +1043,6 @@ def train_one_epoch(
     model.train()
 
     tot_loss = MetricsTracker()
-
     cur_batch_idx = params.get("cur_batch_idx", 0)
 
     if params.multi_optim:
