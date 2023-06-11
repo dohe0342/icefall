@@ -44,8 +44,12 @@ def prepare_tedlium(
         )
         segments = []
         for spk_id, p in enumerate(stms):
-            pseudo_labels = open(f'./{output_dir}/{spk_id}.txt', 'r').readlines()
-            count = 0
+            pseudo_labels_file = open(f'./{output_dir}/{spk_id}.txt', 'r').readlines()
+            pseudo_labels_dict = {}
+            for line in pseudo_labels_file:
+                utt_id, text = line.split('\t')
+                pseudo_labels_dict[utt-id] = text.strip()
+            
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
