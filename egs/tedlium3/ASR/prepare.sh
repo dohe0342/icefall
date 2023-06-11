@@ -246,7 +246,7 @@ if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
 	for spk_id in {0..10}; do
 		python local/prepare_ted_manifests_pseudo.py $dl_dir/tedlium3 data/manifests $spk_id
 	done
-    #touch data/manifests/.tedlium3_pseudo.done
+    touch data/manifests/.tedlium3_pseudo.done
   fi
 fi
 : <<'END'
