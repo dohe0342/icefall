@@ -236,7 +236,17 @@ if [ $stage -le 10 ] && [ $stop_stage -ge 10 ]; then
   done
 fi
 
-
+if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
+  log "Stage 11: Prepare tedlium3 pseudo manifests"
+  if [ ! -f data/manifests/.tedlium3_pseudo.done ]; then
+    # We assume that you have downloaded the tedlium3 corpus
+    # to $dl_dir/tedlium3
+    mkdir -p data/manifests
+    #lhotse prepare tedlium $dl_dir/tedlium3 data/manifests
+	python local/prepare_ted_manifests.py $dl_dir/tedlium3 data/manifests
+    touch data/manifests/.tedlium3.done
+  fi
+fi
 : <<'END'
 if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
   log "Stage 6: Prepare LJSpeech manifest"
