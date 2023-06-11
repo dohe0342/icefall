@@ -48,7 +48,7 @@ def prepare_tedlium(
             pseudo_labels_dict = {}
             for line in pseudo_labels_file:
                 utt_id, text = line.split('\t')
-                pseudo_labels_dict[utt-id] = text.strip()
+                pseudo_labels_dict[utt_id] = text.strip()
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
