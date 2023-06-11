@@ -775,7 +775,7 @@ def main():
     
     test_clean_cuts = tedlium.user_test_cuts(spk_id=params.spk_id)
     def remove_short_and_long_utt(c):
-        return 1.0 <= c.duration <= 20.0
+        return 1.0 <= c.duration <= 17.0
 
     test_clean_cuts = test_clean_cuts.filter(remove_short_and_long_utt)
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
