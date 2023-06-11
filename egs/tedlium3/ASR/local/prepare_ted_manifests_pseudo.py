@@ -26,7 +26,6 @@ def prepare_tedlium(
     :param tedlium_root: Path to the unpacked TED-LIUM data.
     :return: A dict with standard corpus splits containing the manifests.
     """
-    print('fuck!!!!!!!!')
     tedlium_root = Path(tedlium_root)
     output_dir = Path(output_dir) if output_dir is not None else None
     corpus = {}
@@ -46,6 +45,7 @@ def prepare_tedlium(
         segments = []
         for spk_id, p in enumerate(stms):
             pseudo_labels = open(f'./{output_dir}/{spk_id}.txt', 'r').readlines()
+            print(pseudo_labels)
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
