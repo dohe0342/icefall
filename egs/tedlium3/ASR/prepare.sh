@@ -249,6 +249,8 @@ if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
     touch data/manifests/.tedlium3_pseudo.done
   fi
 fi
+
+
 : <<'END'
 if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
   log "Stage 6: Prepare LJSpeech manifest"
