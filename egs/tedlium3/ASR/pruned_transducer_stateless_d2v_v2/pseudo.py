@@ -805,10 +805,10 @@ def main():
         res_dict = sorted(res_dict.items(), key=lambda x:x[0])
 
         for k, v in res_dict:
-            utt_id = '-'.join(k.split('-')[:-1])
+            #utt_id = '-'.join(k.split('-')[:-1])
             try: f = open(f'./data/manifests/{params.spk_id}.txt', 'a')
             except: pass
-            f.write(utt_id + '\t' + v + '\n')
+            f.write(k + '\t' + v + '\n')
             print(k, v)
         
     logging.info("Done!")
