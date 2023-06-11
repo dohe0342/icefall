@@ -54,9 +54,9 @@ def prepare_tedlium(
                     #utt_id, text = pseudo_labels[idx].split('\t')
                     #print(rec_id, utt_id)
                     #text = pseudo_labels[idx].strip()
-                    print(spk_id, idx)
                     if text == "ignore_time_segment_in_scoring":
                         continue
+                    print(spk_id, idx)
                     segments.append(
                         SupervisionSegment(
                             id=f"{rec_id}-{idx}",
