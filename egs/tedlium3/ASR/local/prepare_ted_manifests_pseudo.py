@@ -35,13 +35,14 @@ def prepare_tedlium(
             Recording.from_file(p) for p in (root / "sph").glob("*.sph")
         )
         stms = list((root / "stm").glob("*.stm"))
+        stms = sorted(stms)
         assert len(stms) == len(recordings), (
             f"Mismatch: found {len(recordings)} "
             f"sphere files and {len(stms)} STM files. "
             f"You might be missing some parts of TEDLIUM..."
         )
         segments = []
-        for p in stms:
+        for spk_id, p in stms:
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
@@ -62,6 +63,17 @@ def prepare_tedlium(
                             speaker=rec_id,
                         )
                     )
+            
+            supervisions = SupervisionSet.from_segments(segments)
+            corpus[split] = {"recordings": recordings, "supervisions": supervisions}
+
+            validate_recordings_and_supervisions(**corpus[split])
+
+            if output_dir is not None:
+                recordings.to_file(output_dir / f"tedlium_recordings_pseudo_{split}.jsonl.gz")
+                supervisions.to_file(output_dir / f"tedlium_supervisions_pseudo_{split}.jsonl.gz")
+
+        '''
         supervisions = SupervisionSet.from_segments(segments)
         corpus[split] = {"recordings": recordings, "supervisions": supervisions}
 
@@ -70,6 +82,7 @@ def prepare_tedlium(
         if output_dir is not None:
             recordings.to_file(output_dir / f"tedlium_recordings_pseudo_{split}.jsonl.gz")
             supervisions.to_file(output_dir / f"tedlium_supervisions_pseudo_{split}.jsonl.gz")
+        '''
 
     return corpus
 
