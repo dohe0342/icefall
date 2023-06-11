@@ -390,5 +390,10 @@ class TedLiumAsrDataModule:
     
     @lru_cache()
     def user_test_cuts(self, spk_id) -> CutSet:
-        logging.info("About to get test cuts")
+        logging.info("About to get use test cuts")
+        return load_manifest_lazy(self.args.manifest_dir / f"tedlium_cuts_test_{spk_id}.jsonl.gz")
+    
+    @lru_cache()
+    def user_pseudo_test_cuts(self, spk_id) -> CutSet:
+        logging.info("About to get pseudo test cuts")
         return load_manifest_lazy(self.args.manifest_dir / f"tedlium_cuts_test_{spk_id}.jsonl.gz")
