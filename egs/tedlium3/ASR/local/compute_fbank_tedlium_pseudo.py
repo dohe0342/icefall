@@ -76,8 +76,8 @@ def compute_fbank_tedlium():
                 continue
             logging.info(f"Processing {partition}")
             cut_set = CutSet.from_manifests(
-                recordings=m["recordings"],
-                supervisions=m["supervisions"],
+                recordings=m["recordings_pseudo"],
+                supervisions=m["supervisions_pseudo"],
             )
             
             cut_set = (
