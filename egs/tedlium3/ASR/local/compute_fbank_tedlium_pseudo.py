@@ -47,7 +47,7 @@ def compute_fbank_tedlium(spk_id):
     num_mel_bins = 80
 
     dataset_parts = (
-        "pseudo_test",
+        f"pseudo_test_{spk_id}",
     )
 
     prefix = "tedlium"
