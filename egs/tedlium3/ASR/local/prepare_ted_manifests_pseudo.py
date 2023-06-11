@@ -29,7 +29,8 @@ def prepare_tedlium(
     tedlium_root = Path(tedlium_root)
     output_dir = Path(output_dir) if output_dir is not None else None
     corpus = {}
-
+    
+    print('fuck!!!!!!!!')
     print(tedlium_root)
 
     for split in ("test"):
