@@ -773,25 +773,15 @@ def main():
     args.return_cuts = True
     librispeech = LibriSpeechAsrDataModule(args)
     
-    #test_clean_cuts = librispeech.test_clean_cuts()
-    #test_clean_cuts = librispeech.test_clean_cuts(option='male')
-    #test_other_cuts = librispeech.test_other_cuts(option='male')
-    
     test_clean_cuts = librispeech.vox_cuts(option=params.spk_id)
     def remove_short_and_long_utt(c):
         return 1.0 <= c.duration <= 20.0
 
     test_clean_cuts = test_clean_cuts.filter(remove_short_and_long_utt)
-    #test_clean_cuts = librispeech.test_clean_user(option=option)
-    #test_other_cuts = librispeech.test_other_user(option=option)
-    #test_clean_dl = librispeech.train_dataloaders(test_clean_cuts)
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
-    #test_other_dl = librispeech.test_dataloaders(test_other_cuts)
 
     test_sets = [f"test-clean_sampling"]
-    #test_sets = [f"test-clean_sampling", f"test-other_sampling"]
     test_dl = [test_clean_dl]
-    #test_dl = [test_clean_dl, test_other_dl]
     
     for test_set, test_dl in zip(test_sets, test_dl):
         results_dict = decode_dataset(
@@ -806,9 +796,6 @@ def main():
         print(results_dict.keys())
         print('--------------')
         results = results_dict['greedy_search']
-        #results = results_dict['beam_size_4']
-        #jsons = open(f"{params.manifest_dir}/userlibri/{test_set}/{option}.jsonl", 'r').readlines()
-        #new_jsons = open(f"{params.manifest_dir}/userlibri/{test_set}/{option}_p.jsonl", 'w')
 
         res_dict = {}
         for res in results:
@@ -831,7 +818,6 @@ def main():
             f.write(v)
             print(k, v)
         
-    
     logging.info("Done!")
 
 
