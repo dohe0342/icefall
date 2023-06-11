@@ -48,8 +48,9 @@ def prepare_tedlium(
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
                     start, end = float(start), float(end)
-                    text = " ".join(words).replace("{NOISE}", "[NOISE]")
-                    text = text.replace(" '", "'")
+                    #text = " ".join(words).replace("{NOISE}", "[NOISE]")
+                    #text = text.replace(" '", "'")
+                    text = pseudo_labels[idx].strip()
                     if text == "ignore_time_segment_in_scoring":
                         continue
                     segments.append(
