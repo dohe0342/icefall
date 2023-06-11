@@ -51,7 +51,7 @@ def prepare_tedlium(
                     start, end = float(start), float(end)
                     #text = " ".join(words).replace("{NOISE}", "[NOISE]")
                     #text = text.replace(" '", "'")
-                    print(rec_id)
+                    print(idx)
                     utt_id, text = pseudo_labels[idx].split('\t')
                     #print(rec_id, utt_id)
                     text = pseudo_labels[idx].strip()
