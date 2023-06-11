@@ -803,17 +803,11 @@ def main():
             res_dict[res[0]] = ' '.join(res[2])
         
         res_dict = sorted(res_dict.items(), key=lambda x:x[0])
-        
-        os.makedirs(f"/DB/L/{params.spk_id}_texts")
 
         for k, v in res_dict:
-            #v = v.strip()
-            #if len(v) < 10:
-            #    continue
             utt_id = '-'.join(k.split('-')[:-1])
-            #print(utt_id)
             try: f = open(f'/DB/LibriSpeech_tar/{params.prefix}/{params.spk_id}_texts/{utt_id}.txt', 'w')
-            except: f = open(f'/home/work/workspace/LibriSpeech/{params.prefix}/{params.spk_id}_texts/{utt_id}.txt', 'w')
+            except: pass
             f.write(v)
             print(k, v)
         
