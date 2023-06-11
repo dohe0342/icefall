@@ -808,7 +808,7 @@ def main():
             utt_id = '-'.join(k.split('-')[:-1])
             try: f = open(f'./data/manifests/{params.spk_id}.txt', 'a')
             except: pass
-            f.write(utt_id + ' ' + v + '\n')
+            f.write(utt_id + '\t' + v + '\n')
             print(k, v)
         
     logging.info("Done!")
