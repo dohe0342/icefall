@@ -42,7 +42,7 @@ def prepare_tedlium(
             f"You might be missing some parts of TEDLIUM..."
         )
         segments = []
-        for spk_id, p in stms:
+        for spk_id, p in enumerate(stms):
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
