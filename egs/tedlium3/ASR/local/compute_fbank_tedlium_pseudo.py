@@ -105,4 +105,4 @@ if __name__ == "__main__":
     logging.basicConfig(format=formatter, level=logging.INFO)
     spk_id = sys.argv[1]
 
-    compute_fbank_tedlium()
+    compute_fbank_tedlium(spk_id)
