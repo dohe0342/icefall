@@ -265,7 +265,7 @@ if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
     #mv data/fbank/tedlium_cuts_train-shuf.jsonl.gz \
     #   data/fbank/tedlium_cuts_train.jsonl.gz
 
-    #touch data/fbank/.tedlium3.done
+    touch data/fbank/.tedlium3.done
   fi
 fi
 
