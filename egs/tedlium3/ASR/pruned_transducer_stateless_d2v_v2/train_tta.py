@@ -160,6 +160,13 @@ def add_pea_arguments(parser: argparse.ArgumentParser):
         default=0.0001,
         help="PEA learning rate"
     )
+    
+    parser.add_argument(
+        "--continual",
+        type=str2bool,
+        default=False,
+        help="continual learning for PEA"
+    )
 
 
 def add_rep_arguments(parser: argparse.ArgumentParser):
