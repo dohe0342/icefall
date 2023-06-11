@@ -21,7 +21,7 @@ It looks for manifests in the directory data/manifests.
 
 The generated fbank features are saved in data/fbank.
 """
-
+import sys
 import logging
 import os
 from pathlib import Path
