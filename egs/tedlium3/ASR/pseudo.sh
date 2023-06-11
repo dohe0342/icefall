@@ -1,5 +1,4 @@
 spk_id=$1
-prefix=$2
 
 for method in greedy_search; do #modified_beam_search fast_beam_search; do
 	  ./pruned_transducer_stateless_d2v_v2/pseudo.py \
@@ -7,6 +6,7 @@ for method in greedy_search; do #modified_beam_search fast_beam_search; do
 		--enable-spec-aug False \
 		--additional-block True \
 		--model-name d2v-base-T.pt \
+		--bpe-model ./../../librispeech/ASR/data/lang_bpe_500/bpe.model \
 		--exp-dir ./pruned_transducer_stateless_d2v_v2 \
 		--max-duration 400 \
 		--decoding-method $method \
