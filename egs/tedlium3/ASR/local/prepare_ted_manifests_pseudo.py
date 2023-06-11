@@ -15,7 +15,7 @@ from lhotse import (
 from lhotse.utils import Pathlike, safe_extract, urlretrieve_progress
 
 def prepare_tedlium(
-    tedlium_root: Pathlike, output_dir: Optional[Pathlike] = None
+    tedlium_root: Pathlike, output_dir: Optional[Pathlike] = None, spk_id
 ) -> Dict[str, Dict[str, Union[RecordingSet, SupervisionSet]]]:
     """
     Prepare manifests for the TED-LIUM v3 corpus.
