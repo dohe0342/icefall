@@ -250,6 +250,22 @@ if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
   fi
 fi
 
+if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
+  log "Stage 3: Compute fbank for tedlium3"
+
+  if [ ! -e data/fbank/.tedlium3_pseudo.done ]; then
+    mkdir -p data/fbank
+
+    python3 ./local/compute_fbank_tedlium.py
+
+    gunzip -c data/fbank/tedlium_cuts_train.jsonl.gz | shuf | \
+    gzip -c > data/fbank/tedlium_cuts_train-shuf.jsonl.gz
+    mv data/fbank/tedlium_cuts_train-shuf.jsonl.gz \
+       data/fbank/tedlium_cuts_train.jsonl.gz
+
+    touch data/fbank/.tedlium3.done
+  fi
+fi
 
 : <<'END'
 if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
