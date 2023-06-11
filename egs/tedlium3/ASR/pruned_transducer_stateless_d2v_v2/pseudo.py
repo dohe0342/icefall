@@ -777,8 +777,8 @@ def main():
     def remove_short_and_long_utt(c):
         return 1.0 <= c.duration <= 17.0
 
-    test_clean_cuts = test_clean_cuts.filter(remove_short_and_long_utt)
-    test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
+    test_cuts = test_cuts.filter(remove_short_and_long_utt)
+    test_dl = tedlium.test_dataloaders(test_clean_cuts)
 
     test_sets = [f"test-clean_sampling"]
     test_dl = [test_clean_dl]
