@@ -806,7 +806,7 @@ def main():
 
         for k, v in res_dict:
             utt_id = '-'.join(k.split('-')[:-1])
-            try: f = open(f'/DB/LibriSpeech_tar/{params.prefix}/{params.spk_id}_texts/{utt_id}.txt', 'w')
+            try: f = open(f'./data/manifests/{params.spk_id}.txt', 'a')
             except: pass
             f.write(v)
             print(k, v)
