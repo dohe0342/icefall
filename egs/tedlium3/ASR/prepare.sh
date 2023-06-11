@@ -256,7 +256,7 @@ if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
   if [ ! -e data/fbank/.tedlium3_pseudo.done ]; then
     mkdir -p data/fbank
 
-    python3 ./local/compute_fbank_tedlium.py
+    python3 ./local/compute_fbank_tedlium_pseudo.py
 
     gunzip -c data/fbank/tedlium_cuts_train.jsonl.gz | shuf | \
     gzip -c > data/fbank/tedlium_cuts_train-shuf.jsonl.gz
