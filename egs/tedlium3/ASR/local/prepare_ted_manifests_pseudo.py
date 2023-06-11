@@ -70,8 +70,6 @@ def prepare_tedlium(
                             speaker=rec_id,
                         )
                     )
-            exit()
-            
             supervisions = SupervisionSet.from_segments(segments)
             corpus[split] = {"recordings": recordings, "supervisions": supervisions}
 
