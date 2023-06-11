@@ -231,7 +231,6 @@ fi
 if [ $stage -le 10 ] && [ $stop_stage -ge 10 ]; then
   log "Stage 10: Generate pseudo label"
   for spk in {0..10}; do
-	  spk_id=${spk#*$dest\/}
 	  echo $spk_id
 	  ./pseudo.sh $spk_id
   done
