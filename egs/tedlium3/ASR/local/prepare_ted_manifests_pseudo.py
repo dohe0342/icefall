@@ -26,12 +26,10 @@ def prepare_tedlium(
     :param tedlium_root: Path to the unpacked TED-LIUM data.
     :return: A dict with standard corpus splits containing the manifests.
     """
+    print('fuck!!!!!!!!')
     tedlium_root = Path(tedlium_root)
     output_dir = Path(output_dir) if output_dir is not None else None
     corpus = {}
-    
-    print('fuck!!!!!!!!')
-    print(tedlium_root)
 
     for split in ("test"):
         root = tedlium_root / "legacy" / split
