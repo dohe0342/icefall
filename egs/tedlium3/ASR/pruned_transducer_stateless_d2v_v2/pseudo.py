@@ -777,7 +777,7 @@ def main():
     def remove_short_and_long_utt(c):
         return 1.0 <= c.duration <= 17.0
 
-    test_cuts = test_cuts.filter(remove_short_and_long_utt)
+    #test_cuts = test_cuts.filter(remove_short_and_long_utt)
     test_dl = tedlium.test_dataloaders(test_cuts)
 
     test_sets = [f"test_{params.spk_id}"]
