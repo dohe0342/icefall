@@ -780,7 +780,7 @@ def main():
     test_cuts = test_cuts.filter(remove_short_and_long_utt)
     test_dl = tedlium.test_dataloaders(test_cuts)
 
-    test_sets = [f"test-clean_sampling"]
+    test_sets = [f"test_{params.spk_id}"]
     test_dl = [test_clean_dl]
     
     for test_set, test_dl in zip(test_sets, test_dl):
