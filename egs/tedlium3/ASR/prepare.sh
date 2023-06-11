@@ -251,7 +251,7 @@ if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
 fi
 
 if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
-  log "Stage 3: Compute fbank for tedlium3"
+  log "Stage 12: Compute fbank for tedlium3"
 
   if [ ! -e data/fbank/.tedlium3_pseudo.done ]; then
     mkdir -p data/fbank
