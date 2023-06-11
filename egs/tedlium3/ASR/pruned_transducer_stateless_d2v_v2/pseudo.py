@@ -781,7 +781,7 @@ def main():
     test_dl = tedlium.test_dataloaders(test_cuts)
 
     test_sets = [f"test_{params.spk_id}"]
-    test_dl = [test_clean_dl]
+    test_dl = [test_dl]
     
     for test_set, test_dl in zip(test_sets, test_dl):
         results_dict = decode_dataset(
