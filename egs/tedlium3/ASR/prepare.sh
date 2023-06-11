@@ -259,12 +259,6 @@ if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
 	for spk_id in {0..10}; do
     	python3 ./local/compute_fbank_tedlium_pseudo.py $spk_id
 	done
-
-    #gunzip -c data/fbank/tedlium_cuts_train.jsonl.gz | shuf | \
-    #gzip -c > data/fbank/tedlium_cuts_train-shuf.jsonl.gz
-    #mv data/fbank/tedlium_cuts_train-shuf.jsonl.gz \
-    #   data/fbank/tedlium_cuts_train.jsonl.gz
-
     touch data/fbank/.tedlium3.done
   fi
 fi
