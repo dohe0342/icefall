@@ -49,7 +49,6 @@ def prepare_tedlium(
             for line in pseudo_labels_file:
                 utt_id, text = line.split('\t')
                 pseudo_labels_dict[utt-id] = text.strip()
-            
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
@@ -60,9 +59,7 @@ def prepare_tedlium(
                     #text = pseudo_labels[idx].strip()
                     if text == "ignore_time_segment_in_scoring":
                         continue
-                    utt_id, text = pseudo_labels[count].split('\t')
-                    text = text.strip()
-                    count += 1
+                    text = pseudo_labels_dict[f"{rec_id}-{idx}"]
                     segments.append(
                         SupervisionSegment(
                             id=f"{rec_id}-{idx}",
