@@ -54,7 +54,7 @@ def prepare_tedlium(
                     #utt_id, text = pseudo_labels[idx].split('\t')
                     #print(rec_id, utt_id)
                     #text = pseudo_labels[idx].strip()
-                    print(idx)
+                    print(spk_id, idx)
                     if text == "ignore_time_segment_in_scoring":
                         continue
                     segments.append(
@@ -69,6 +69,7 @@ def prepare_tedlium(
                             speaker=rec_id,
                         )
                     )
+            exit()
             
             supervisions = SupervisionSet.from_segments(segments)
             corpus[split] = {"recordings": recordings, "supervisions": supervisions}
