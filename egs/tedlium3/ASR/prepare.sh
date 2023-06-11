@@ -257,7 +257,7 @@ if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
     mkdir -p data/fbank
 	
 	for spk_id in {0..10}; do
-    	python3 ./local/compute_fbank_tedlium_pseudo.py
+    	python3 ./local/compute_fbank_tedlium_pseudo.py $spk_id
 	done
 
     gunzip -c data/fbank/tedlium_cuts_train.jsonl.gz | shuf | \
