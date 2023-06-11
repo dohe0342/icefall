@@ -49,7 +49,7 @@ def prepare_tedlium(
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
                     start, end = float(start), float(end)
-                    #text = " ".join(words).replace("{NOISE}", "[NOISE]")
+                    text = " ".join(words).replace("{NOISE}", "[NOISE]")
                     #text = text.replace(" '", "'")
                     #utt_id, text = pseudo_labels[idx].split('\t')
                     #print(rec_id, utt_id)
