@@ -71,14 +71,13 @@ def compute_fbank_tedlium(spk_id):
 
     with get_executor() as ex:  # Initialize the executor only once.
         for partition, m in manifests.items():
-            print(m.keys())
             if (output_dir / f"{prefix}_cuts_{partition}.{suffix}").is_file():
                 logging.info(f"{partition} already exists - skipping.")
                 continue
             logging.info(f"Processing {partition}")
             cut_set = CutSet.from_manifests(
-                recordings=m["recordings_pseudo"],
-                supervisions=m["supervisions_pseudo"],
+                recordings=m["recordings"],
+                supervisions=m["supervisions"],
             )
             
             cut_set = (
