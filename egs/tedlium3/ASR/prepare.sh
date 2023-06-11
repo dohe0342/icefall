@@ -260,12 +260,12 @@ if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
     	python3 ./local/compute_fbank_tedlium_pseudo.py $spk_id
 	done
 
-    gunzip -c data/fbank/tedlium_cuts_train.jsonl.gz | shuf | \
-    gzip -c > data/fbank/tedlium_cuts_train-shuf.jsonl.gz
-    mv data/fbank/tedlium_cuts_train-shuf.jsonl.gz \
-       data/fbank/tedlium_cuts_train.jsonl.gz
+    #gunzip -c data/fbank/tedlium_cuts_train.jsonl.gz | shuf | \
+    #gzip -c > data/fbank/tedlium_cuts_train-shuf.jsonl.gz
+    #mv data/fbank/tedlium_cuts_train-shuf.jsonl.gz \
+    #   data/fbank/tedlium_cuts_train.jsonl.gz
 
-    touch data/fbank/.tedlium3.done
+    #touch data/fbank/.tedlium3.done
   fi
 fi
 
