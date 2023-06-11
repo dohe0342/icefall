@@ -243,7 +243,7 @@ if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
     # to $dl_dir/tedlium3
     mkdir -p data/manifests
     #lhotse prepare tedlium $dl_dir/tedlium3 data/manifests
-	python local/prepare_ted_manifests.py $dl_dir/tedlium3 data/manifests
+	python local/prepare_ted_manifests_pseudo.py $dl_dir/tedlium3 data/manifests
     touch data/manifests/.tedlium3.done
   fi
 fi
