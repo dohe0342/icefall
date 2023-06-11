@@ -96,7 +96,7 @@ def compute_fbank_tedlium():
             )
             # Split long cuts into many short and un-overlapping cuts
             cut_set = cut_set.trim_to_supervisions(keep_overlapping=False)
-            cut_set.to_file(output_dir / f"{prefix}_cuts_{partition}.{suffix}")
+            cut_set.to_file(output_dir / f"{prefix}_cuts_pseudo_{partition}.{suffix}")
 
 
 if __name__ == "__main__":
