@@ -233,7 +233,7 @@ if [ $stage -le 10 ] && [ $stop_stage -ge 10 ]; then
   for spk in {0..10}; do
 	  spk_id=${spk#*$dest\/}
 	  echo $spk_id
-	  ./pseudo.sh $spk_id $subset
+	  ./pseudo.sh $spk_id
   done
 fi
 
