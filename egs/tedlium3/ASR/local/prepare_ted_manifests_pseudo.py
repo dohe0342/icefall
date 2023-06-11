@@ -46,6 +46,7 @@ def prepare_tedlium(
         for spk_id, p in enumerate(stms):
             pseudo_labels = open(f'./{output_dir}/{spk_id}.txt', 'r').readlines()
             print(pseudo_labels)
+            print(len(pseudo_labels))
             exit()
             with p.open() as f:
                 for idx, l in enumerate(f):
