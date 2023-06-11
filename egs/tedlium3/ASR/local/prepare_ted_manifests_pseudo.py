@@ -43,9 +43,10 @@ def prepare_tedlium(
             f"You might be missing some parts of TEDLIUM..."
         )
         segments = []
+
+        print(root)
         for spk_id, p in enumerate(stms):
             pseudo_labels = open(f'./{output_dir}/{spk_id}.txt', 'r').readlines()
-            print(pseudo_labels)
             with p.open() as f:
                 for idx, l in enumerate(f):
                     rec_id, _, _, start, end, _, *words = l.split()
