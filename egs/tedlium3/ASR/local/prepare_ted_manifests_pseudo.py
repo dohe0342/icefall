@@ -51,7 +51,6 @@ def prepare_tedlium(
                     start, end = float(start), float(end)
                     #text = " ".join(words).replace("{NOISE}", "[NOISE]")
                     #text = text.replace(" '", "'")
-                    print(idx)
                     utt_id, text = pseudo_labels[idx].split('\t')
                     #print(rec_id, utt_id)
                     text = pseudo_labels[idx].strip()
@@ -94,4 +93,5 @@ def prepare_tedlium(
 
 dl_dir = sys.argv[1]
 output_dir = sys.argv[2]
+spk_id = sys.argv[3]
 prepare_tedlium(dl_dir, output_dir)
