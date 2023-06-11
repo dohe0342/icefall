@@ -30,7 +30,7 @@ def prepare_tedlium(
     output_dir = Path(output_dir) if output_dir is not None else None
     corpus = {}
 
-    for split in ("test"):
+    for split in ("test",):
         root = tedlium_root / "legacy" / split
         recordings = RecordingSet.from_recordings(
             Recording.from_file(p) for p in (root / "sph").glob("*.sph")
@@ -43,8 +43,6 @@ def prepare_tedlium(
             f"You might be missing some parts of TEDLIUM..."
         )
         segments = []
-
-        print(root)
         for spk_id, p in enumerate(stms):
             pseudo_labels = open(f'./{output_dir}/{spk_id}.txt', 'r').readlines()
             with p.open() as f:
