@@ -773,7 +773,7 @@ def main():
     args.return_cuts = True
     tedlium = TedLiumAsrDataModule(args)
     
-    test_clean_cuts = librispeech.vox_cuts(option=params.spk_id)
+    test_clean_cuts = tedlium.vox_cuts(option=params.spk_id)
     def remove_short_and_long_utt(c):
         return 1.0 <= c.duration <= 20.0
 
