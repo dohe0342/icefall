@@ -29,6 +29,9 @@ def prepare_tedlium(
     tedlium_root = Path(tedlium_root)
     output_dir = Path(output_dir) if output_dir is not None else None
     corpus = {}
+
+    print(tedlium_root)
+
     for split in ("test"):
         root = tedlium_root / "legacy" / split
         recordings = RecordingSet.from_recordings(
