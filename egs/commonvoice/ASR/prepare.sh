@@ -35,7 +35,7 @@ num_splits=1000
 #     - noise
 #     - speech
 
-dl_dir=$PWD/download
+dl_dir=/DB
 release=cv-corpus-13.0-2023-03-09
 lang=en
 
