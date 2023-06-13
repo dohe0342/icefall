@@ -36,7 +36,8 @@ num_splits=1000
 #     - speech
 
 dl_dir=/DB
-release=cv-corpus-13.0-2023-03-09
+#release=cv-corpus-13.0-2023-03-09
+release=cv-corpus-5.1-2020-06-22
 lang=en
 
 . shared/parse_options.sh || exit 1
