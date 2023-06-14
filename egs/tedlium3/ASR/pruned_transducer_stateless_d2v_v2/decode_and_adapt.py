@@ -583,69 +583,69 @@ def decode_and_adapt(
     
     token_ids = sp.encode(texts, out_type=int)
     y = k2.RaggedTensor(token_ids).to(device)
+    if len(token_ids[0]) > 0:
+        model.train()
+        for i in range(num_iter):
+            with torch.set_grad_enabled(is_training):
+                simple_loss, pruned_loss, ctc_output = model(
+                    x=feature,
+                    x_lens=feature_lens,
+                    y=y,
+                    prune_range=params.prune_range,
+                    am_scale=params.am_scale,
+                    lm_scale=params.lm_scale,
+                )
 
-    model.train()
-    for i in range(num_iter):
-        with torch.set_grad_enabled(is_training):
-            simple_loss, pruned_loss, ctc_output = model(
-                x=feature,
-                x_lens=feature_lens,
-                y=y,
-                prune_range=params.prune_range,
-                am_scale=params.am_scale,
-                lm_scale=params.lm_scale,
-            )
+                s = params.simple_loss_scale
+                # take down the scale on the simple loss from 1.0 at the start
+                # to params.simple_loss scale by warm_step.
+                simple_loss_scale = (
+                    s
+                    if batch_idx_train >= warm_step
+                    else 1.0 - (batch_idx_train / warm_step) * (1.0 - s)
+                )
+                pruned_loss_scale = (
+                    1.0
+                    if batch_idx_train >= warm_step
+                    else 0.1 + 0.9 * (batch_idx_train / warm_step)
+                )
 
-            s = params.simple_loss_scale
-            # take down the scale on the simple loss from 1.0 at the start
-            # to params.simple_loss scale by warm_step.
-            simple_loss_scale = (
-                s
-                if batch_idx_train >= warm_step
-                else 1.0 - (batch_idx_train / warm_step) * (1.0 - s)
-            )
-            pruned_loss_scale = (
-                1.0
-                if batch_idx_train >= warm_step
-                else 0.1 + 0.9 * (batch_idx_train / warm_step)
-            )
-
-            loss = simple_loss_scale * simple_loss + pruned_loss_scale * pruned_loss
-        
-            if params.ctc_loss_scale > 0:
-                with warnings.catch_warnings():
-                    warnings.simplefilter("ignore")
-                    supervision_segments, token_ids = encode_supervisions(
-                        supervisions,
-                        subsampling_factor=params.subsampling_factor,
-                        token_ids=token_ids,
+                loss = simple_loss_scale * simple_loss + pruned_loss_scale * pruned_loss
+            
+                if params.ctc_loss_scale > 0:
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")
+                        supervision_segments, token_ids = encode_supervisions(
+                            supervisions,
+                            subsampling_factor=params.subsampling_factor,
+                            token_ids=token_ids,
+                        )
+                        for i in range(params.num_augment):
+                            supervision_segments[i][-1] = ctc_output.size(1)
+                    
+                    # Works with a BPE model
+                    decoding_graph = k2.ctc_graph(token_ids, modified=False, device=device)
+                    dense_fsa_vec = k2.DenseFsaVec(
+                        ctc_output,
+                        supervision_segments,
+                        allow_truncate=params.subsampling_factor - 1,
                     )
-                    for i in range(params.num_augment):
-                        supervision_segments[i][-1] = ctc_output.size(1)
-                
-                # Works with a BPE model
-                decoding_graph = k2.ctc_graph(token_ids, modified=False, device=device)
-                dense_fsa_vec = k2.DenseFsaVec(
-                    ctc_output,
-                    supervision_segments,
-                    allow_truncate=params.subsampling_factor - 1,
-                )
 
-                ctc_loss = k2.ctc_loss(
-                    decoding_graph=decoding_graph,
-                    dense_fsa_vec=dense_fsa_vec,
-                    output_beam=params.beam_size,
-                    reduction="sum",
-                    use_double_scores=params.use_double_scores,
-                )
-                assert ctc_loss.requires_grad == is_training
-                loss += params.ctc_loss_scale * ctc_loss
+                    ctc_loss = k2.ctc_loss(
+                        decoding_graph=decoding_graph,
+                        dense_fsa_vec=dense_fsa_vec,
+                        output_beam=params.beam_size,
+                        reduction="sum",
+                        use_double_scores=params.use_double_scores,
+                    )
+                    assert ctc_loss.requires_grad == is_training
+                    loss += params.ctc_loss_scale * ctc_loss
 
-        assert loss.requires_grad == is_training
+            assert loss.requires_grad == is_training
 
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
 def decode_dataset(
     dl: torch.utils.data.DataLoader,
@@ -669,6 +669,7 @@ def decode_dataset(
 
     results = defaultdict(list)
 
+    # for tta
     parameters = []
     parameters_name = []
     for n, p in model.named_parameters():
@@ -705,6 +706,7 @@ def decode_dataset(
             batch=batch,
         )
         
+        # if tta
         # replace the supervision to pseudo labels
         pseudo_batch = deepcopy(batch)
 
@@ -730,6 +732,7 @@ def decode_dataset(
             word_table=word_table,
             batch=batch,
         )
+        #end tta
         
         for name, hyps in hyps_dict.items():
             this_batch = []
