@@ -172,6 +172,7 @@ if [ $stage -le 8 ] && [ $stop_stage -ge 8 ]; then
   fi
 fi
 
+: << 'END'
 if [ $stage -le 9 ] && [ $stop_stage -ge 9 ]; then
   log "Stage 9: Prepare BPE based lang"
 
@@ -251,3 +252,6 @@ if [ $stage -le 9 ] && [ $stop_stage -ge 9 ]; then
     fi
   done
 fi
+END
+
+
