@@ -119,7 +119,7 @@ fi
 if [ $stage -le 3 ] && [ $stop_stage -ge 3 ]; then
   log "Stage 3: Preprocess CommonVoice manifest"
   if [ ! -e data/${lang}/fbank/.preprocess_complete ]; then
-    ./local/preprocess_commonvoice.py  --language $lang  --dataset test
+    ./local/preprocess_commonvoice.py  --language $lang
     touch data/${lang}/fbank/.preprocess_complete
   fi
 fi
