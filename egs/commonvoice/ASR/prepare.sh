@@ -35,7 +35,9 @@ num_splits=1000
 #     - noise
 #     - speech
 
-dl_dir=/DB
+#dl_dir=/DB
+dl_dir=/home/work/workspace/LibriSpeech
+
 #release=cv-corpus-13.0-2023-03-09
 release=cv-corpus-5.1-2020-06-22
 lang=en
