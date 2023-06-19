@@ -733,6 +733,7 @@ def decode_dataset(
             batch=batch,
         )
         #end tta
+        torch.cuda.empty_cache()
         
         for name, hyps in hyps_dict.items():
             this_batch = []
