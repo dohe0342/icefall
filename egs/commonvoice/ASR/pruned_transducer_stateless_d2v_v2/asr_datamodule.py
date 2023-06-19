@@ -41,6 +41,7 @@ from lhotse.utils import fix_random_seed
 from torch.utils.data import DataLoader
 
 from icefall.utils import str2bool
+from sampling import SingleUttSampler
 
 
 class _SeedWorkers:
