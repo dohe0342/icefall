@@ -66,7 +66,7 @@ import sentencepiece as spm
 import torch
 import torch.multiprocessing as mp
 import torch.nn as nn
-from asr_datamodule import TedLiumAsrDataModule
+from asr_datamodule import CommonVoiceAsrDataModule
 from decoder import Decoder
 from joiner import Joiner
 from lhotse.cut import Cut
