@@ -25,7 +25,6 @@ do
 		--joiner-dim 768 \
 		--avg 1 \
 		--use-averaged-model True \
-		--spk-id $spk_id \
 		--bpe-model ../../librispeech/ASR/data/lang_bpe_500/bpe.model \
 		--res-name test
 	done
