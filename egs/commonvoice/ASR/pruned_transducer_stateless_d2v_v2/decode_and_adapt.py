@@ -29,7 +29,6 @@ import k2
 import sentencepiece as spm
 import torch
 import torch.nn as nn
-#from asr_datamodule import TedLiumAsrDataModule
 from asr_datamodule import CommonVoiceAsrDataModule
 from beam_search import (
     beam_search,
@@ -806,7 +805,8 @@ def save_results(
 @torch.no_grad()
 def main():
     parser = get_parser()
-    TedLiumAsrDataModule.add_arguments(parser)
+    #TedLiumAsrDataModule.add_arguments(parser)
+    CommonVoiceAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
