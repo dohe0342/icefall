@@ -911,7 +911,7 @@ def main():
     commonvoice = CommonVoiceAsrDataModule(args)
     #valid_cuts = tedlium.dev_cuts()
     #valid_dl = tedlium.test_dataloaders(valid_cuts)
-    test_cuts = tedlium.user_test_cuts(spk_id=params.spk_id)
+    test_cuts = commonvoice.test_cuts(spk_id=params.spk_id)
     test_dl = tedlium.test_dataloaders(test_cuts)
 
     #test_sets = ['dev', 'test']
