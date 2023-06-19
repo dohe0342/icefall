@@ -907,10 +907,8 @@ def main():
     args.return_cuts = True
     args.bucketing_sampler= False
     
-    #tedlium = TedLiumAsrDataModule(args)
     commonvoice = CommonVoiceAsrDataModule(args)
-    #valid_cuts = tedlium.dev_cuts()
-    #valid_dl = tedlium.test_dataloaders(valid_cuts)
+    
     test_cuts = commonvoice.test_cuts()
     test_dl = tedlium.test_dataloaders(test_cuts)
 
