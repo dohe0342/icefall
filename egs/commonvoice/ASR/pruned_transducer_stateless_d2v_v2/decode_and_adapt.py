@@ -912,8 +912,6 @@ def main():
     test_cuts = commonvoice.test_cuts()
     test_dl = commonvoice.test_dataloaders(test_cuts)
 
-    #test_sets = ['dev', 'test']
-    #test_dl = [valid_dl, test_dl]
     test_sets = ['test']
     test_dl = [test_dl]
  
