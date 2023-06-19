@@ -385,11 +385,20 @@ class CommonVoiceAsrDataModule:
             else eval(self.args.input_strategy)(),
             return_cuts=self.args.return_cuts,
         )
-        sampler = DynamicBucketingSampler(
-            cuts,
-            max_duration=self.args.max_duration,
-            shuffle=False,
-        )
+        if self.args.bucketing_sampler:
+            sampler = DynamicBucketingSampler(
+                cuts,
+                max_duration=self.args.max_duration,
+                shuffle=False,
+            )
+        else:
+            logging.info("Using SingleUttSampler.")
+            test_sampler = SingleUttSampler(
+                cuts_test,
+                max_duration=self.args.max_duration,
+                shuffle=False,
+            )
+
         logging.debug("About to create test dataloader")
         test_dl = DataLoader(
             test,
