@@ -393,7 +393,7 @@ class CommonVoiceAsrDataModule:
             )
         else:
             logging.info("Using SingleUttSampler.")
-            test_sampler = SingleUttSampler(
+            sampler = SingleUttSampler(
                 cuts,
                 max_duration=self.args.max_duration,
                 shuffle=False,
