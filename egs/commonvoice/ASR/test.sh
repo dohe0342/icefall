@@ -9,7 +9,7 @@ for i in 50
 do
 	for method in greedy_search
 	do
-	  ./pruned_transducer_stateless_d2v_v2/decode.py \
+	  ./pruned_transducer_stateless_d2v_v2/decode_and_adapt.py \
 		--input-strategy AudioSamples \
 		--enable-spec-aug False \
 		--additional-block True \
