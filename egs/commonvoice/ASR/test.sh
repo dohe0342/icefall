@@ -28,14 +28,5 @@ do
 		--spk-id $spk_id \
 		--bpe-model ../../librispeech/ASR/data/lang_bpe_500/bpe.model \
 		--res-name test
-		#--res-name bitfit_q_fc1_check$i
-		#--res-name fullft_check$i
 	done
 done
-
-#--prompt True \
-#--exp-dir ./pruned_transducer_stateless_d2v_v2/"$spk_id"_adapter_10m \
-#--model-name epoch-$i.pt \
-#--model-name ../d2v-base-T.pt \
-#--model-name checkpoint-$i.pt \
-#--model-name lora \
