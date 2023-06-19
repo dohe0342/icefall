@@ -59,7 +59,7 @@ from icefall.utils import (
     write_error_stats,
 )
 
-import fairseq
+#import fairseq
 
 from optim import Eden, ScaledAdam
 from copy import deepcopy
