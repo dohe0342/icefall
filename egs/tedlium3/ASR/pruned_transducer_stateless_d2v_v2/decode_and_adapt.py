@@ -332,9 +332,21 @@ def get_parser():
 
     # tta related
     parser.add_argument(
-        "--num_augment",
+        "--num-augment",
         type=int,
         default=4,
+        help="shit1",
+    )
+    parser.add_argument(
+        "--num-iter",
+        type=int,
+        default=10,
+        help="shit1",
+    )
+    parser.add_argument(
+        "--ema-decay",
+        type=float,
+        default=0.999,
         help="shit1",
     )
 
@@ -556,7 +568,9 @@ def decode_and_adapt(
     sp: spm.SentencePieceProcessor,
     batch: dict,
     is_training: bool,
-    num_iter: int
+    num_iter: int,
+    ema_model: nn.Module=None,
+    ema_args: dict=None,
 ) -> Tuple[Tensor, MetricsTracker]:
     device = model.device if isinstance(model, DDP) else next(model.parameters()).device
     feature = batch["inputs"]
@@ -586,6 +600,40 @@ def decode_and_adapt(
     if len(token_ids[0]) > 0:
         model.train()
         for i in range(num_iter):
+            if ema_model is not None:
+                if i ==0 :
+                    batch["inputs"] = batch["inputs"].repeat(2, 1)
+                    batch["supervisions"]["sequence_idx"] = batch["supervisions"]["sequence_idx"].repeat(2)
+                    batch["supervisions"]['cut'] = batch["supervisions"]['cut'] * 2 
+                    batch["supervisions"]["text"] = batch["supervisions"]["text"] * 2
+
+                    feature = batch["inputs"]
+                    feature = feature.to(device)
+                    
+                    supervisions = batch["supervisions"]
+                    if feature.ndim == 2:
+                        feature_lens = []
+                        for supervision in supervisions['cut']:
+                            try: feature_lens.append(supervision.tracks[0].cut.recording.num_samples)
+                            except: feature_lens.append(supervision.recording.num_samples)
+                        feature_lens = torch.tensor(feature_lens)
+                    elif feature.ndim == 3:
+                        feature_lens = supervisions["num_frames"].to(device)
+                    texts = batch["supervisions"]["text"]
+                    texts = [text.upper() for text in texts]
+
+                    token_ids = sp.encode(texts, out_type=int)
+                    y = k2.RaggedTensor(token_ids).to(device)
+                else:
+                    bsz = int(feature.size(0) / 2)
+                    batch["supervisions"]["text"] = batch["supervisions"]["text"][:bsz] + [" ".join(hyps_dict[params.decoding_method][0]).lower() for i in range(4, 8)]
+
+                    texts = batch["supervisions"]["text"]
+                    texts = [text.upper() for text in texts]
+
+                    token_ids = sp.encode(texts, out_type=int)
+                    y = k2.RaggedTensor(token_ids).to(device)
+
             with torch.set_grad_enabled(is_training):
                 simple_loss, pruned_loss, ctc_output = model(
                     x=feature,
@@ -620,7 +668,8 @@ def decode_and_adapt(
                             subsampling_factor=params.subsampling_factor,
                             token_ids=token_ids,
                         )
-                        for i in range(params.num_augment):
+                        # FIXME(j-pong) = dynamic size is need!!
+                        for i in range(params.num_augment * 2):
                             supervision_segments[i][-1] = ctc_output.size(1)
                     
                     # Works with a BPE model
@@ -641,11 +690,25 @@ def decode_and_adapt(
                     assert ctc_loss.requires_grad == is_training
                     loss += params.ctc_loss_scale * ctc_loss
 
-            assert loss.requires_grad == is_training
+                assert loss.requires_grad == is_training
 
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+
+            if ema_model is not None:
+                with torch.no_grad():
+                    ema_model.model.eval()
+                    hyps_dict = decode_one_batch(
+                        params=params,
+                        model=ema_model.model,
+                        sp=sp,
+                        decoding_graph=ema_args["decoding_graph"],
+                        word_table=ema_args["word_table"],
+                        batch=batch,
+                    )
+                    
+                ema_model.step(model)
 
 def decode_dataset(
     dl: torch.utils.data.DataLoader,
@@ -654,6 +717,7 @@ def decode_dataset(
     sp: spm.SentencePieceProcessor,
     word_table: Optional[k2.SymbolTable] = None,
     decoding_graph: Optional[k2.Fsa] = None,
+    ema_model: nn.Module=None,
 ) -> Dict[str, List[Tuple[str, List[str], List[str]]]]:
     num_cuts = 0
 
@@ -669,19 +733,12 @@ def decode_dataset(
 
     results = defaultdict(list)
 
-    # for tta
     parameters = []
     parameters_name = []
     for n, p in model.named_parameters():
         if p.requires_grad:
-            if ("bias" in n) and ("encoder.layers" in n):
-                logging.info(f"{n} is free!")
-                parameters.append(p)
-                parameters_name.append(n)
-            else:
-                p.requires_grad = False
-    sizes = [p.numel() for p in parameters]
-    logging.info(f"total trainable parameter size : {sum(sizes)}")
+            parameters.append(p)
+            parameters_name.append(n)
 
     optimizer = ScaledAdam(
         parameters,
@@ -721,7 +778,17 @@ def decode_dataset(
         assert "num_frames" not in pseudo_batch["supervisions"].keys()
 
         # model.train() is excuted in the decoder and adpt fucntion
-        decode_and_adapt(params, model, optimizer, sp, pseudo_batch, is_training=True, num_iter=10)
+        decode_and_adapt(
+            params, 
+            model, 
+            optimizer, 
+            sp, 
+            pseudo_batch, 
+            is_training=True, 
+            num_iter=params.num_iter, 
+            ema_model=ema_model,
+            ema_args={"decoding_graph":decoding_graph, "word_table":word_table}
+        )
 
         model.eval()
         hyps_dict = decode_one_batch(
@@ -801,6 +868,25 @@ def save_results(
     with open(f'./{params.res_name}.txt', 'a') as f:
         f.write(f"{spk} {wer}\n")
 
+from fairseq.modules import EMAModule, EMAModuleConfig
+def make_ema_teacher(cfg, model):
+    ema_config = EMAModuleConfig(
+        ema_decay=cfg.ema_decay,
+        ema_fp32=True,
+    )
+    skip_keys = set()
+    for n, p in model.named_parameters():
+        if not p.requires_grad:
+            skip_keys.add(n)
+        else:
+            logging.info(f"{n} is copied to the ema model")
+
+    ema = EMAModule(
+        model,
+        ema_config,
+        skip_keys=skip_keys,
+    )
+    return ema
 
 @torch.no_grad()
 def main():
@@ -879,8 +965,22 @@ def main():
 
     load_checkpoint(f"{params.exp_dir}/{params.model_name}", model)
 
+    # for tta
+    parameters = []
+    for n, p in model.named_parameters():
+        if p.requires_grad:
+            if ("bias" in n) and ("encoder.layers" in n):
+                logging.info(f"{n} is free!")
+                parameters.append(p)
+            else:
+                p.requires_grad = False
+    sizes = [p.numel() for p in parameters]
+    logging.info(f"total trainable parameter size : {sum(sizes)}")
+
     model.to(device)
+    ema_model = make_ema_teacher(params, model)
     model.eval()
+    ema_model.model.eval()
 
     if "fast_beam_search" in params.decoding_method:
         if params.decoding_method == "fast_beam_search_nbest_LG":
@@ -925,6 +1025,7 @@ def main():
             sp=sp,
             word_table=word_table,
             decoding_graph=decoding_graph,
+            ema_model=ema_model,
         )
         
         save_results(
