@@ -407,9 +407,6 @@ class LibriSpeechAsrDataModule:
                 shuffle=False,
             )   
         else:
-            print('*'*30)
-            print('fuck!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            print('*'*30)
             logging.info("Using SingleUttSampler.")
             test = SingleUttSampler(
                 cuts,
