@@ -401,14 +401,14 @@ class LibriSpeechAsrDataModule:
         #)
         if self.args.bucketing_sampler:
             logging.info("Using DynamicBucketingSampler.")
-            test = DynamicBucketingSampler(
+            sampler = DynamicBucketingSampler(
                 cuts,
                 max_duration=self.args.max_duration,
                 shuffle=False,
             )   
         else:
             logging.info("Using SingleUttSampler.")
-            test = SingleUttSampler(
+            sampler = SingleUttSampler(
                 cuts,
                 max_duration=self.args.max_duration,
                 shuffle=False,
