@@ -24,6 +24,7 @@ do
 	--manifest-dir /DB/data/fbank \
 	--bpe-model /DB/data/lang_bpe_500/bpe.model \
 	--res-name test \
+	--bucketing-sampler False \
 	--base-lr 8e-4
 	#--res-name bitfit_q_fc1_check$i
 	#--res-name fullft_check$i
