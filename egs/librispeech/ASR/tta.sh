@@ -10,7 +10,6 @@ do
 	--additional-block True \
 	--exp-dir ./pruned_transducer_stateless_d2v_v2/$2 \
 	--max-duration 600 \
-	--iter $i \
 	--model-name ../d2v-base-T.pt \
 	--decoding-method $method \
 	--max-sym-per-frame 1 \
@@ -25,8 +24,7 @@ do
 	--manifest-dir /DB/data/fbank \
 	--bpe-model /DB/data/lang_bpe_500/bpe.model \
 	--res-name test \
-	--base-lr 8e-4 \
-	--iter 10
+	--base-lr 8e-4
 	#--res-name bitfit_q_fc1_check$i
 	#--res-name fullft_check$i
 done
