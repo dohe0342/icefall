@@ -4,7 +4,6 @@ dl_dir=/DB/LibriSpeech_tar/$subset
 #dl_dir=/home/work/workspace/LibriSpeech/vox_v3
 
 for dest in "test-clean" "test-other"; do
-#for dest in "test-other"; do
 	for spk in $dl_dir/$dest/*; do
 		spk_id=${spk#*$dest\/}
 		echo $spk_id
@@ -12,4 +11,3 @@ for dest in "test-clean" "test-other"; do
 	done
 done
 
-#prompt_tuning_100_rand_"$spk_id" $spk_id $subset
