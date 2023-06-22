@@ -891,7 +891,7 @@ def make_ema_teacher(cfg, model):
 @torch.no_grad()
 def main():
     parser = get_parser()
-    TedLiumAsrDataModule.add_arguments(parser)
+    LibriSpeechAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
