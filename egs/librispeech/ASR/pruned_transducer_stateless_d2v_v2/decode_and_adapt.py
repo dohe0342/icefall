@@ -1006,7 +1006,12 @@ def main():
     args.return_cuts = True
     args.bucketing_sampler= False
 
+    librispeech = LibriSpeechAsrDataModule(args)
 
+    test_clean_cuts = librispeech.userlibri_cuts(option=params.spk_id)
+    test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
+    test_sets = [f"{params.spk_id}"]
+    test_dl = [test_clean_dl]
     
     for test_set, test_dl in zip(test_sets, test_dl):
         results_dict = decode_dataset(
