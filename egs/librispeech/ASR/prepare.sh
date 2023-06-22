@@ -351,7 +351,7 @@ if [ $stage -le 13 ] && [ $stop_stage -ge 13 ]; then
     fi
 
     lang_dir=$manifest_dir/lang_bpe_${vocab_size}
-    ./local/prepare_lm_training_$manifest_dir.py \
+    ./local/prepare_lm_training_data.py \
       --bpe-model $lang_dir/bpe.model \
       --lm-$manifest_dir $out_dir/test.txt \
       --lm-archive $out_dir/lm_$manifest_dir-test.pt
