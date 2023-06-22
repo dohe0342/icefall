@@ -29,7 +29,7 @@ import k2
 import sentencepiece as spm
 import torch
 import torch.nn as nn
-from asr_datamodule import TedLiumAsrDataModule
+from asr_datamodule import LibriSpeechAsrDataModule
 from beam_search import (
     beam_search,
     fast_beam_search_nbest,
@@ -1005,18 +1005,9 @@ def main():
     # we need cut ids to display recognition results.
     args.return_cuts = True
     args.bucketing_sampler= False
-    
-    tedlium = TedLiumAsrDataModule(args)
-    #valid_cuts = tedlium.dev_cuts()
-    #valid_dl = tedlium.test_dataloaders(valid_cuts)
-    test_cuts = tedlium.user_test_cuts(spk_id=params.spk_id)
-    test_dl = tedlium.test_dataloaders(test_cuts)
 
-    #test_sets = ['dev', 'test']
-    #test_dl = [valid_dl, test_dl]
-    test_sets = ['test']
-    test_dl = [test_dl]
- 
+
+    
     for test_set, test_dl in zip(test_sets, test_dl):
         results_dict = decode_dataset(
             dl=test_dl,
