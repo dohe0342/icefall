@@ -105,7 +105,7 @@ class LibriSpeechAsrDataModule:
         group.add_argument(
             "--bucketing-sampler",
             type=str2bool,
-            default=True,
+            default=False,
             help="When enabled, the batches will come from buckets of "
             "similar duration (saves padding frames).",
         )
