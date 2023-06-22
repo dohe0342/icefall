@@ -24,7 +24,9 @@ do
 	--prompt False \
 	--manifest-dir /DB/data/fbank \
 	--bpe-model /DB/data/lang_bpe_500/bpe.model \
-	--res-name test
+	--res-name test \
+	--base-lr 8e-4 \
+	--iter 10
 	#--res-name bitfit_q_fc1_check$i
 	#--res-name fullft_check$i
 done
