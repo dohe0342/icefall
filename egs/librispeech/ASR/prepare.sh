@@ -354,7 +354,7 @@ if [ $stage -le 13 ] && [ $stop_stage -ge 13 ]; then
     ./local/prepare_lm_training_data.py \
       --bpe-model $lang_dir/bpe.model \
       --lm-$manifest_dir $out_dir/test.txt \
-      --lm-archive $out_dir/lm_$manifest_dir-test.pt
+      --lm-archive $out_dir/lm_data-test.pt
   done
 fi
 
