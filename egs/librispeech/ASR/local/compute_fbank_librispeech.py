@@ -58,8 +58,8 @@ def get_args():
 
 
 def compute_fbank_librispeech(bpe_model: Optional[str] = None):
-    src_dir = Path("data/manifests")
-    output_dir = Path("data/fbank")
+    src_dir = Path("/DB/data/manifests")
+    output_dir = Path("/DB/data/fbank")
     num_jobs = min(15, os.cpu_count())
     num_mel_bins = 80
 
