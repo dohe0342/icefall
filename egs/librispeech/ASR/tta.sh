@@ -1,6 +1,6 @@
 spk_id=$1
-dir=$2
-
+#dir=$2
+res_name=$2
 
 for method in greedy_search
 do
@@ -8,7 +8,7 @@ do
 	--input-strategy AudioSamples \
 	--enable-spec-aug False \
 	--additional-block True \
-	--exp-dir ./pruned_transducer_stateless_d2v_v2/$2 \
+	--exp-dir ./pruned_transducer_stateless_d2v_v2/test \
 	--max-duration 600 \
 	--model-name ../d2v-base-T.pt \
 	--decoding-method $method \
@@ -23,7 +23,7 @@ do
 	--prompt False \
 	--manifest-dir /DB/data/fbank \
 	--bpe-model /DB/data/lang_bpe_500/bpe.model \
-	--res-name test \
+	--res-name $res_name \
 	--bucketing-sampler False \
 	--base-lr 8e-4
 	#--res-name bitfit_q_fc1_check$i
