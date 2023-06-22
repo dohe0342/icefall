@@ -369,19 +369,19 @@ if [ $stage -le 14 ] && [ $stop_stage -ge 14 ]; then
   for vocab_size in ${vocab_sizes[@]}; do
     out_dir=$manifest_dir/lm_training_bpe_${vocab_size}
     mkdir -p $out_dir
-    ./local/sort_lm_training_$manifest_dir.py \
-      --in-lm-$manifest_dir $out_dir/lm_$manifest_dir.pt \
-      --out-lm-$manifest_dir $out_dir/sorted_lm_$manifest_dir.pt \
+    ./local/sort_lm_training_data.py \
+      --in-lm-$manifest_dir $out_dir/lm_data.pt \
+      --out-lm-$manifest_dir $out_dir/sorted_lm_data.pt \
       --out-statistics $out_dir/statistics.txt
 
-    ./local/sort_lm_training_$manifest_dir.py \
-      --in-lm-$manifest_dir $out_dir/lm_$manifest_dir-valid.pt \
-      --out-lm-$manifest_dir $out_dir/sorted_lm_$manifest_dir-valid.pt \
+    ./local/sort_lm_training_data.py \
+      --in-lm-$manifest_dir $out_dir/lm_data-valid.pt \
+      --out-lm-$manifest_dir $out_dir/sorted_lm_data-valid.pt \
       --out-statistics $out_dir/statistics-valid.txt
 
     ./local/sort_lm_training_$manifest_dir.py \
-      --in-lm-$manifest_dir $out_dir/lm_$manifest_dir-test.pt \
-      --out-lm-$manifest_dir $out_dir/sorted_lm_$manifest_dir-test.pt \
+      --in-lm-$manifest_dir $out_dir/lm_data-test.pt \
+      --out-lm-$manifest_dir $out_dir/sorted_lm_data-test.pt \
       --out-statistics $out_dir/statistics-test.txt
   done
 fi
