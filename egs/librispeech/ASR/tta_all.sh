@@ -6,7 +6,7 @@ for dest in "test-clean" "test-other"; do
 	for spk in $dl_dir/$dest/*; do
 		spk_id=${spk#*$dest\/}
 		echo $spk_id
-		./tta.sh tta $spk_id whale
+		./tta.sh $spk_id whale
 	done
 done
 
