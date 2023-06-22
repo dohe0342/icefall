@@ -325,10 +325,10 @@ if [ $stage -le 12 ] && [ $stop_stage -ge 12 ]; then
     fi
 
     lang_dir=$manifest_dir/lang_bpe_${vocab_size}
-    ./local/prepare_lm_training_$manifest_dir.py \
+    ./local/prepare_lm_training_data.py \
       --bpe-model $lang_dir/bpe.model \
       --lm-$manifest_dir $out_dir/valid.txt \
-      --lm-archive $out_dir/lm_$manifest_dir-valid.pt
+      --lm-archive $out_dir/lm_data-valid.pt
   done
 fi
 
