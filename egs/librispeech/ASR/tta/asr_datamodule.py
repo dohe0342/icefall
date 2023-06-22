@@ -43,7 +43,7 @@ from lhotse.utils import fix_random_seed
 from torch.utils.data import DataLoader
 
 from icefall.utils import str2bool
-
+from sampling import SingleUttSampler
 
 class _SeedWorkers:
     def __init__(self, seed: int):
@@ -394,11 +394,25 @@ class LibriSpeechAsrDataModule:
             else eval(self.args.input_strategy)(),
             return_cuts=self.args.return_cuts,
         )
-        sampler = DynamicBucketingSampler(
-            cuts,
-            max_duration=self.args.max_duration,
-            shuffle=False,
-        )
+        #sampler = DynamicBucketingSampler(
+        #    cuts,
+        #    max_duration=self.args.max_duration,
+        #    shuffle=False,
+        #)
+        if self.args.bucketing_sampler:
+            logging.info("Using DynamicBucketingSampler.")
+            test = DynamicBucketingSampler(
+                cuts,
+                max_duration=self.args.max_duration,
+                shuffle=False,
+            )   
+        else:
+            logging.info("Using SingleUttSampler.")
+            test = SingleUttSampler(
+                cuts,
+                max_duration=self.args.max_duration,
+                shuffle=False,
+            ) 
         logging.debug("About to create test dataloader")
         test_dl = DataLoader(
             test,
