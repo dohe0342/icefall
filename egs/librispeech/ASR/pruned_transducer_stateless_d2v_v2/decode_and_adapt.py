@@ -41,8 +41,8 @@ from beam_search import (
     modified_beam_search,
 )
 
-from train_tta import add_model_arguments, add_rep_arguments, get_params, get_transducer_model
-#from prompt_tuning import add_model_arguments, add_rep_arguments, get_params, get_transducer_model
+#from train_tta import add_model_arguments, add_rep_arguments, get_params, get_transducer_model
+from prompt_tuning import add_model_arguments, add_rep_arguments, get_params, get_transducer_model
 
 from icefall.checkpoint import (
     average_checkpoints,
