@@ -4,7 +4,7 @@ dir=$2
 
 for method in greedy_search
 do
-  ./tta/decode.py \
+  ./tta/decode_and_adapt.py \
 	--input-strategy AudioSamples \
 	--enable-spec-aug False \
 	--additional-block True \
