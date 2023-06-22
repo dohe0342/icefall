@@ -27,6 +27,8 @@ do
 		--use-averaged-model True \
 		--spk-id $spk_id \
 		--prompt False \
+		--manifest-dir /DB/data/fbank \
+		--bpe-model /DB/data/lang_bpe_500/bpe.model \
 		--res-name lora_rank6_check$i
 		#--res-name bitfit_q_fc1_check$i
 		#--res-name fullft_check$i
