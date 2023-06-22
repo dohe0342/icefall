@@ -301,7 +301,7 @@ if [ $stage -le 11 ] && [ $stop_stage -ge 11 ]; then
 
     ./local/prepare_lm_training_data.py \
       --bpe-model $lang_dir/bpe.model \
-      --lm-$manifest_dir $dl_dir/lm/librispeech-lm-norm.txt \
+      --lm-data $dl_dir/lm/librispeech-lm-norm.txt \
       --lm-archive $out_dir/lm_data.pt
   done
 fi
