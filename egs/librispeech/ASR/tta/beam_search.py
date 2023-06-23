@@ -506,7 +506,7 @@ def fast_beam_search(
 def greedy_search(
     model: Transducer,
     encoder_out: torch.Tensor,
-    max_sym_per_frame: int,
+    max_sym_per_frame: int = 1,
     return_timestamps: bool = False,
     return_logits: bool = False,
 ) -> Union[List[int], DecodingResults]:
