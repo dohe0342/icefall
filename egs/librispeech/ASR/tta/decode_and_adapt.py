@@ -1014,7 +1014,6 @@ def main():
 
     test_clean_cuts = test_clean_cuts.filter(remove_short_and_long_utt)
 
-
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
     test_sets = [f"{params.spk_id}"]
     test_dl = [test_clean_dl]
