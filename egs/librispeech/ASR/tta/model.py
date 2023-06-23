@@ -107,6 +107,7 @@ class Transducer(nn.Module):
         prune_range: int = 5,
         am_scale: float = 0.0,
         lm_scale: float = 0.0,
+        return_logits: bool = False,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Args:
@@ -217,7 +218,7 @@ class Transducer(nn.Module):
                 boundary=boundary,
                 reduction="sum",
             )
-
+        
         return (simple_loss, pruned_loss, ctc_output)
 
     def decode(
