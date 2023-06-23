@@ -632,6 +632,7 @@ def decode_and_adapt(
                 probas = probas[non_blank]
                 print('7', probas.size())
                 loss_em = entropy.mean(-1)
+                print('8', loss_em.size())
 
                 #mcc
                 target_entropy_weight = 1 + torch.exp(-entropy).unsqueeze(0) # (1, L)
