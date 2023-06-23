@@ -627,7 +627,6 @@ def decode_and_adapt(
                     encoder_out_lens=encoder_out_lens,
                     return_timestamps=True,
                 )
-
                 print(hyp_tokens.size())
                 
                 probas = logits
