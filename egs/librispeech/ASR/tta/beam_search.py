@@ -583,7 +583,7 @@ def greedy_search(
         if y not in (blank_id, unk_id):
             if logit_list is None:
                 logit_list = logits
-                logit_list = logit_list.sequeeze().unsequeeze(0)
+                logit_list = logit_list.squeeze().unsequeeze(0)
                 print('1', logit_list.size())
             else:
                 logit_list = torch.cat([logit_list, logits.squeeze().unsqueeze(0)], dim=0)
