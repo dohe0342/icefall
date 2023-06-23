@@ -619,12 +619,19 @@ def decode_and_adapt(
                         x_lens=feature_lens, 
                         prompt=model.prompt
                 )
-                hyp_tokens = greedy_search_batch(
-                    model=model,
-                    encoder_out=encoder_out,
-                    encoder_out_lens=encoder_out_lens,
-                )
-                
+                batch_size = encoder_out.size(0)
+
+                for i in range(batch_size):
+                    # fmt: off
+                    encoder_out_i = encoder_out[i:i+1, :encoder_out_lens[i]]
+                    # fmt: on
+                    if params.decoding_method == "greedy_search":
+                        hyp = greedy_search(
+                            model=model,
+                            encoder_out=encoder_out_i,
+                            max_sym_per_frame=params.max_sym_per_frame,
+                        )
+                exit()
                 probas = logits
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
