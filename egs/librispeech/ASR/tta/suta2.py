@@ -918,6 +918,7 @@ def main():
     params.blank_id = sp.piece_to_id("<blk>")
     params.unk_id = sp.piece_to_id("<unk>")
     params.vocab_size = sp.get_piece_size()
+    print(params.blank_id)
 
     if params.simulate_streaming:
         assert (
