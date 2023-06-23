@@ -597,7 +597,8 @@ def decode_and_adapt(
     
     token_ids = sp.encode(texts, out_type=int)
     y = k2.RaggedTensor(token_ids).to(device)
-
+    
+    params.prune_range = 1
     if len(token_ids[0]) > 0:
         model.train()
         for i in range(num_iter):
