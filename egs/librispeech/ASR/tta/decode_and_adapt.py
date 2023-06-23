@@ -1009,7 +1009,7 @@ def main():
     librispeech = LibriSpeechAsrDataModule(args)
 
     test_clean_cuts = librispeech.userlibri_cuts(option=params.spk_id)
-    def remove_short_and_long_utt():
+    def remove_short_and_long_utt(c):
         return 1.0 <= c.duration <= 30.0 
 
     test_clean_cuts = test_clean_cuts.filter(remove_short_and_long_utt)
