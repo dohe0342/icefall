@@ -508,6 +508,7 @@ def greedy_search(
     encoder_out: torch.Tensor,
     max_sym_per_frame: int,
     return_timestamps: bool = False,
+    return_logits: bool = False,
 ) -> Union[List[int], DecodingResults]:
     """Greedy search for a single utterance.
     Args:
