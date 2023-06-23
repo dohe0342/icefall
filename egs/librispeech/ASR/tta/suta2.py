@@ -620,6 +620,7 @@ def decode_and_adapt(
                         x_lens=feature_lens, 
                         prompt=model.prompt
                 )
+                print(encoder_out.size())
 
                 hyp_tokens = greedy_search(
                     model=model,
