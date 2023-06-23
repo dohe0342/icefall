@@ -625,11 +625,10 @@ def decode_and_adapt(
                     model=model,
                     encoder_out=encoder_out,
                     encoder_out_lens=encoder_out_lens,
-                    return_timestamps=True
+                    return_timestamps=True,
                 )
-                for hyp in sp.decode(hyp_tokens):
-                    hyps.append(hyp.split())
 
+                print(hyp_tokens.size())
 
                 probas = logits
                 probas /= 2.5
