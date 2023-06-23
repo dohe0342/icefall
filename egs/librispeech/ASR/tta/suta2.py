@@ -631,10 +631,8 @@ def decode_and_adapt(
                         return_logits=True,
                     )
                     
-                    print(logit.size())
                     if logits is None:
                         logits = logit.unsqueeze(0)
-                        print(logits.size())
                     else:
                         logits = torch.cat([logits, logit.unsqueeze(0)], dim=0)
                 
