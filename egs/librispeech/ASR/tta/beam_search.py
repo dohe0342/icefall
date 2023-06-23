@@ -577,9 +577,6 @@ def greedy_search(
         logits = model.joiner(
             current_encoder_out, decoder_out.unsqueeze(1), project_input=False
         )
-        if t == 0: 
-            logit_list = logits
-            print(logit_list.size())
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
@@ -689,9 +686,7 @@ def greedy_search_batch(
         # logits'shape (batch_size, 1, 1, vocab_size)
 
         logits = logits.squeeze(1).squeeze(1)  # (batch_size, vocab_size)
-        if t == 0:
-            logit_list = logits
-
+            
         assert logits.ndim == 2, logits.shape
         y = logits.argmax(dim=1).tolist()
         emitted = False
