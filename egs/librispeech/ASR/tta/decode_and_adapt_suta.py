@@ -645,9 +645,7 @@ def decode_and_adapt(
                 cov_matrix_t = cov_matrix_t / torch.sum(cov_matrix_t, dim=1)
                 print('12', cov_matrix_t.size())
                 loss_mcc = (torch.sum(cov_matrix_t) - torch.trace(cov_matrix_t)) / probas.shape[-1]
-
                 loss = loss_mcc * 0.7 + loss_em * 0.3
-                
                 assert loss.requires_grad == is_training
 
                 optimizer.zero_grad()
