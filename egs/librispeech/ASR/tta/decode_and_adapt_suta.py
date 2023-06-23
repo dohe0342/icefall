@@ -632,40 +632,6 @@ def decode_and_adapt(
     if len(token_ids[0]) > 0:
         model.train()
         for i in range(num_iter):
-            if ema_model is not None:
-                if i ==0 :
-                    batch["inputs"] = batch["inputs"].repeat(2, 1)
-                    batch["supervisions"]["sequence_idx"] = batch["supervisions"]["sequence_idx"].repeat(2)
-                    batch["supervisions"]['cut'] = batch["supervisions"]['cut'] * 2 
-                    batch["supervisions"]["text"] = batch["supervisions"]["text"] * 2
-
-                    feature = batch["inputs"]
-                    feature = feature.to(device)
-                    
-                    supervisions = batch["supervisions"]
-                    if feature.ndim == 2:
-                        feature_lens = []
-                        for supervision in supervisions['cut']:
-                            try: feature_lens.append(supervision.tracks[0].cut.recording.num_samples)
-                            except: feature_lens.append(supervision.recording.num_samples)
-                        feature_lens = torch.tensor(feature_lens)
-                    elif feature.ndim == 3:
-                        feature_lens = supervisions["num_frames"].to(device)
-                    texts = batch["supervisions"]["text"]
-                    texts = [text.upper() for text in texts]
-
-                    token_ids = sp.encode(texts, out_type=int)
-                    y = k2.RaggedTensor(token_ids).to(device)
-                else:
-                    bsz = int(feature.size(0) / 2)
-                    batch["supervisions"]["text"] = batch["supervisions"]["text"][:bsz] + [" ".join(hyps_dict[params.decoding_method][0]).lower() for i in range(4, 8)]
-
-                    texts = batch["supervisions"]["text"]
-                    texts = [text.upper() for text in texts]
-
-                    token_ids = sp.encode(texts, out_type=int)
-                    y = k2.RaggedTensor(token_ids).to(device)
-
             with torch.set_grad_enabled(is_training):
                 simple_loss, pruned_loss, ctc_output = model(
                     x=feature,
