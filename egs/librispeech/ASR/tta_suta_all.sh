@@ -9,7 +9,7 @@ for dest in $subset; do
 	for spk in $dl_dir/$dest/*; do
 		spk_id=${spk#*$dest\/}
 		echo $spk_id
-		./tta.sh $spk_id $res_name
+		./tta_suta.sh $spk_id $res_name
 	done
 done
 
