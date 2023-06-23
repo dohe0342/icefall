@@ -584,10 +584,8 @@ def greedy_search(
             if logit_list is None:
                 logit_list = logits
                 logit_list = logit_list.squeeze().unsqueeze(0)
-                print('1', logit_list.size())
             else:
                 logit_list = torch.cat([logit_list, logits.squeeze().unsqueeze(0)], dim=0)
-                print('2', logit_list.size())
             hyp.append(y)
             timestamp.append(t)
             decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
