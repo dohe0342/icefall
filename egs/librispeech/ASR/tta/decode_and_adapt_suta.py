@@ -613,6 +613,7 @@ def decode_and_adapt(
                     return_logits=True,
                 )
                 
+                probas = logits
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
                 print('1', probas.size())
