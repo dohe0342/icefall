@@ -620,7 +620,9 @@ def decode_and_adapt(
                 print('2', probas.size())
 
                 predicted_ids = torch.argmax(probas, dim=-1)
+                print('3', predicted_ids.size())
                 non_blank = torch.where(predicted_ids != 0, 1, 0).bool()
+                print('4', non_blank.size())
                 
                 #em
                 log_probas = torch.log(probas + 1e-10)
