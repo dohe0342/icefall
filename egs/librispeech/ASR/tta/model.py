@@ -221,7 +221,8 @@ class Transducer(nn.Module):
         
         if return_logits:
             return (simple_loss, pruned_loss, ctc_output, logits)
-        return (simple_loss, pruned_loss, ctc_output)
+        else:
+            return (simple_loss, pruned_loss, ctc_output)
 
     def decode(
         self,
