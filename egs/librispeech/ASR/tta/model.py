@@ -219,6 +219,8 @@ class Transducer(nn.Module):
                 reduction="sum",
             )
         
+        if return_logits:
+            return (simple_loss, pruned_loss, ctc_output, logits)
         return (simple_loss, pruned_loss, ctc_output)
 
     def decode(
