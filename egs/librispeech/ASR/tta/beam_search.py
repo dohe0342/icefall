@@ -601,6 +601,9 @@ def greedy_search(
             sym_per_frame = 0
             t += 1
     hyp = hyp[context_size:]  # remove blanks
+    
+    if return_logits:
+        return hyp, logit_list
 
     if not return_timestamps:
         return hyp
