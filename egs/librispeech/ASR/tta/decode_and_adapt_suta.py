@@ -636,13 +636,14 @@ def decode_and_adapt(
 
                 #mcc
                 target_entropy_weight = 1 + torch.exp(-entropy).unsqueeze(0) # (1, L)
-                print(target_entropy_weight.size())
+                print('9', target_entropy_weight.size())
                 target_entropy_weight = probas.shape[0] * target_entropy_weight / torch.sum(target_entropy_weight)
-                print(target_entropy_weight.size())
+                print('10', target_entropy_weight.size())
                 cov_matrix_t = probas.mul(target_entropy_weight.view(-1, 1)).transpose(1, 0).mm(probas) # Y x W.T x Y
-                print(cov_matrix_t.size())
+                print('11', cov_matrix_t.size())
 
                 cov_matrix_t = cov_matrix_t / torch.sum(cov_matrix_t, dim=1)
+                print('12', cov_matrix_t.size())
                 loss_mcc = (torch.sum(cov_matrix_t) - torch.trace(cov_matrix_t)) / probas.shape[-1]
 
                 loss = loss_mcc * 0.7 + loss_em * 0.3
