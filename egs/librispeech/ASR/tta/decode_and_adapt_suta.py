@@ -630,6 +630,7 @@ def decode_and_adapt(
                 entropy = -(probas * log_probas).sum(-1)[non_blank] # (L)
                 print('6', entropy.size())
                 probas = probas[non_blank]
+                print('7', probas.size())
                 loss_em = entropy.mean(-1)
 
                 #mcc
