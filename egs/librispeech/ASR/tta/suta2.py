@@ -621,6 +621,7 @@ def decode_and_adapt(
                 )
                 batch_size = encoder_out.size(0)
 
+                logits = None
                 for i in range(batch_size):
                     # fmt: off
                     encoder_out_i = encoder_out[i:i+1, :encoder_out_lens[i]]
