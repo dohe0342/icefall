@@ -614,6 +614,8 @@ def decode_and_adapt(
                     return_logits=True,
                 )
                 '''
+                print(feature.size())
+                exit()
                 encoder_out, encoder_out_lens = model.encoder(
                         x=feature, 
                         x_lens=feature_lens, 
