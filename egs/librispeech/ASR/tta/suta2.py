@@ -628,6 +628,7 @@ def decode_and_adapt(
                     return_timestamps=True,
                 )
                 print(hyp_tokens.size())
+                exit()
                 
                 probas = logits
                 probas /= 2.5
