@@ -621,6 +621,16 @@ def decode_and_adapt(
                         prompt=model.prompt
                 )
 
+                hyp_tokens = greedy_search_batch(
+                    model=model,
+                    encoder_out=encoder_out,
+                    encoder_out_lens=encoder_out_lens,
+                    return_timestamps=True
+                )
+                for hyp in sp.decode(hyp_tokens):
+                    hyps.append(hyp.split())
+
+
                 probas = logits
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
