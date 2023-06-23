@@ -622,13 +622,6 @@ def decode_and_adapt(
 
         loss = loss_mcc * 0.7 + loss_em * 0.3
 
-        # self.adapted_model_losses.append(loss.item())
-        # self.adapted_models.append(self.copy_model_and_optimizer(self.models[0]))
-
-        self.optimizer.zero_grad()
-        loss.backward()  # type: ignore[union-attr]
-        self.optimizer.step()
-
     if len(token_ids[0]) > 0:
         model.train()
         for i in range(num_iter):
@@ -643,6 +636,37 @@ def decode_and_adapt(
                     lm_scale=params.lm_scale,
                     return_logits=True,
                 )
+                
+                probas /= 2.5
+                probas = torch.nn.functional.softmax(probas, dim=-1)
+                probas = probas.flatten(start_dim=0, end_dim=1).contiguous()
+
+                predicted_ids = torch.argmax(probas, dim=-1)
+                non_blank = torch.where(predicted_ids != 0, 1, 0).bool()
+                
+                #em
+                log_probas = torch.log(probas + 1e-10)
+                entropy = -(probas * log_probas).sum(-1)[non_blank] # (L)
+                probas = probas[non_blank]
+                loss_em = entropy.mean(-1)
+
+                #mcc
+                target_entropy_weight = 1 + torch.exp(-entropy).unsqueeze(0) # (1, L)
+                target_entropy_weight = probas.shape[0] * target_entropy_weight / torch.sum(target_entropy_weight)
+                cov_matrix_t = probas.mul(target_entropy_weight.view(-1, 1)).transpose(1, 0).mm(probas) # Y x W.T x Y
+
+                cov_matrix_t = cov_matrix_t / torch.sum(cov_matrix_t, dim=1)
+                loss_mcc = (torch.sum(cov_matrix_t) - torch.trace(cov_matrix_t)) / probas.shape[-1]
+
+                loss = loss_mcc * 0.7 + loss_em * 0.3
+                
+                assert loss.requires_grad == is_training
+
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+
+                '''
 
                 s = params.simple_loss_scale
                 # take down the scale on the simple loss from 1.0 at the start
@@ -689,26 +713,7 @@ def decode_and_adapt(
                     )
                     assert ctc_loss.requires_grad == is_training
                     loss += params.ctc_loss_scale * ctc_loss
-
-                assert loss.requires_grad == is_training
-
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
-
-            if ema_model is not None:
-                with torch.no_grad():
-                    ema_model.model.eval()
-                    hyps_dict = decode_one_batch(
-                        params=params,
-                        model=ema_model.model,
-                        sp=sp,
-                        decoding_graph=ema_args["decoding_graph"],
-                        word_table=ema_args["word_table"],
-                        batch=batch,
-                    )
-                    
-                ema_model.step(model)
+                '''
 
 def decode_dataset(
     dl: torch.utils.data.DataLoader,
