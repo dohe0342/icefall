@@ -621,7 +621,7 @@ def decode_and_adapt(
                         prompt=model.prompt
                 )
 
-                hyp_tokens = greedy_search_batch(
+                hyp_tokens = greedy_search(
                     model=model,
                     encoder_out=encoder_out,
                     encoder_out_lens=encoder_out_lens,
