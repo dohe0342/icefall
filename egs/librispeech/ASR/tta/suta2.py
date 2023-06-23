@@ -630,8 +630,8 @@ def decode_and_adapt(
                             model=model,
                             encoder_out=encoder_out_i,
                             max_sym_per_frame=params.max_sym_per_frame,
+                            return_logits=True,
                         )
-                exit()
                 probas = logits
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
