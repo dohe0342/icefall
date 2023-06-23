@@ -626,6 +626,7 @@ def decode_and_adapt(
                 
                 #em
                 log_probas = torch.log(probas + 1e-10)
+                print('5', log_probas.size())
                 entropy = -(probas * log_probas).sum(-1)[non_blank] # (L)
                 probas = probas[non_blank]
                 loss_em = entropy.mean(-1)
