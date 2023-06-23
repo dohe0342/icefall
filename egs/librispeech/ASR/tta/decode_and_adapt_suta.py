@@ -615,6 +615,7 @@ def decode_and_adapt(
                 
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
+                print('1', probas.size())
                 probas = probas.flatten(start_dim=0, end_dim=1).contiguous()
 
                 predicted_ids = torch.argmax(probas, dim=-1)
