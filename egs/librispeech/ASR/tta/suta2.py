@@ -630,7 +630,8 @@ def decode_and_adapt(
                         max_sym_per_frame=params.max_sym_per_frame,
                         return_logits=True,
                     )
-
+                    
+                    print(logit.size())
                     if logits is None:
                         logits = logit.unsqueeze(0)
                         print(logits.size())
