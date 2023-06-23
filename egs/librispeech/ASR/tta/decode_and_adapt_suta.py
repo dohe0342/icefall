@@ -616,34 +616,34 @@ def decode_and_adapt(
                 probas = logits
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
-                print('1', probas.size())
+                #print('1', probas.size())
                 probas = probas.flatten(start_dim=0, end_dim=1).contiguous()
-                print('2', probas.size())
+                #print('2', probas.size())
 
                 predicted_ids = torch.argmax(probas, dim=-1)
-                print('3', predicted_ids.size())
+                #print('3', predicted_ids.size())
                 non_blank = torch.where(predicted_ids != 0, 1, 0).bool()
-                print('4', non_blank.size())
+                #print('4', non_blank.size())
                 
                 #em
                 log_probas = torch.log(probas + 1e-10)
-                print('5', log_probas.size())
+                #print('5', log_probas.size())
                 entropy = -(probas * log_probas).sum(-1)[non_blank] # (L)
-                print('6', entropy.size())
+                #print('6', entropy.size())
                 probas = probas[non_blank]
-                print('7', probas.size())
+                #print('7', probas.size())
                 loss_em = entropy.mean(-1)
                 
                 #mcc
                 target_entropy_weight = 1 + torch.exp(-entropy).unsqueeze(0) # (1, L)
-                print('9', target_entropy_weight.size())
+                #print('9', target_entropy_weight.size())
                 target_entropy_weight = probas.shape[0] * target_entropy_weight / torch.sum(target_entropy_weight)
-                print('10', target_entropy_weight.size())
+                #print('10', target_entropy_weight.size())
                 cov_matrix_t = probas.mul(target_entropy_weight.view(-1, 1)).transpose(1, 0).mm(probas) # Y x W.T x Y
-                print('11', cov_matrix_t.size())
+                #print('11', cov_matrix_t.size())
 
                 cov_matrix_t = cov_matrix_t / torch.sum(cov_matrix_t, dim=1)
-                print('12', cov_matrix_t.size())
+                #print('12', cov_matrix_t.size())
                 loss_mcc = (torch.sum(cov_matrix_t) - torch.trace(cov_matrix_t)) / probas.shape[-1]
                 loss = loss_mcc * 0.7 + loss_em * 0.3
                 assert loss.requires_grad == is_training
