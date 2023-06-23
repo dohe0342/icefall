@@ -563,7 +563,7 @@ def greedy_search(
     # symbols per utterance decoded so far
     sym_per_utt = 0
 
-    logit_list = []
+    logit_list = None
 
     while t < T and sym_per_utt < max_sym_per_utt:
         if sym_per_frame >= max_sym_per_frame:
@@ -577,6 +577,8 @@ def greedy_search(
         logits = model.joiner(
             current_encoder_out, decoder_out.unsqueeze(1), project_input=False
         )
+        if t == 0: 
+            logit_list = logits
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
