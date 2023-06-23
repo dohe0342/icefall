@@ -633,13 +633,14 @@ def decode_and_adapt(
         model.train()
         for i in range(num_iter):
             with torch.set_grad_enabled(is_training):
-                simple_loss, pruned_loss, ctc_output = model(
+                simple_loss, pruned_loss, ctc_output, logits = model(
                     x=feature,
                     x_lens=feature_lens,
                     y=y,
                     prune_range=params.prune_range,
                     am_scale=params.am_scale,
                     lm_scale=params.lm_scale,
+                    return_logits=True,
                 )
 
                 s = params.simple_loss_scale
