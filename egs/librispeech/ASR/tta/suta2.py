@@ -626,7 +626,7 @@ def decode_and_adapt(
                     encoder_out_i = encoder_out[i:i+1, :encoder_out_lens[i]]
                     # fmt: on
                     if params.decoding_method == "greedy_search":
-                        hyp, logit_list = greedy_search(
+                        hyp, logits = greedy_search(
                             model=model,
                             encoder_out=encoder_out_i,
                             max_sym_per_frame=params.max_sym_per_frame,
