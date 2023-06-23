@@ -635,6 +635,8 @@ def decode_and_adapt(
                         logits = logit.unsqueeze(0)
                     else:
                         logits = torch.cat([logits, logit.unsqueeze(0)], dim=0)
+                
+                print(logits.size())
                         
                 probas = logits
                 probas /= 2.5
