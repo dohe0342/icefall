@@ -728,6 +728,8 @@ def decode_dataset(
         pseudo_batch = deepcopy(batch)
 
         assert len(hyps_dict[params.decoding_method]) == 1 # shoud use the single utterance sampler
+        print(hyps_dict[params.decoding_method])
+
         pseudo_batch["supervisions"]["text"] = [" ".join(hyps_dict[params.decoding_method][0]).lower()] * params.num_augment
 
         # augment the single utterance (augmentation automatically excued in d2v model)
