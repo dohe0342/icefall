@@ -603,6 +603,7 @@ def decode_and_adapt(
         model.train()
         for i in range(num_iter):
             with torch.set_grad_enabled(is_training):
+                '''
                 # logits : [B, T, prune_range, vocab_size]
                 simple_loss, pruned_loss, ctc_output, logits = model(
                     x=feature,
@@ -613,7 +614,13 @@ def decode_and_adapt(
                     lm_scale=params.lm_scale,
                     return_logits=True,
                 )
-                
+                '''
+                encoder_out, encoder_out_lens = model.encoder(
+                        x=feature, 
+                        x_lens=feature_lens, 
+                        prompt=model.prompt
+                )
+
                 probas = logits
                 probas /= 2.5
                 probas = torch.nn.functional.softmax(probas, dim=-1)
