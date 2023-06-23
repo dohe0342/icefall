@@ -653,7 +653,6 @@ def decode_and_adapt(
                 optimizer.step()
 
 
-
 def decode_dataset(
     dl: torch.utils.data.DataLoader,
     params: AttributeDict,
