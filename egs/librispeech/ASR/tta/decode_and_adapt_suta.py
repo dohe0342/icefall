@@ -598,30 +598,6 @@ def decode_and_adapt(
     token_ids = sp.encode(texts, out_type=int)
     y = k2.RaggedTensor(token_ids).to(device)
 
-    for i in range(num_iter):
-        net_output = self.models[0](**sample["net_input"])
-        probas = self.models[0].get_normalized_probs(net_output, log_probs=False, temp=2.5)
-        probas = probas.transpose(0, 1).flatten(start_dim=0, end_dim=1).contiguous() # [B * T, C]
-
-        predicted_ids = torch.argmax(probas, dim=-1)
-        non_blank = torch.where(predicted_ids != 0, 1, 0).bool()
-
-        #em
-        log_probas = torch.log(probas + 1e-10)
-        entropy = -(probas * log_probas).sum(-1)[non_blank] # (L)
-        probas = probas[non_blank]
-        loss_em = entropy.mean(-1)
-
-        #mcc
-        target_entropy_weight = 1 + torch.exp(-entropy).unsqueeze(0) # (1, L)
-        target_entropy_weight = probas.shape[0] * target_entropy_weight / torch.sum(target_entropy_weight)
-        cov_matrix_t = probas.mul(target_entropy_weight.view(-1, 1)).transpose(1, 0).mm(probas) # Y x W.T x Y
-
-        cov_matrix_t = cov_matrix_t / torch.sum(cov_matrix_t, dim=1)
-        loss_mcc = (torch.sum(cov_matrix_t) - torch.trace(cov_matrix_t)) / probas.shape[-1]
-
-        loss = loss_mcc * 0.7 + loss_em * 0.3
-
     if len(token_ids[0]) > 0:
         model.train()
         for i in range(num_iter):
