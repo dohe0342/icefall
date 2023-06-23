@@ -666,54 +666,7 @@ def decode_and_adapt(
                 loss.backward()
                 optimizer.step()
 
-                '''
 
-                s = params.simple_loss_scale
-                # take down the scale on the simple loss from 1.0 at the start
-                # to params.simple_loss scale by warm_step.
-                simple_loss_scale = (
-                    s
-                    if batch_idx_train >= warm_step
-                    else 1.0 - (batch_idx_train / warm_step) * (1.0 - s)
-                )
-                pruned_loss_scale = (
-                    1.0
-                    if batch_idx_train >= warm_step
-                    else 0.1 + 0.9 * (batch_idx_train / warm_step)
-                )
-
-                loss = simple_loss_scale * simple_loss + pruned_loss_scale * pruned_loss
-            
-                if params.ctc_loss_scale > 0:
-                    with warnings.catch_warnings():
-                        warnings.simplefilter("ignore")
-                        supervision_segments, token_ids = encode_supervisions(
-                            supervisions,
-                            subsampling_factor=params.subsampling_factor,
-                            token_ids=token_ids,
-                        )
-                        # FIXME(j-pong) = dynamic size is need!!
-                        for i in range(params.num_augment * 2):
-                            supervision_segments[i][-1] = ctc_output.size(1)
-                    
-                    # Works with a BPE model
-                    decoding_graph = k2.ctc_graph(token_ids, modified=False, device=device)
-                    dense_fsa_vec = k2.DenseFsaVec(
-                        ctc_output,
-                        supervision_segments,
-                        allow_truncate=params.subsampling_factor - 1,
-                    )
-
-                    ctc_loss = k2.ctc_loss(
-                        decoding_graph=decoding_graph,
-                        dense_fsa_vec=dense_fsa_vec,
-                        output_beam=params.beam_size,
-                        reduction="sum",
-                        use_double_scores=params.use_double_scores,
-                    )
-                    assert ctc_loss.requires_grad == is_training
-                    loss += params.ctc_loss_scale * ctc_loss
-                '''
 
 def decode_dataset(
     dl: torch.utils.data.DataLoader,
