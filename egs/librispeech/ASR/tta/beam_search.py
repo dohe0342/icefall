@@ -689,6 +689,9 @@ def greedy_search_batch(
         # logits'shape (batch_size, 1, 1, vocab_size)
 
         logits = logits.squeeze(1).squeeze(1)  # (batch_size, vocab_size)
+        if t == 0:
+            logit_list = logits
+
         assert logits.ndim == 2, logits.shape
         y = logits.argmax(dim=1).tolist()
         emitted = False
