@@ -563,6 +563,8 @@ def greedy_search(
     # symbols per utterance decoded so far
     sym_per_utt = 0
 
+    logit = []
+
     while t < T and sym_per_utt < max_sym_per_utt:
         if sym_per_frame >= max_sym_per_frame:
             sym_per_frame = 0
