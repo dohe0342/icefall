@@ -577,12 +577,17 @@ def greedy_search(
         logits = model.joiner(
             current_encoder_out, decoder_out.unsqueeze(1), project_input=False
         )
-        if t == 0: 
-            logit_list = logits
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
         if y not in (blank_id, unk_id):
+            if logit_list is None:
+                logit_list = logits
+                logit_list = logit_list.sequeeze().unsequeeze(0)
+                print('1', logit_list.size())
+            else:
+                logit_list = torch.cat([logit_list, logits.squeeze().unsqueeze(0)], dim=0)
+                print('2', logit_list.size())
             hyp.append(y)
             timestamp.append(t)
             decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
