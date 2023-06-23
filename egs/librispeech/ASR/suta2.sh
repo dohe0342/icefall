@@ -4,7 +4,7 @@ res_name=$2
 
 for method in greedy_search
 do
-  ./tta/decode_and_adapt_suta.py \
+  ./tta/suta2.py \
 	--input-strategy AudioSamples \
 	--enable-spec-aug False \
 	--additional-block True \
