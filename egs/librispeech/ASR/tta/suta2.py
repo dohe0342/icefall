@@ -919,10 +919,6 @@ def main():
     params.unk_id = sp.piece_to_id("<unk>")
     params.vocab_size = sp.get_piece_size()
 
-    print('-'*20)
-    print(params.blank_id)
-    print('-'*20)
-
     if params.simulate_streaming:
         assert (
             params.causal_convolution
