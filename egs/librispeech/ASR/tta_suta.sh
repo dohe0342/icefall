@@ -25,7 +25,7 @@ do
 	--bpe-model /DB/data/lang_bpe_500/bpe.model \
 	--res-name $res_name \
 	--bucketing-sampler False \
-	--base-lr 8e-3
+	--base-lr 1e-4
 	#--res-name bitfit_q_fc1_check$i
 	#--res-name fullft_check$i
 done
