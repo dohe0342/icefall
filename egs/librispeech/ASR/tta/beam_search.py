@@ -579,6 +579,7 @@ def greedy_search(
         )
         if t == 0: 
             logit_list = logits
+            print(logit_list.size())
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
