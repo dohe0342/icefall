@@ -625,7 +625,6 @@ def decode_and_adapt(
                 hyp_tokens = greedy_search(
                     model=model,
                     encoder_out=encoder_out,
-                    encoder_out_lens=encoder_out_lens,
                 )
                 print(hyp_tokens)
                 print(len(hyp_tokens))
