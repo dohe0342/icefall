@@ -626,6 +626,7 @@ def decode_and_adapt(
                     encoder_out=encoder_out,
                     encoder_out_lens=encoder_out_lens,
                 )
+                print(hyp_tokens)
                 print(hyp_tokens.size())
                 exit()
                 
