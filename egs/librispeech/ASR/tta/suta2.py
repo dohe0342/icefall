@@ -625,7 +625,6 @@ def decode_and_adapt(
                     model=model,
                     encoder_out=encoder_out,
                     encoder_out_lens=encoder_out_lens,
-                    return_timestamps=True,
                 )
                 print(hyp_tokens.size())
                 exit()
