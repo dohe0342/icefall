@@ -197,7 +197,10 @@ class TransformerPrediction(nn.Module):
           Return a tensor of shape (N, U, decoder_dim).
         """
         device = memory.device
-        ys_in = add_sos(y, sos_id=self.blank_id)
+        try: 
+            ys_in = add_sos(y, sos_id=self.blank_id)
+        except:
+            ys_in = y
         ys_in = ys_in.tolist()
         ys_in = [torch.tensor(y) for y in ys_in]
         ys_in_pad = pad_sequence(ys_in, batch_first=True, padding_value=float(self.blank_id))
