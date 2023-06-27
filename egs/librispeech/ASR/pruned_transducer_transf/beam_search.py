@@ -688,6 +688,7 @@ def greedy_search_batch(
 
         decoder_out = decoder_out[:batch_size, -1, :]
         
+        print(current_encoder_out.size(), decoder_out.size())
         logits = model.joiner(
             current_encoder_out, decoder_out.unsqueeze(1), project_input=False
         )
