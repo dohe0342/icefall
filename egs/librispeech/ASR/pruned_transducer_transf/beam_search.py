@@ -646,8 +646,11 @@ def greedy_search_batch(
     N = encoder_out.size(0)
     assert torch.all(encoder_out_lens > 0), encoder_out_lens
     assert N == batch_size_list[0], (N, batch_size_list)
-
-    hyps = [[-1] * (context_size - 1) + [blank_id] for _ in range(N)]
+    
+    if transf_pred:
+        hyps = [[blank_id] for _ in range(N)]
+    else:
+        hyps = [[-1] * (context_size - 1) + [blank_id] for _ in range(N)]
 
     # timestamp[n][i] is the frame index after subsampling
     # on which hyp[n][i] is decoded
