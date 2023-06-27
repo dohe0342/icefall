@@ -603,6 +603,7 @@ def decode_one_batch(
                 raise ValueError(
                     f"Unsupported decoding method: {params.decoding_method}"
                 )
+            print(sp.decode(hyp).split())
             hyps.append(sp.decode(hyp).split())
 
     if params.decoding_method == "greedy_search":
