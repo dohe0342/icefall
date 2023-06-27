@@ -592,7 +592,6 @@ def decode_one_batch(
                     max_sym_per_frame=params.max_sym_per_frame,
                     encoder_mask = encoder_mask[i:i+1, :encoder_out_lens[i]],
                     transf_pred=params.use_transf_pred,
-
                 )
             elif params.decoding_method == "beam_search":
                 hyp = beam_search(
