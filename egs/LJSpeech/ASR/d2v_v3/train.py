@@ -1543,10 +1543,7 @@ def run_adapter(rank, world_size, args, wb=None):
     
     librispeech = LibriSpeechAsrDataModule(args)
 
-    train_cuts = librispeech.train_clean_100_cuts()
-    if params.full_libri:
-        train_cuts += librispeech.train_clean_360_cuts()
-        train_cuts += librispeech.train_other_500_cuts()
+    train_cuts = librispeech.train_cuts()
 
     def remove_short_and_long_utt(c: Cut):
         return 1.0 <= c.duration <= 20.0
@@ -1555,14 +1552,20 @@ def run_adapter(rank, world_size, args, wb=None):
 
     sampler_state_dict = None
 
+    #train_dl = librispeech.train_dataloaders(
+    #    train_cuts, sampler_state_dict=sampler_state_dict
+    #)
+
+    #valid_cuts = librispeech.dev_clean_cuts()
+    #valid_cuts += librispeech.dev_other_cuts()
+    #valid_dl = librispeech.valid_dataloaders(valid_cuts)
     train_dl = librispeech.train_dataloaders(
         train_cuts, sampler_state_dict=sampler_state_dict
     )
 
-    valid_cuts = librispeech.dev_clean_cuts()
-    valid_cuts += librispeech.dev_other_cuts()
+    valid_cuts = librispeech.dev_cuts()
     valid_dl = librispeech.valid_dataloaders(valid_cuts)
-    
+
     scaler = GradScaler(enabled=params.use_fp16, init_scale=1.0)
 
     for epoch in range(params.start_epoch, params.num_epochs + 1):
