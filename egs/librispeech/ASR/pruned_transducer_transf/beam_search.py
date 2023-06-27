@@ -650,6 +650,7 @@ def greedy_search_batch(
     
     if transf_pred:
         hyps = [[blank_id] for _ in range(N)]
+        print('fuck')
         encoder_out_cp = encoder_out_cp.copy()
     else:
         hyps = [[-1] * (context_size - 1) + [blank_id] for _ in range(N)]
