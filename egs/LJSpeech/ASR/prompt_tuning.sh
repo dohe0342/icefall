@@ -19,7 +19,7 @@ if [ $workstation = "whale" ]; then
 			--num-updates 101 \
 			--save-every-n 50 \
 			--full-libri 1 \
-			--exp-dir ./pruned_transducer_stateless_d2v_v2/$1 \
+			--exp-dir ./d2v_v3/$1 \
 			--max-duration 200 \
 			--encoder-dim 768 \
 			--decoder-dim 768 \
