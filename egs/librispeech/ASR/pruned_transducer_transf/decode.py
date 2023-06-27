@@ -476,7 +476,10 @@ def decode_one_batch(
             simulate_streaming=True,
         )
     else:
-        encoder_out, encoder_out_lens = model.encoder(x=feature, x_lens=feature_lens)
+        if params.use_transf_pred::
+            encoder_out, encoder_out_lens, mask = model.encoder(x=feature, x_lens=feature_lens, return_mask=True)
+        else:
+            encoder_out, encoder_out_lens = model.encoder(x=feature, x_lens=feature_lens)
 
     hyps = []
 
