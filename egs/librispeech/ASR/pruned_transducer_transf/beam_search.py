@@ -547,15 +547,26 @@ def greedy_search(
             [-1] * (context_size - 1) + [blank_id], device=device, dtype=torch.int64
         ).reshape(1, context_size)
     
-
-    decoder_out = model.decoder(decoder_input, need_pad=False)
+    if transf_pred:
+        decoder_out = model.decoder(
+                            encoder_out,
+                            encoder_mask,
+                            decoder_input,
+                    )
+    else:
+        decoder_out = model.decoder(decoder_input, need_pad=False)
+    
     decoder_out = model.joiner.decoder_proj(decoder_out)
 
     encoder_out = model.joiner.encoder_proj(encoder_out)
 
     T = encoder_out.size(1)
     t = 0
-    hyp = [blank_id] * context_size
+
+    if transf_pred:
+        hyp = [blank_id]
+    else:
+        hyp = [blank_id] * context_size
 
     # timestamp[i] is the frame index after subsampling
     # on which hyp[i] is decoded
