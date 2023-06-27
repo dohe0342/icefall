@@ -641,7 +641,7 @@ def greedy_search_batch(
 
     blank_id = model.decoder.blank_id
     unk_id = getattr(model, "unk_id", blank_id)
-    context_size = model.decoder.context_size
+    context_size = model.decoder.context_size if not transf_pred else None
 
     batch_size_list = packed_encoder_out.batch_sizes.tolist()
     N = encoder_out.size(0)
