@@ -613,7 +613,7 @@ def greedy_search(
                         encoder_mask,
                         decoder_input,
                     )
-
+                print(decoder_out.size())
             else:
                 decoder_out = model.decoder(decoder_input, need_pad=False)
             decoder_out = model.joiner.decoder_proj(decoder_out)
