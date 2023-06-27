@@ -591,7 +591,7 @@ def greedy_search(
         # fmt: off
         current_encoder_out = encoder_out[:, t:t+1, :].unsqueeze(2)
         # fmt: on
-        decoder_out = decoder_out[0, -1, :].unsqueeze(0)
+        decoder_out = decoder_out[0, -1, :].unsqueeze(0).unsqueeze(1).unsqueeze(2)
         print(current_encoder_out.size(), decoder_out.size())
         logits = model.joiner(
             current_encoder_out, decoder_out.unsqueeze(1), project_input=False
