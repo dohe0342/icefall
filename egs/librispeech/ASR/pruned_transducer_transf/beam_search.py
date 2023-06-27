@@ -723,6 +723,7 @@ def greedy_search_batch(
                 dtype=torch.int64,
             )
             if transf_pred:
+                print(encoder_out_cp.size(), decoder_input.size())
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
