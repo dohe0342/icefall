@@ -533,7 +533,7 @@ def greedy_search(
     assert encoder_out.size(0) == 1, encoder_out.size(0)
 
     blank_id = model.decoder.blank_id
-    context_size = model.decoder.context_size if not transf_pred else None
+    context_size = model.decoder.context_size if not transf_pred else 1
     unk_id = getattr(model, "unk_id", blank_id)
 
     device = next(model.parameters()).device
