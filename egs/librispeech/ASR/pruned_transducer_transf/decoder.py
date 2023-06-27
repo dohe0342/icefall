@@ -182,7 +182,7 @@ class TransformerPrediction(nn.Module):
         memory,
         memory_mask,
         y,
-        warmup,
+        warmup=1.0,
         need_pad: bool = True  # Annotation should be Union[bool, torch.Tensor]
         # but, torch.jit.script does not support Union.
     ) -> torch.Tensor:
