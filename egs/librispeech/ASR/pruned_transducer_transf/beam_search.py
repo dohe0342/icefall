@@ -583,7 +583,7 @@ def greedy_search(
     # symbols per utterance decoded so far
     sym_per_utt = 0
 
-    while t < T and sym_per_utt < max_sym_per_utt:
+    while t < T:
         if sym_per_frame >= max_sym_per_frame:
             sym_per_frame = 0
             t += 1
@@ -623,7 +623,6 @@ def greedy_search(
             sym_per_utt += 1
             sym_per_frame += 1
         else:
-            sym_per_frame = 0
             t += 1
     hyp = hyp[context_size:]  # remove blanks
 
