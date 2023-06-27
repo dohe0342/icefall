@@ -600,9 +600,12 @@ def greedy_search(
         if y not in (blank_id, unk_id):
             hyp.append(y)
             timestamp.append(t)
-            decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
-                1, context_size
-            )
+            if transf_pred:
+                decoder_input = torch.tensor([hyp], device=device).unsqueeze(0)
+            else:
+                decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
+                    1, context_size
+                )
 
             decoder_out = model.decoder(decoder_input, need_pad=False)
             decoder_out = model.joiner.decoder_proj(decoder_out)
