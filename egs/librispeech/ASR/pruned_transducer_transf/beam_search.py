@@ -527,6 +527,7 @@ def greedy_search(
       Else, return a DecodingResults object containing
       decoded result and corresponding timestamps.
     """
+    max_sym_per_utt=1
     assert encoder_out.ndim == 3
 
     # support only batch_size == 1 for now
