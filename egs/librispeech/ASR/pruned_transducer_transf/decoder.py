@@ -211,6 +211,7 @@ class TransformerPrediction(nn.Module):
 
         tgt_key_padding_mask = decoder_padding_mask(ys_in_pad, ignore_id=self.blank_id).to(device)
         tgt_key_padding_mask[:, 0] = False
+        print(tgt_key_padding_mask)
 
         #y = y.to(torch.int64)
         y = ys_in_pad.to(torch.int64).to(device)
