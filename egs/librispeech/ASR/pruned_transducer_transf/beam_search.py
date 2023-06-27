@@ -700,13 +700,16 @@ def greedy_search_batch(
         logits = logits.squeeze(1).squeeze(1)  # (batch_size, vocab_size)
         assert logits.ndim == 2, logits.shape
         y = logits.argmax(dim=1).tolist()
-        #emitted = False
-        emitted = True
+        emitted = False
         for i, v in enumerate(y):
-            if v not in (blank_id, unk_id):
-                hyps[i].append(v)
-                timestamps[i].append(t)
-                #emitted = True
+            #if v not in (blank_id, unk_id):
+            #    hyps[i].append(v)
+            #    timestamps[i].append(t)
+            #    emitted = True
+            hyps[i].append(v)
+            timestamps[i].append(t)
+            emitted = True
+
         if emitted:
             # update decoder output
             if transf_pred:
