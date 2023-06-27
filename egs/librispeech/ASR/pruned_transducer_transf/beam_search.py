@@ -707,6 +707,7 @@ def greedy_search_batch(
                 decoder_input = [h[:] for h in hyps[:batch_size]]
             else:
                 decoder_input = [h[-context_size:] for h in hyps[:batch_size]]
+
             decoder_input = torch.tensor(
                 decoder_input,
                 device=device,
