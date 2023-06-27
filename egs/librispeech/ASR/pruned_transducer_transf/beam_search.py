@@ -608,6 +608,7 @@ def greedy_search_batch(
     encoder_out: torch.Tensor,
     encoder_out_lens: torch.Tensor,
     return_timestamps: bool = False,
+    encoder_out = None,
     transf_pred: bool = False,
 ) -> Union[List[List[int]], DecodingResults]:
     """Greedy search in batch mode. It hardcodes --max-sym-per-frame=1.
@@ -661,8 +662,14 @@ def greedy_search_batch(
         device=device,
         dtype=torch.int64,
     )  # (N, context_size) or (N, 1)
+    
+    if transf_pred:
+        decoder_out = model.decoder(
+                            encoder_out,
 
-    decoder_out = model.decoder(decoder_input, need_pad=False)
+                            decoder_input, need_pad=False)
+    else:
+        decoder_out = model.decoder(decoder_input, need_pad=False)
     decoder_out = model.joiner.decoder_proj(decoder_out)
     # decoder_out: (N, 1, decoder_out_dim)
 
