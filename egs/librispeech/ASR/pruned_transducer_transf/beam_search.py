@@ -608,6 +608,7 @@ def greedy_search(
                     1, context_size
                 )
             if transf_pred:
+                print(encoder_out_cp.size(), encoder_mask.size(), decoder_input.size())
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
