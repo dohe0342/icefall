@@ -714,11 +714,11 @@ def greedy_search_batch(
                 dtype=torch.int64,
             )
             if transf_pred:
-                    decoder_out = model.decoder(
-                            encoder_out,
-                            encoder_mask,
-                            decoder_input,
-                        )
+                decoder_out = model.decoder(
+                        encoder_out,
+                        encoder_mask,
+                        decoder_input,
+                    )
 
             else:
                 decoder_out = model.decoder(decoder_input, need_pad=False)
