@@ -551,6 +551,8 @@ def decode_one_batch(
             model=model,
             encoder_out=encoder_out,
             encoder_out_lens=encoder_out_lens,
+            encoder_mask=encoder_mask,
+            transf_pred=params.use_transf_pred,
 
         )
         for hyp in sp.decode(hyp_tokens):
