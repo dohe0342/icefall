@@ -508,6 +508,8 @@ def greedy_search(
     encoder_out: torch.Tensor,
     max_sym_per_frame: int,
     return_timestamps: bool = False,
+    encoder_mask = None,
+    transf_pred: bool = False,
 ) -> Union[List[int], DecodingResults]:
     """Greedy search for a single utterance.
     Args:
@@ -531,14 +533,20 @@ def greedy_search(
     assert encoder_out.size(0) == 1, encoder_out.size(0)
 
     blank_id = model.decoder.blank_id
-    context_size = model.decoder.context_size
+    context_size = model.decoder.context_size if not transf_pred else None
     unk_id = getattr(model, "unk_id", blank_id)
 
     device = next(model.parameters()).device
-
-    decoder_input = torch.tensor(
-        [-1] * (context_size - 1) + [blank_id], device=device, dtype=torch.int64
-    ).reshape(1, context_size)
+    
+    if transf_pred:
+        decoder_input = torch.tensor(
+            [blank_id], device=device, dtype=torch.int64
+        ).unsqueeze(0)
+    else:
+        decoder_input = torch.tensor(
+            [-1] * (context_size - 1) + [blank_id], device=device, dtype=torch.int64
+        ).reshape(1, context_size)
+    
 
     decoder_out = model.decoder(decoder_input, need_pad=False)
     decoder_out = model.joiner.decoder_proj(decoder_out)
