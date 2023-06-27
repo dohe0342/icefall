@@ -553,6 +553,7 @@ def greedy_search(
                             encoder_mask,
                             decoder_input,
                     )
+        encoder_out_cp = encoder_out.clone()
     else:
         decoder_out = model.decoder(decoder_input, need_pad=False)
     
