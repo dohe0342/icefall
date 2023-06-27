@@ -225,7 +225,7 @@ class TransformerPrediction(nn.Module):
         
         ## embedding_out : (N, U, decoder_dim)
         embedding_out = self.pos(embedding_out)
-        print(embedding_out)
+        print('fuck',embedding_out.size())
         embedding_out = embedding_out.permute(1, 0, 2) # (N, T, C) -> (T, N, C)
         memory = memory.permute(1, 0, 2)
         
