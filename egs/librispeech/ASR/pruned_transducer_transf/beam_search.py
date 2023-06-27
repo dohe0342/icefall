@@ -687,7 +687,7 @@ def greedy_search_batch(
         offset = end
 
         decoder_out = decoder_out[:batch_size, -1, :]
-        if decoder_out.ndims == 2:
+        if decoder_out.ndim == 2:
             decoder_out = decoder_out.unsqueeze(1)
         
         print(current_encoder_out.size(), decoder_out.size())
