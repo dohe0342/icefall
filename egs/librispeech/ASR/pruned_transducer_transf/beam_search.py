@@ -660,7 +660,7 @@ def greedy_search_batch(
         hyps,
         device=device,
         dtype=torch.int64,
-    )  # (N, context_size)
+    )  # (N, context_size) or (N, 1)
 
     decoder_out = model.decoder(decoder_input, need_pad=False)
     decoder_out = model.joiner.decoder_proj(decoder_out)
