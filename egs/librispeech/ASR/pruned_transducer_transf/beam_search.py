@@ -591,7 +591,8 @@ def greedy_search(
             continue
 
         # fmt: off
-        current_encoder_out = encoder_out[:, t:t+1, :].unsqueeze(2)
+        #current_encoder_out = encoder_out[:, t:t+1, :].unsqueeze(2)
+        current_encoder_out = encoder_out[:, :, :].unsqueeze(2)
         # fmt: on
         print(decoder_out.size())
         current_decoder_out = decoder_out[:, -1, :].unsqueeze(0)
