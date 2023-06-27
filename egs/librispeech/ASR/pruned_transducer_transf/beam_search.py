@@ -666,8 +666,9 @@ def greedy_search_batch(
     if transf_pred:
         decoder_out = model.decoder(
                             encoder_out,
-
-                            decoder_input, need_pad=False)
+                            encoder_mask,
+                            decoder_input,
+                    )
     else:
         decoder_out = model.decoder(decoder_input, need_pad=False)
     decoder_out = model.joiner.decoder_proj(decoder_out)
