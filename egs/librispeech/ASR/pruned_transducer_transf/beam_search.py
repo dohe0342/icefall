@@ -566,7 +566,7 @@ def greedy_search(
     t = 0
 
     if transf_pred:
-        hyp = [blank_id]
+        hyp = [blank_id, 101, 19, 172]
     else:
         hyp = [blank_id] * context_size
 
