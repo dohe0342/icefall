@@ -716,7 +716,7 @@ def greedy_search_batch(
             )
             if transf_pred:
                 decoder_out = model.decoder(
-                        encoder_out,
+                        encoder_out_cp,
                         encoder_mask,
                         decoder_input,
                     )
