@@ -476,7 +476,7 @@ def decode_one_batch(
             simulate_streaming=True,
         )
     else:
-        if params.use_transf_pre:
+        if params.use_transf_pred:
             encoder_out, encoder_out_lens, encoder_mask = model.encoder(x=feature, x_lens=feature_lens, return_mask=True)
         else:
             encoder_out, encoder_out_lens = model.encoder(x=feature, x_lens=feature_lens)
