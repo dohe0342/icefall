@@ -477,9 +477,10 @@ def decode_one_batch(
         )
     else:
         if params.use_transf_pre:
-            encoder_out, encoder_out_lens, mask = model.encoder(x=feature, x_lens=feature_lens, return_mask=True)
+            encoder_out, encoder_out_lens, encoder_mask = model.encoder(x=feature, x_lens=feature_lens, return_mask=True)
         else:
             encoder_out, encoder_out_lens = model.encoder(x=feature, x_lens=feature_lens)
+            encoder_mask = None
 
     hyps = []
 
@@ -550,6 +551,7 @@ def decode_one_batch(
             model=model,
             encoder_out=encoder_out,
             encoder_out_lens=encoder_out_lens,
+
         )
         for hyp in sp.decode(hyp_tokens):
             hyps.append(hyp.split())
