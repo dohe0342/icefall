@@ -722,7 +722,7 @@ def greedy_search_batch(
             # update decoder output
             if transf_pred:
                 #decoder_input = [h[:] for h in hyps[:batch_size]]
-                decoder_input = hyps
+                decoder_input = hyps[:]
             else:
                 decoder_input = [h[-context_size:] for h in hyps[:batch_size]]
             
