@@ -206,6 +206,7 @@ class TransformerPrediction(nn.Module):
         print(ys_in)
         ys_in_pad = pad_sequence(ys_in, batch_first=True, padding_value=float(self.blank_id))
         print(ys_in_pad)
+        exit()
         tgt_mask = generate_square_subsequent_mask(ys_in_pad.shape[-1]).to(device)
 
         tgt_key_padding_mask = decoder_padding_mask(ys_in_pad, ignore_id=self.blank_id).to(device)
