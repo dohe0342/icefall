@@ -599,6 +599,7 @@ def greedy_search(
         logits = model.joiner(
             current_encoder_out, current_decoder_out.unsqueeze(1), project_input=False
         )
+        print(logits.size())
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
