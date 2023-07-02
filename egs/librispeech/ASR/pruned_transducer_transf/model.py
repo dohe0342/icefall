@@ -211,7 +211,7 @@ class Transducer(nn.Module):
         for b, logit in enumerate(logits):
             print(y_padded[b])
             print(logit)
-        exit()
+            exit()
 
         with torch.cuda.amp.autocast(enabled=False):
             pruned_loss = k2.rnnt_loss_pruned(
