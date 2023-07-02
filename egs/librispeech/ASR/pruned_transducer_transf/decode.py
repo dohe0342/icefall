@@ -602,7 +602,6 @@ def decode_one_batch(
                 raise ValueError(
                     f"Unsupported decoding method: {params.decoding_method}"
                 )
-            print(sp.decode(hyp).split())
             hyps.append(sp.decode(hyp).split())
 
     if params.decoding_method == "greedy_search":
@@ -672,7 +671,6 @@ def decode_dataset(
     for batch_idx, batch in enumerate(dl):
         texts = batch["supervisions"]["text"]
         y = sp.encode(texts, out_type=int)
-        print(y)
         cut_ids = [cut.id for cut in batch["supervisions"]["cut"]]
         #logging.info(f"Decoding {batch_idx}-th batch")
 
