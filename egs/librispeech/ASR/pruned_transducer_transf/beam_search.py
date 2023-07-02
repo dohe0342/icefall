@@ -608,7 +608,8 @@ def greedy_search(
                 decoder_input = torch.tensor([hyp], device=device)
                 #print(decoder_input.size())
                 print(decoder_input)
-                exit()
+                if t > 10:
+                    break
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
