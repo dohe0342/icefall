@@ -579,16 +579,15 @@ def greedy_search(
     max_sym_per_utt = 1000
 
     # symbols per frame
-    sym_per_frame = 0
 
     # symbols per utterance decoded so far
     sym_per_utt = 0
 
     while t < T:
-        if sym_per_frame >= max_sym_per_frame:
-            sym_per_frame = 0
-            t += 1
-            continue
+        #if sym_per_frame >= max_sym_per_frame:
+        #    sym_per_frame = 0
+        #    t += 1
+        #    continue
 
         # fmt: off
         current_encoder_out = encoder_out[:, t:t+1, :].unsqueeze(2)
@@ -620,7 +619,7 @@ def greedy_search(
             decoder_out = model.joiner.decoder_proj(decoder_out)
 
             sym_per_utt += 1
-            sym_per_frame += 1
+            #sym_per_frame += 1
         else:
             t += 1
     hyp = hyp[context_size:]  # remove blanks
