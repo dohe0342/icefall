@@ -210,6 +210,7 @@ class Transducer(nn.Module):
         logits = self.joiner(am_pruned, lm_pruned, project_input=False)
         for b, logit in enumerate(logits):
             for t, l in enumerate(logit):
+                print(l.size())
                 print(l.argmax())
                 print(y_padded[b])
             exit()
