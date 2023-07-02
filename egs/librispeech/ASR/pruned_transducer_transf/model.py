@@ -210,7 +210,7 @@ class Transducer(nn.Module):
         logits = self.joiner(am_pruned, lm_pruned, project_input=False)
         if logits.device.index == 0:
             for b, logit in enumerate(logits):
-                print(logit.size())
+                print(logit.size()) 
                 for t, l in enumerate(logit):
                     #print(l.size())
                     print(l[0].argmax().item(), l[1].argmax().item(), l[2].argmax().item(), l[3].argmax().item(), l[4].argmax().item())
