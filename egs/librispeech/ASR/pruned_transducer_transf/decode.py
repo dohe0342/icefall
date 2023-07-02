@@ -671,6 +671,7 @@ def decode_dataset(
     for batch_idx, batch in enumerate(dl):
         texts = batch["supervisions"]["text"]
         y = sp.encode(texts, out_type=int)
+        print(y)
         cut_ids = [cut.id for cut in batch["supervisions"]["cut"]]
         #logging.info(f"Decoding {batch_idx}-th batch")
 
