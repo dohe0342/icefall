@@ -607,17 +607,16 @@ def greedy_search(
             if transf_pred:
                 decoder_input = torch.tensor([hyp], device=device)
                 print(decoder_input.size())
-            else:
-                decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
-                    1, context_size
-                )
-            if transf_pred:
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
                         decoder_input,
                     )
+
             else:
+                decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
+                    1, context_size
+                )
                 decoder_out = model.decoder(decoder_input, need_pad=False)
             decoder_out = model.joiner.decoder_proj(decoder_out)
 
