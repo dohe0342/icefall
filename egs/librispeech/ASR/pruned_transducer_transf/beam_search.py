@@ -609,7 +609,7 @@ def greedy_search(
                 #print(decoder_input.size())
                 print(decoder_input)
                 if t > 10:
-                    break
+                    exit()
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
