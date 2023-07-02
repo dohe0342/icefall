@@ -612,7 +612,6 @@ def greedy_search(
                         encoder_mask,
                         decoder_input,
                     )
-
             else:
                 decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
                     1, context_size
