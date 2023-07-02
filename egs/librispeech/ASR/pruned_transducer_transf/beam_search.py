@@ -598,7 +598,6 @@ def greedy_search(
         logits = model.joiner(
             current_encoder_out, current_decoder_out.unsqueeze(1), project_input=False
         )
-        print(logits.size())
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
@@ -607,7 +606,6 @@ def greedy_search(
             timestamp.append(t)
             if transf_pred:
                 decoder_input = torch.tensor([hyp], device=device)
-                print(decoder_input)
             else:
                 decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
                     1, context_size
