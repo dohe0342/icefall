@@ -618,7 +618,7 @@ def greedy_search(
                 decoder_out = model.decoder(decoder_input, need_pad=False)
             decoder_out = model.joiner.decoder_proj(decoder_out)
 
-            sym_per_utt += 1
+            #sym_per_utt += 1
             #sym_per_frame += 1
         else:
             t += 1
