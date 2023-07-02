@@ -623,6 +623,7 @@ def greedy_search(
             #sym_per_frame += 1
         else:
             t += 1
+    exit()
     hyp = hyp[context_size:]  # remove blanks
 
     if not return_timestamps:
