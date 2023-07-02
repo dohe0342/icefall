@@ -6,7 +6,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --num-epochs 30 \
   --start-epoch 1 \
   --full-libri 1 \
-  --exp-dir pruned_transducer_stateless5/exp-L \
+  --exp-dir pruned_transducer_stateless5/test \
   --max-duration 250 \
   --use-fp16 0 \
   --num-encoder-layers 18 \
