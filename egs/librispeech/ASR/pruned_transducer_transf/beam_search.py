@@ -607,7 +607,7 @@ def greedy_search(
             if transf_pred:
                 decoder_input = torch.tensor([hyp], device=device)
                 print(decoder_input.size())
-                print9y)
+                print(y)
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
