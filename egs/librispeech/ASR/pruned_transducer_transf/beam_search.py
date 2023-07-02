@@ -600,6 +600,8 @@ def greedy_search(
         # logits is (1, 1, 1, vocab_size)
 
         y = logits.argmax().item()
+        print(y)
+        exit()
         if y not in (blank_id, unk_id):
             hyp.append(y)
             timestamp.append(t)
