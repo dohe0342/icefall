@@ -192,13 +192,13 @@ class Transducer(nn.Module):
         # project_input=False since we applied the decoder's input projections
         # prior to do_rnnt_pruning (this is an optimization for speed).
         logits = self.joiner(am_pruned, lm_pruned, project_input=False)
-        if logits.device.index == 0:
-            for b, logit in enumerate(logits):
-                for t, l in enumerate(logit):
-                    #print(l.size())
-                    print(l[0].argmax().item(), l[1].argmax().item(), l[2].argmax().item(), l[3].argmax().item(), l[4].argmax().item())
-                    print(y_padded[b])
-                exit()
+        #if logits.device.index == 0:
+        #    for b, logit in enumerate(logits):
+        #        for t, l in enumerate(logit):
+        #            #print(l.size())
+        #            print(l[0].argmax().item(), l[1].argmax().item(), l[2].argmax().item(), l[3].argmax().item(), l[4].argmax().item())
+        #            print(y_padded[b])
+        #        exit()
 
         with torch.cuda.amp.autocast(enabled=False):
             pruned_loss = k2.rnnt_loss_pruned(
