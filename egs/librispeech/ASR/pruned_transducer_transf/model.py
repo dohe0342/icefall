@@ -209,8 +209,9 @@ class Transducer(nn.Module):
         # prior to do_rnnt_pruning (this is an optimization for speed).
         logits = self.joiner(am_pruned, lm_pruned, project_input=False)
         for b, logit in enumerate(logits):
-            print(y_padded[b])
-            print(logit)
+            for t, l in enumerate(logit):
+                print(l.argmax())
+                print(y_padded[b])
             exit()
 
         with torch.cuda.amp.autocast(enabled=False):
