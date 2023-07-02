@@ -674,7 +674,6 @@ class TransformerDecoderLayer(nn.Module):
         )[0]
         tgt = tgt + self.dropout(tgt_att)
         
-        '''
         src_att = self.src_attn(
             tgt,
             memory,
@@ -683,7 +682,6 @@ class TransformerDecoderLayer(nn.Module):
             key_padding_mask=memory_key_padding_mask,
         )[0]
         tgt = tgt + self.dropout(src_att)
-        '''
         tgt = tgt + self.dropout(self.feed_forward(tgt))
 
         tgt = self.norm_final(self.balancer(tgt))
