@@ -212,7 +212,7 @@ class Transducer(nn.Module):
             for b, logit in enumerate(logits):
                 for t, l in enumerate(logit):
                     #print(l.size())
-                    print(l[0].argmax(), l[1].argmax(), l[2].argmax(), l[3].argmax(), l[4].argmax())
+                    print(l[0].argmax().item(), l[1].argmax().item(), l[2].argmax().item(), l[3].argmax().item(), l[4].argmax().item())
                     print(y_padded[b])
                 exit()
 
