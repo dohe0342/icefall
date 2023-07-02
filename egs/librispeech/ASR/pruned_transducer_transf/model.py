@@ -208,6 +208,10 @@ class Transducer(nn.Module):
         # project_input=False since we applied the decoder's input projections
         # prior to do_rnnt_pruning (this is an optimization for speed).
         logits = self.joiner(am_pruned, lm_pruned, project_input=False)
+        for b, logit in enumerate(logits):
+            print(y_padded[b])
+            print(logit)
+        exit()
 
         with torch.cuda.amp.autocast(enabled=False):
             pruned_loss = k2.rnnt_loss_pruned(
