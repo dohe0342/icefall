@@ -606,6 +606,7 @@ def greedy_search(
             timestamp.append(t)
             if transf_pred:
                 decoder_input = torch.tensor([hyp], device=device)
+                print(decoder_input.size())
             else:
                 decoder_input = torch.tensor([hyp[-context_size:]], device=device).reshape(
                     1, context_size
