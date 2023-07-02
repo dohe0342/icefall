@@ -554,8 +554,9 @@ def load_checkpoint_if_available(
         "best_train_loss",
         "best_valid_loss",
     ]
-    #for k in keys:
-    #    params[k] = saved_params[k]
+    for k in keys:
+        try: params[k] = saved_params[k]
+        except: pass
 
     if params.start_batch > 0:
         if "cur_epoch" in saved_params:
