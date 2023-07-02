@@ -601,13 +601,13 @@ def greedy_search(
 
         y = logits.argmax().item()
         print(y)
-        exit()
         if y not in (blank_id, unk_id):
             hyp.append(y)
             timestamp.append(t)
             if transf_pred:
                 decoder_input = torch.tensor([hyp], device=device)
                 print(decoder_input.size())
+                print9y)
                 decoder_out = model.decoder(
                         encoder_out_cp,
                         encoder_mask,
