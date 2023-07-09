@@ -22,7 +22,7 @@ from torch import Tensor, nn
 from icefall.utils import make_pad_mask, subsequent_chunk_mask
 try:
     import fairseq
-    from data2vec_audio import *
+    #from data2vec_audio import *
 except Exception as e:
     print("Error: FairSeq is not properly installed.")
     print(
@@ -171,7 +171,7 @@ def download_d2v(model_url='https://dl.fbaipublicfiles.com/fairseq/data2vec/audi
 
 
 if __name__ == '__main__':
-    d2v = FairSeqData2VecEncoder(input_size=768, w2v_url='ww', output_size=768)
+    d2v = FairSeqData2VecEncoder(input_size=768, w2v_url='https://dl.fbaipublicfiles.com/fairseq/wav2vec/xlsr2_300m.pt', output_size=768)
     inputs = torch.randn([1, 211564])
     #a = torch.ones([1000]
     #b = torch.ones([10000])
