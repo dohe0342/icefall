@@ -322,6 +322,7 @@ def get_params() -> AttributeDict:
             "nhead": 8,
             "dim_feedforward": 2048,
             "num_encoder_layers": 12,
+            "prompt": True,
             # parameters for decoder
             "decoder_dim": 512,
             # parameters for joiner
@@ -381,6 +382,7 @@ def get_transducer_model(params: AttributeDict) -> nn.Module:
         decoder_dim=params.decoder_dim,
         joiner_dim=params.joiner_dim,
         vocab_size=params.vocab_size,
+        prompt=params.prompt,
     )
     return model
 
