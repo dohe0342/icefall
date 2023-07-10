@@ -674,6 +674,7 @@ def main():
 
     # we need cut ids to display recognition results.
     args.return_cuts = True
+    '''
     gigaspeech = GigaSpeechAsrDataModule(args)
 
     dev_cuts = gigaspeech.dev_cuts()
@@ -684,6 +685,7 @@ def main():
 
     test_sets = ["dev", "test"]
     test_dls = [dev_dl, test_dl]
+    '''
 
     for test_set, test_dl in zip(test_sets, test_dls):
         results_dict = decode_dataset(
