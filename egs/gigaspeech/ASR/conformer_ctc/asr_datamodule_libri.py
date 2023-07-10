@@ -531,7 +531,7 @@ class LibriSpeechAsrDataModule:
         logging.info("About to get test-other cuts")
         if option is None:
             return load_manifest_lazy(
-                self.args.manifest_dir / f"librispeech_cuts_test-other_{option}.jsonl"
+                self.args.manifest_dir / f"librispeech_cuts_test-other.jsonl"
             )
         elif option == 'user':
             json_list = sorted(glob(str(self.args.manifest_dir) + "/userlibri/test-other/*"))
