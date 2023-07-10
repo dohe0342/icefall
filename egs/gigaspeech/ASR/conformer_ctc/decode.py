@@ -676,6 +676,17 @@ def main():
 
     # we need cut ids to display recognition results.
     args.return_cuts = True
+    librispeech = LibriSpeechAsrDataModule(args)
+
+    dev_cuts = gigaspeech.dev_cuts()
+    test_cuts = gigaspeech.test_cuts()
+
+    dev_dl = gigaspeech.test_dataloaders(dev_cuts)
+    test_dl = gigaspeech.test_dataloaders(test_cuts)
+
+    test_sets = ["dev", "test"]
+    test_dls = [dev_dl, test_dl]
+
     '''
     gigaspeech = GigaSpeechAsrDataModule(args)
 
