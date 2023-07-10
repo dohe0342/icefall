@@ -6,6 +6,7 @@
   --exp-dir pruned_transducer_stateless2/exp \
   --bpe-model data/lang_bpe_500/bpe.model \
   --max-duration 600 \
+  --input-strategy PrecomputedFeatures
 
 # fast beam search
 ./pruned_transducer_stateless2/decode.py \
@@ -14,6 +15,7 @@
   --decoding-method fast_beam_search \
   --exp-dir pruned_transducer_stateless2/exp \
   --bpe-model data/lang_bpe_500/bpe.model \
+  --input-strategy PrecomputedFeatures \
   --max-duration 600
 
 # modified beam search
@@ -23,4 +25,5 @@
   --decoding-method modified_beam_search \
   --exp-dir pruned_transducer_stateless2/exp \
   --bpe-model data/lang_bpe_500/bpe.model \
+  --input-strategy PrecomputedFeatures \
   --max-duration 600
