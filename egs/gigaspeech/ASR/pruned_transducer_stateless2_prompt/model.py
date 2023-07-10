@@ -40,6 +40,7 @@ class Transducer(nn.Module):
         decoder_dim: int,
         joiner_dim: int,
         vocab_size: int,
+        prompt: bool = False,
     ):
         """
         Args:
@@ -68,6 +69,10 @@ class Transducer(nn.Module):
 
         self.simple_am_proj = ScaledLinear(encoder_dim, vocab_size, initial_speed=0.5)
         self.simple_lm_proj = ScaledLinear(decoder_dim, vocab_size)
+        
+        self.prompt = None
+        if prompt:
+            self.prompt = torch.nn.Parameter(torch.rand((50, 512)))
 
     def forward(
         self,
