@@ -679,7 +679,7 @@ def main():
     librispeech = LibriSpeechAsrDataModule(args)
 
     tc_cuts = librispeech.test_clean_cuts()
-    to_cuts = librispeech.test_clean_cuts()
+    to_cuts = librispeech.test_other_cuts()
 
     tc_dl = librispeech.test_dataloaders(tc_cuts)
     to_dl = librispeech.test_dataloaders(to_cuts)
