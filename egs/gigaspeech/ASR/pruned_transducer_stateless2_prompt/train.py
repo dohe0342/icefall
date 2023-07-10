@@ -57,6 +57,7 @@ import torch
 import torch.multiprocessing as mp
 import torch.nn as nn
 from asr_datamodule import GigaSpeechAsrDataModule
+from asr_datamodule_libri import LibriSpeechAsrDataModule
 from conformer import Conformer
 from decoder import Decoder
 from joiner import Joiner
@@ -820,7 +821,8 @@ def run(rank, world_size, args):
     if params.print_diagnostics:
         diagnostic = diagnostics.attach_diagnostics(model)
 
-    gigaspeech = GigaSpeechAsrDataModule(args)
+    #gigaspeech = GigaSpeechAsrDataModule(args)
+    librispeech = LibriSpeechAsrDataModule(args)
 
     train_cuts = gigaspeech.train_cuts()
 
@@ -942,7 +944,8 @@ def scan_pessimistic_batches_for_oom(
 
 def main():
     parser = get_parser()
-    GigaSpeechAsrDataModule.add_arguments(parser)
+    #GigaSpeechAsrDataModule.add_arguments(parser)
+    LibriSpeechAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 

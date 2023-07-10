@@ -41,6 +41,7 @@ class Transducer(nn.Module):
         joiner_dim: int,
         vocab_size: int,
         prompt: bool = False,
+        prompt_len: int = 50,
     ):
         """
         Args:
@@ -72,7 +73,7 @@ class Transducer(nn.Module):
         
         self.prompt = None
         if prompt:
-            self.prompt = torch.nn.Parameter(torch.rand((50, 512)))
+            self.prompt = torch.nn.Parameter(torch.rand((prompt_len, encoder_dim)))
 
     def forward(
         self,
