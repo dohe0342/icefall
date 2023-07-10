@@ -678,8 +678,8 @@ def main():
     args.return_cuts = True
     librispeech = LibriSpeechAsrDataModule(args)
 
-    dev_cuts = gigaspeech.dev_cuts()
-    test_cuts = gigaspeech.test_cuts()
+    tc_cuts = librispeech.test_clean_cuts()
+    to_cuts = librispeech.test_clean_cuts()
 
     dev_dl = gigaspeech.test_dataloaders(dev_cuts)
     test_dl = gigaspeech.test_dataloaders(test_cuts)
