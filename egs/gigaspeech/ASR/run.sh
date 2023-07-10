@@ -7,4 +7,4 @@
   --lang-dir data/lang_bpe_500 \
   --max-duration 20 \
   --input-strategy PrecomputedFeatures \
-  --num-workers 1
+  --num-workers 10
