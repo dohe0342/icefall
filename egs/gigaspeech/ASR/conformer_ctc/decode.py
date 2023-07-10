@@ -688,8 +688,8 @@ def main():
     tc_dl = librispeech.test_dataloaders(tc_cuts)
     to_dl = librispeech.test_dataloaders(to_cuts)
 
-    test_sets = ["test-clean", "test-other"]
-    test_dls = [tc_dl, to_dl]
+    test_sets = ["dev-clean", "dev–other", "test-clean", "test-other"]
+    test_dls = [dc_dl, do_dl, tc_dl, to_dl]
 
     '''
     gigaspeech = GigaSpeechAsrDataModule(args)
