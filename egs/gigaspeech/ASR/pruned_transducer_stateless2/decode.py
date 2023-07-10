@@ -535,6 +535,18 @@ def main():
 
     # we need cut ids to display recognition results.
     args.return_cuts = True
+    librispeech = LibriSpeechAsrDataModule(args)
+
+    tc_cuts = librispeech.test_clean_cuts()
+    to_cuts = librispeech.test_other_cuts()
+
+    tc_dl = librispeech.test_dataloaders(tc_cuts)
+    to_dl = librispeech.test_dataloaders(to_cuts)
+
+    test_sets = ["test-clean", "test-other"]
+    test_dls = [tc_dl, to_dl]
+
+    '''
     gigaspeech = GigaSpeechAsrDataModule(args)
 
     dev_cuts = gigaspeech.dev_cuts()
@@ -545,7 +557,7 @@ def main():
 
     test_sets = ["dev", "test"]
     test_dls = [dev_dl, test_dl]
-
+    '''
     for test_set, test_dl in zip(test_sets, test_dls):
         results_dict = decode_dataset(
             dl=test_dl,
