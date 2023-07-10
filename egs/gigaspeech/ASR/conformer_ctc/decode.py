@@ -545,7 +545,8 @@ def save_results(
 @torch.no_grad()
 def main():
     parser = get_parser()
-    GigaSpeechAsrDataModule.add_arguments(parser)
+    #GigaSpeechAsrDataModule.add_arguments(parser)
+    LibriSpeechAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
     args.lang_dir = Path(args.lang_dir)
