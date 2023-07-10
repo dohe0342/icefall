@@ -681,8 +681,8 @@ def main():
     tc_cuts = librispeech.test_clean_cuts()
     to_cuts = librispeech.test_clean_cuts()
 
-    dev_dl = gigaspeech.test_dataloaders(dev_cuts)
-    test_dl = gigaspeech.test_dataloaders(test_cuts)
+    tc_dl = librispeech.test_dataloaders(tc_cuts)
+    to_dl = librispeech.test_dataloaders(to_cuts)
 
     test_sets = ["dev", "test"]
     test_dls = [dev_dl, test_dl]
