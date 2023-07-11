@@ -499,6 +499,7 @@ def main():
     logging.info(params)
 
     logging.info("About to create model")
+    print(params)
     model = get_transducer_model(params)
 
     if params.iter > 0:
