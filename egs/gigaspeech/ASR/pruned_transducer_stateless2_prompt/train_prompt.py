@@ -820,7 +820,7 @@ def run(rank, world_size, args):
 
     #optimizer = Eve(model.parameters(), lr=params.initial_lr)
     if params.prompt:
-        for n, p in model.parameters():
+        for n, p in model.named_parameters():
             if 'prompt' in n:
                 p.requires_grad = True
             else:
