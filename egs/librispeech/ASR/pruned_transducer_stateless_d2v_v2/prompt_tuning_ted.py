@@ -1670,8 +1670,7 @@ def run_adapter(rank, world_size, args, wb=None):
     #valid_cuts += librispeech.dev_other_cuts(option=params.gender)
     #valid_dl = librispeech.valid_dataloaders(valid_cuts)
     
-    valid_cuts = tedlium.dev_clean_cuts(option=params.gender)
-    valid_cuts += tedlium.dev_other_cuts(option=params.gender)
+    valid_cuts = tedlium.dev_cuts()
     valid_dl = tedlium.valid_dataloaders(valid_cuts)
 
     scaler = GradScaler(enabled=params.use_fp16, init_scale=1.0)
