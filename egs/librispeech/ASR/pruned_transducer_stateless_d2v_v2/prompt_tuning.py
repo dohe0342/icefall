@@ -1619,9 +1619,6 @@ def run_adapter(rank, world_size, args, wb=None):
     scheduler_adapter = Eden(optimizer_adapter, 10000, 7) #params.lr_batche, params.lr_epochs)
 
     optimizer, scheduler = optimizer_adapter, scheduler_adapter
-    
-    librispeech = LibriSpeechAsrDataModule(args)
-
     model.module.prompt = model.module.prompt.to(device)
 
     '''
@@ -1633,7 +1630,9 @@ def run_adapter(rank, world_size, args, wb=None):
             train_cuts += librispeech.train_clean_360_cuts(option=params.gender)
             train_cuts += librispeech.train_other_500_cuts(option=params.gender)
     '''
-
+    
+    '''
+    librispeech = LibriSpeechAsrDataModule(args)
     #train_cuts = librispeech.train_clean_10_cuts(option='male')
     #train_cuts = librispeech.test_clean_user(option='big')
     train_cuts = librispeech.vox_cuts(option=params.spk_id)
@@ -1648,24 +1647,21 @@ def run_adapter(rank, world_size, args, wb=None):
     train_dl = librispeech.train_dataloaders(
         train_cuts, sampler_state_dict=sampler_state_dict
     )
-    #train_dl = librispeech.test_dataloaders(
-    #    train_cuts
-    #)
-    
-    '''
-    print('\n'*5)
-    print('-'*30)
-    for batch in train_dl:
-        print(batch)
-    print('-'*30)
-    print('\n'*5)
-    exit()
-    '''
-
     valid_cuts = librispeech.dev_clean_cuts(option=params.gender)
     valid_cuts += librispeech.dev_other_cuts(option=params.gender)
     valid_dl = librispeech.valid_dataloaders(valid_cuts)
+    '''
+    tedlium = TedLiumAsrDataModule(args)
+    train_cuts = tedlium.train-cuts()
     
+    sampler_state_dict = None
+
+    train_dl = tedlium.train_dataloaders(
+        train_cuts, sampler_state_dict=sampler_state_dict
+    )
+    valid_cuts = tedlium.dev_cuts()
+    valid_dl = tedlium.valid_dataloaders(valid_cuts)
+
     scaler = GradScaler(enabled=params.use_fp16, init_scale=1.0)
 
     for epoch in range(params.start_epoch, params.num_epochs + 1):
