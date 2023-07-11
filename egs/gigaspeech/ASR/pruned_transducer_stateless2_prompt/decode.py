@@ -460,7 +460,7 @@ def main():
         LibriSpeechAsrDataModule.add_arguments(parser)
     if parser.dataset == 'ted2':
         TedLiumAsrDataModule.add_arguments(aprser)
-
+    exit()
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
