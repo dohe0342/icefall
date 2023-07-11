@@ -629,8 +629,8 @@ def run(rank, world_size, args):
         weight_decay=params.weight_decay,
     )
 
-    if checkpoints:
-        optimizer.load_state_dict(checkpoints["optimizer"])
+    #if checkpoints:
+    #    optimizer.load_state_dict(checkpoints["optimizer"])
     
     '''
     GigaSpeech = GigaSpeechAsrDataModule(args)
