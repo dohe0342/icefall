@@ -201,6 +201,12 @@ def get_parser():
         type=str2bool,
         default=False,
     )
+    
+    parser.add_argument(
+        "--dataset",
+        type=str2bool,
+        default=False,
+    )
 
     return parser
 
