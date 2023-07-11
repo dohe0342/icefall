@@ -1642,16 +1642,19 @@ def run_adapter(rank, world_size, args, wb=None):
     def remove_short_and_long_utt(c: Cut):
         return 1.0 <= c.duration <= 20.0
 
-    train_cuts = train_cuts.filter(remove_short_and_long_utt)
+    #train_cuts = train_cuts.filter(remove_short_and_long_utt)
     
     sampler_state_dict = None
 
-    train_dl = librispeech.train_dataloaders(
-        train_cuts, sampler_state_dict=sampler_state_dict
-    )
+    #train_dl = librispeech.train_dataloaders(
+    #    train_cuts, sampler_state_dict=sampler_state_dict
+    #)
     #train_dl = librispeech.test_dataloaders(
     #    train_cuts
     #)
+    train_dl = tedlium.train_dataloaders(
+        train_cuts, sampler_state_dict=sampler_state_dict
+    )
     
     '''
     print('\n'*5)
