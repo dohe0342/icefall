@@ -7,7 +7,7 @@ for i in {0..4}; do
 	  --exp-dir pruned_transducer_stateless2_prompt/$1 \
 	  --bpe-model data/lang_bpe_500/bpe.model \
 	  --max-duration 600 \
-	  --prompt False \
+	  --prompt True \
 	  --input-strategy PrecomputedFeatures
 done
 # fast beam search
