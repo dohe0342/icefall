@@ -1,7 +1,7 @@
 # greedy search
 ./pruned_transducer_stateless2_prompt/decode.py \
   --avg 1 \
-  --epoch 2 \
+  --epoch 6 \
   --decoding-method greedy_search \
   --exp-dir pruned_transducer_stateless2_prompt/exp \
   --bpe-model data/lang_bpe_500/bpe.model \
