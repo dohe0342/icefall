@@ -327,7 +327,7 @@ def get_params() -> AttributeDict:
             "best_train_epoch": -1,
             "best_valid_epoch": -1,
             "batch_idx_train": 0,
-            "log_interval": 500,
+            "log_interval": 100,
             "reset_interval": 2000,
             "valid_interval": 20000,
             # parameters for conformer
@@ -546,7 +546,7 @@ def compute_loss(
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
-    feature_lens = supervisions["num_frames"].to(device)
+    feature_lens = supervisions["   '''num_frames"].to(device)
 
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
