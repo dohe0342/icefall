@@ -820,15 +820,15 @@ def run(rank, world_size, args):
     model.device = device
 
     #optimizer = Eve(model.parameters(), lr=params.initial_lr)
+    model_params = []
     if params.prompt:
         for n, p in model.named_parameters():
             if 'prompt' in n:
+                print(n)
                 p.requires_grad = True
             else:
                 p.requries_grad = False
     
-    model_params = [p for n, p in model.named_parameters() if p.requires_grad]
-    print(len(model_params))
     exit()
 
     optimizer = Eve(model_params, lr=params.initial_lr)
