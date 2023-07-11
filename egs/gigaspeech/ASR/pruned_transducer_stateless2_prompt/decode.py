@@ -576,6 +576,11 @@ def main():
         dev_cuts = tedlium.dev_cuts()
         test_cuts = tedlium.test_cuts()
 
+        dev_dl = tedlium(dev_cuts)
+        test_dl = tedlium(test_cuts)
+
+        test-sets = ["dev", "test"]
+        test_dls = [dev_dl, test_dl]
 
     '''
     gigaspeech = GigaSpeechAsrDataModule(args)
