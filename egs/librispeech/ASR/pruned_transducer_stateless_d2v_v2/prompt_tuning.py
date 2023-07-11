@@ -1609,7 +1609,7 @@ def run_adapter(rank, world_size, args, wb=None):
 
     #prompt = torch.randn((100, 512), requires_grad=True)
     optimizer_adapter = ScaledAdam(
-            [model.prompt],
+            [model.module.prompt],
             lr=params.adapter_lr,
             clipping_scale=5.0,
             parameters_names=['P'],
@@ -1621,7 +1621,7 @@ def run_adapter(rank, world_size, args, wb=None):
     
     librispeech = LibriSpeechAsrDataModule(args)
 
-    model.prompt = model.prompt.to(device)
+    model.module.prompt = model.module.prompt.to(device)
 
     '''
     if params.hpo:
