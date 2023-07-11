@@ -455,6 +455,7 @@ def main():
 
     params = get_params()
     params.update(vars(args))
+    params['prompt'] = True
 
     assert params.decoding_method in (
         "greedy_search",
