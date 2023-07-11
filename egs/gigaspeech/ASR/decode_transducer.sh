@@ -1,12 +1,12 @@
 # greedy search
 ./pruned_transducer_stateless2_prompt/decode.py \
   --avg 1 \
-  --epoch 3 \
+  --epoch 15 \
   --decoding-method greedy_search \
   --exp-dir pruned_transducer_stateless2_prompt/exp \
   --bpe-model data/lang_bpe_500/bpe.model \
   --max-duration 600 \
-  --prompt True \
+  --prompt False \
   --input-strategy PrecomputedFeatures
 # fast beam search
 #./pruned_transducer_stateless2/decode.py \
