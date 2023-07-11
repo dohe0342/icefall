@@ -674,7 +674,7 @@ def get_transducer_model(params: AttributeDict) -> nn.Module:
         joiner_dim=params.joiner_dim,
         vocab_size=params.vocab_size,
         prompt=params.prompt,
-        sid=params.spk_id,
+        sid=0,
     )
     return model
 
