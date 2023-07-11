@@ -128,6 +128,7 @@ class Conformer(Transformer):
 
         x, pos_emb = self.encoder_pos(x)
         x = x.permute(1, 0, 2)  # (B, T, F) -> (T, B, F)
+        
         if self.prompt is not None:
             lengths += prompt.size(1)
 
