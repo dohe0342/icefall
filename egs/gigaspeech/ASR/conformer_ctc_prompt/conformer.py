@@ -129,9 +129,6 @@ class Conformer(Transformer):
         x, pos_emb = self.encoder_pos(x)
         x = x.permute(1, 0, 2)  # (B, T, F) -> (T, B, F)
         
-        if self.prompt is not None:
-            lengths += prompt.size(1)
-
         mask = encoder_padding_mask(x.size(0), supervisions)
         if mask is not None:
             mask = mask.to(x.device)
