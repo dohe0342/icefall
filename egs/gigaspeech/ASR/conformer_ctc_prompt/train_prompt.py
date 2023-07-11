@@ -119,6 +119,16 @@ def get_parser():
         "lexicon.txt"
         """,
     )
+    
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        default="data/lang_bpe_500",
+        help="""The lang dir
+        It contains language related input files such as
+        "lexicon.txt"
+        """,
+    )
 
     parser.add_argument(
         "--att-rate",
