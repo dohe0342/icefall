@@ -828,6 +828,7 @@ def run(rank, world_size, args):
                 p.requries_grad = False
     
     model_params = [p for n, p in model.named_parameters() if p.requires_grad]
+    print(model_params)
 
     optimizer = Eve(model_params, lr=params.initial_lr)
     scheduler = Eden(optimizer, params.lr_batches, params.lr_epochs)
