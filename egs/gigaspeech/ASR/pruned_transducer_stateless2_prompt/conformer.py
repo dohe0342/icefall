@@ -152,6 +152,7 @@ class Conformer(EncoderInterface):
         
         x, pos_emb = self.encoder_pos(x)
         if prompt is not None:
+            print(x.size(), pos_emb.size())
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
             x = torch.cat([prompt, x], dim=1)
             zero_pos = torch.zeros(pos_emb.size()[0], prompt.size()[1], pos_emb.size()[2]).to(pos_emb.device)
