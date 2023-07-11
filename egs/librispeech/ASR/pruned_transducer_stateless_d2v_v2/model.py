@@ -32,7 +32,7 @@ class Transducer(nn.Module):
 
     def __init__(
         self,
-        encoder: EncoderInterface,
+        encoder,
         decoder: nn.Module,
         joiner: nn.Module,
         encoder_dim: int,
