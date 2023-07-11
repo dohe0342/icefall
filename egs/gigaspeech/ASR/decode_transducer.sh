@@ -1,7 +1,7 @@
 # greedy search
 ./pruned_transducer_stateless2_prompt/decode.py \
   --avg 1 \
-  --epoch 1 \
+  --iter 1900 \
   --dataset ted2 \
   --decoding-method greedy_search \
   --exp-dir pruned_transducer_stateless2_prompt/$1 \
