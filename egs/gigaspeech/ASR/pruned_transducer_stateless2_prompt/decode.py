@@ -204,8 +204,8 @@ def get_parser():
     
     parser.add_argument(
         "--dataset",
-        type=str2bool,
-        default=False,
+        type=str,
+        default="libri",
     )
 
     return parser
