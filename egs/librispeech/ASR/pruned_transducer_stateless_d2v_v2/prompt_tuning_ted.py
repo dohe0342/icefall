@@ -1620,8 +1620,8 @@ def run_adapter(rank, world_size, args, wb=None):
 
     optimizer, scheduler = optimizer_adapter, scheduler_adapter
     
-    librispeech = LibriSpeechAsrDataModule(args)
-
+    #librispeech = LibriSpeechAsrDataModule(args)
+    tedlium = TedLiumAsrDataModule(args)
     model.prompt = model.prompt.to(device)
 
     '''
