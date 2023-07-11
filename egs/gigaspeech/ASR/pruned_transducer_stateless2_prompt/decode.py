@@ -532,6 +532,9 @@ def main():
     model.to(device)
     model.eval()
     model.device = device
+    print('*'*20)
+    print(model.prompt)
+    print('*'*20)
     print(model.prompt)
 
     if params.decoding_method == "fast_beam_search":
