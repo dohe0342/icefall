@@ -339,6 +339,7 @@ class TedLiumAsrDataModule:
             )
         else:
             test = K2SpeechRecognitionDataset(
+                input_strategy=eval(self.args.input_strategy)(),
                 return_cuts=self.args.return_cuts,
             )
 
