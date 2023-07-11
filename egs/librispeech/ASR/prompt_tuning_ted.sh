@@ -13,7 +13,7 @@ if [ $workstation = "whale" ]; then
 			--input-strategy AudioSamples \
 			--enable-spec-aug False \
 			--multi-optim False \
-			--world-size 1 \
+			--world-size 4 \
 			--num-epochs 10000 \
 			--num-updates 2001 \
 			--save-every-n 100 \
