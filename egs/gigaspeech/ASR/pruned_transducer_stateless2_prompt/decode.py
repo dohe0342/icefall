@@ -552,22 +552,29 @@ def main():
 
     # we need cut ids to display recognition results.
     args.return_cuts = True
-    librispeech = LibriSpeechAsrDataModule(args)
-    
-    dc_cuts = librispeech.dev_clean_cuts()
-    do_cuts = librispeech.dev_other_cuts()
-    tc_cuts = librispeech.test_clean_cuts()
-    to_cuts = librispeech.test_other_cuts()
-    
-    dc_dl = librispeech.test_dataloaders(dc_cuts)
-    do_dl = librispeech.test_dataloaders(do_cuts)
-    tc_dl = librispeech.test_dataloaders(tc_cuts)
-    to_dl = librispeech.test_dataloaders(to_cuts)
 
-    test_sets = ["dev-clean"]
-    test_dls = [dc_dl]
-    #test_sets = ["dev-clean", "dev–other", "test-clean", "test-other"]
-    #test_dls = [dc_dl, do_dl, tc_dl, to_dl]
+    if args.dataset == 'libri':
+        librispeech = LibriSpeechAsrDataModule(args)
+        
+        dc_cuts = librispeech.dev_clean_cuts()
+        do_cuts = librispeech.dev_other_cuts()
+        tc_cuts = librispeech.test_clean_cuts()
+        to_cuts = librispeech.test_other_cuts()
+        
+        dc_dl = librispeech.test_dataloaders(dc_cuts)
+        do_dl = librispeech.test_dataloaders(do_cuts)
+        tc_dl = librispeech.test_dataloaders(tc_cuts)
+        to_dl = librispeech.test_dataloaders(to_cuts)
+
+        test_sets = ["dev-clean"]
+        test_dls = [dc_dl]
+        #test_sets = ["dev-clean", "dev–other", "test-clean", "test-other"]
+        #test_dls = [dc_dl, do_dl, tc_dl, to_dl]
+    if args.dataset == 'ted2':
+        tedlium = TedLiumAsrDataModule(args)
+        
+        dev_cuts = tedlium.dev_cuts()
+        test_cuts = tedlium.test_cuts()
 
 
     '''
