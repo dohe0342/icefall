@@ -828,7 +828,10 @@ def run(rank, world_size, args):
                 model_params.append(p)
             else:
                 p.requries_grad = False
-    
+
+    print(len(model_params))
+    exit()
+
     optimizer = Eve(model_params, lr=params.initial_lr)
     scheduler = Eden(optimizer, params.lr_batches, params.lr_epochs)
 
