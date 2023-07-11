@@ -328,7 +328,7 @@ def get_params() -> AttributeDict:
             # parameters for joiner
             "joiner_dim": 512,
             # parameters for Noam
-            "model_warm_step": 20000,  # arg given to model, not for lrate
+            "model_warm_step": 0,  # arg given to model, not for lrate
             "env_info": get_env_info(),
         }
     )
