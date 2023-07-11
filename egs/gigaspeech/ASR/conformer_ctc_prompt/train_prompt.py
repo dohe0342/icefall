@@ -631,7 +631,8 @@ def run(rank, world_size, args):
 
     if checkpoints:
         optimizer.load_state_dict(checkpoints["optimizer"])
-
+    
+    '''
     GigaSpeech = GigaSpeechAsrDataModule(args)
 
     train_cuts = GigaSpeech.train_cuts()
@@ -647,6 +648,36 @@ def run(rank, world_size, args):
         graph_compiler=graph_compiler,
         params=params,
     )
+    '''
+    librispeech = LibriSpeechAsrDataModule(args)
+
+    train_cuts = librispeech.train_clean_100_cuts()
+    if params.full_libri:
+        train_cuts += librispeech.train_clean_360_cuts()
+        train_cuts += librispeech.train_other_500_cuts()
+
+    def remove_short_and_long_utt(c):
+        # Keep only utterances with duration between 1 second and 20 seconds
+        #    
+        # Caution: There is a reason to select 20.0 here. Please see
+        # ../local/display_manifest_statistics.py
+        #    
+        # You should use ../local/display_manifest_statistics.py to get
+        # an utterance duration distribution for your dataset to select
+        # the threshold
+        return 1.0 <= c.duration <= 20.0 
+    
+    sampler_state_dict = None 
+
+    train_cuts = train_cuts.filter(remove_short_and_long_utt)
+
+    train_dl = librispeech.train_dataloaders(
+        train_cuts, sampler_state_dict=sampler_state_dict
+    )    
+
+    valid_cuts = librispeech.dev_clean_cuts()
+    valid_cuts += librispeech.dev_other_cuts()
+    valid_dl = librispeech.valid_dataloaders(valid_cuts)
 
     for epoch in range(params.start_epoch, params.num_epochs):
         train_dl.sampler.set_epoch(epoch)
@@ -727,7 +758,8 @@ def scan_pessimistic_batches_for_oom(
 
 def main():
     parser = get_parser()
-    GigaSpeechAsrDataModule.add_arguments(parser)
+    #GigaSpeechAsrDataModule.add_arguments(parser)
+    LibriSpeechAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
     args.lang_dir = Path(args.lang_dir)
