@@ -532,9 +532,6 @@ def main():
     model.to(device)
     model.eval()
     model.device = device
-    print('*'*20)
-    print(model.prompt)
-    print('*'*20)
 
     if params.decoding_method == "fast_beam_search":
         decoding_graph = k2.trivial_graph(params.vocab_size - 1, device=device)
