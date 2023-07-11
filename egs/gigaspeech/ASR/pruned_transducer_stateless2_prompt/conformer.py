@@ -161,9 +161,9 @@ class Conformer(EncoderInterface):
         
         if prompt is not None:
             lengths += prompt.size(1)
+            print(x.size(), lengths)
 
         if not is_jit_tracing():
-            print(x.size(0), lengths.max().item())
             assert x.size(0) == lengths.max().item()
 
         src_key_padding_mask = make_pad_mask(lengths)
