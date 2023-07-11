@@ -864,6 +864,8 @@ def run(rank, world_size, args):
         # an utterance duration distribution for your dataset to select
         # the threshold
         return 1.0 <= c.duration <= 20.0 
+    
+    sampler_state_dict = None
 
     train_cuts = train_cuts.filter(remove_short_and_long_utt)
 
