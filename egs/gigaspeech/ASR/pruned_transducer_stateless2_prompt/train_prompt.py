@@ -828,7 +828,7 @@ def run(rank, world_size, args):
                 p.requries_grad = False
     
     model_params = [p for n, p in model.named_parameters() if p.requires_grad]
-    print(len(model_params), model_params)
+    print(len(model_params))
     exit()
 
     optimizer = Eve(model_params, lr=params.initial_lr)
