@@ -148,7 +148,7 @@ class TedLiumAsrDataModule:
         group.add_argument(
             "--num-workers",
             type=int,
-            default=10,
+            default=9,
             help="The number of training dataloader workers that "
             "collect the batches.",
         )
