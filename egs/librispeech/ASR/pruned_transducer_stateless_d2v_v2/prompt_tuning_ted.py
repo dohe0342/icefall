@@ -87,7 +87,7 @@ import sentencepiece as spm
 import torch
 import torch.multiprocessing as mp
 import torch.nn as nn
-from asr_datamodule import LibriSpeechAsrDataModule
+#from asr_datamodule import LibriSpeechAsrDataModule
 from asr_datamodule_ted2 import TedLiumAsrDataModule
 from decoder import Decoder
 from joiner import Joiner
@@ -123,7 +123,7 @@ from icefall.utils import (
     save_args,
 )
 
-#import wandb
+import wandb
 
 #from icefall.checkpoint import save_checkpoint as save_checkpoint_impl
 LRSchedulerType = Union[torch.optim.lr_scheduler._LRScheduler, optim.LRScheduler]
