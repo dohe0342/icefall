@@ -73,7 +73,7 @@ class Transducer(nn.Module):
         
         self.prompt = None
         if prompt:
-            self.prompt = torch.nn.Parameter(torch.rand((prompt_len, encoder_dim))*200)
+            self.prompt = torch.nn.Parameter(torch.randn((prompt_len, encoder_dim))*200)
 
     def forward(
         self,
