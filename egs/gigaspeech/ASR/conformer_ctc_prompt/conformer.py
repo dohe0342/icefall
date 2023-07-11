@@ -122,6 +122,11 @@ class Conformer(Transformer):
             Tensor: Mask tensor of dimension (batch_size, input_length)
         """
         x = self.encoder_embed(x)
+        if self.prompt is not None:
+            prompt = self.prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
+            x = torch.cat([prompt, x], dim=1)
+
+
         x, pos_emb = self.encoder_pos(x)
         x = x.permute(1, 0, 2)  # (B, T, F) -> (T, B, F)
         mask = encoder_padding_mask(x.size(0), supervisions)
