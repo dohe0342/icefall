@@ -1609,10 +1609,10 @@ def run_adapter(rank, world_size, args, wb=None):
     '''
 
     #prompt = torch.randn((100, 512), requires_grad=True)
-    for n, p in model.named_parameters():
-        if 'prompt' in n:
-            print(n)
-    exit()
+    #for n, p in model.named_parameters():
+    #    if 'prompt' in n:
+    #        print(n)
+    #exit()
 
     optimizer_adapter = ScaledAdam(
             [model.prompt],
