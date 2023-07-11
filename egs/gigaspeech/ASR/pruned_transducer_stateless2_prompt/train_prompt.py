@@ -888,7 +888,7 @@ def run(rank, world_size, args):
     )    
 
     valid_cuts = tedlium.dev_cuts()
-    valid_dl = librispeech.valid_dataloaders(valid_cuts)
+    valid_dl = tedlium.valid_dataloaders(valid_cuts)
 
     '''
     train_cuts = gigaspeech.train_cuts()
