@@ -6,7 +6,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --exp-dir pruned_transducer_stateless2_prompt/$i \
   --model-name ../epoch-15.pt \
   --bpe-model data/lang_bpe_500/bpe.model \
-  --num-epochs 3 \
+  --num-epochs 5 \
   --prompt True \
   --input-strategy PrecomputedFeatures \
   --initial-lr 0.001 \
