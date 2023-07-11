@@ -88,6 +88,7 @@ import torch
 import torch.multiprocessing as mp
 import torch.nn as nn
 from asr_datamodule import LibriSpeechAsrDataModule
+from asr_datamodule_ted2 import TedLiumAsrDataModule
 from decoder import Decoder
 from joiner import Joiner
 from lhotse.cut import Cut
