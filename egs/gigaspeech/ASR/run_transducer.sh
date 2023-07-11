@@ -7,4 +7,5 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --model-name epoch-20.pt \
   --bpe-model data/lang_bpe_500/bpe.model \
   --num-epochs 3 \
+  --prompt True \
   --use-fp16 True

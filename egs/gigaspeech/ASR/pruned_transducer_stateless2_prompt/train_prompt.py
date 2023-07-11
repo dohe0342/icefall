@@ -265,6 +265,13 @@ def get_parser():
         default=False,
         help="Whether to use half precision training.",
     )
+    
+    parser.add_argument(
+        "--prompot",
+        type=str2bool,
+        default=False,
+        help="Use prompting.",
+    )
 
     return parser
 
@@ -330,7 +337,6 @@ def get_params() -> AttributeDict:
             "nhead": 8,
             "dim_feedforward": 2048,
             "num_encoder_layers": 12,
-            "prompt": True,
             # parameters for decoder
             "decoder_dim": 512,
             # parameters for joiner
