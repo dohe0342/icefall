@@ -457,10 +457,10 @@ def main():
     parser = get_parser()
     
     dataset_check = parser.parse_arse_args()
-    if parser.dataset == 'libri':
+    if dataset_check.dataset == 'libri':
         #GigaSpeechAsrDataModule.add_arguments(parser)
         LibriSpeechAsrDataModule.add_arguments(parser)
-    if parser.dataset == 'ted2':
+    if dataset_check.dataset == 'ted2':
         TedLiumAsrDataModule.add_arguments(aprser)
     exit()
     args = parser.parse_args()
