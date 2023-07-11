@@ -456,13 +456,9 @@ def save_results(
 def main():
     parser = get_parser()
     
-    dataset_check = parser.parse_args()
-    if dataset_check.dataset == 'libri':
-        #GigaSpeechAsrDataModule.add_arguments(parser)
-        LibriSpeechAsrDataModule.add_arguments(parser)
-    if dataset_check.dataset == 'ted2':
-        TedLiumAsrDataModule.add_arguments(aprser)
-    exit()
+    #GigaSpeechAsrDataModule.add_arguments(parser)
+    #LibriSpeechAsrDataModule.add_arguments(parser)
+    TedLiumAsrDataModule.add_arguments(aprser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
