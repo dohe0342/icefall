@@ -9,7 +9,7 @@ for i in 100 200 300 400 500 600 700 800 900; do
 	  --bpe-model data/lang_bpe_500/bpe.model \
 	  --max-duration 600 \
 	  --prompt True 
-  done
+done
   #--prompt True 
   #--input-strategy PrecomputedFeatures
 # fast beam search
