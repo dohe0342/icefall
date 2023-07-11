@@ -4,7 +4,7 @@ for i in {0..4}; do
 	  --avg 1 \
 	  --epoch $i \
 	  --decoding-method greedy_search \
-	  --exp-dir pruned_transducer_stateless2_prompt/exp \
+	  --exp-dir pruned_transducer_stateless2_prompt/$1 \
 	  --bpe-model data/lang_bpe_500/bpe.model \
 	  --max-duration 600 \
 	  --prompt False \
