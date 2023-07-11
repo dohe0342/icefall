@@ -163,7 +163,6 @@ class Conformer(EncoderInterface):
         
         if prompt is not None:
             lengths += prompt.size(1)
-            print(x.size(), lengths)
 
         if not is_jit_tracing():
             assert x.size(0) == lengths.max().item()
