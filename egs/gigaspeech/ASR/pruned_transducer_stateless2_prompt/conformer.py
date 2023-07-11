@@ -151,7 +151,7 @@ class Conformer(EncoderInterface):
             x = torch.cat([prompt, x], dim=1)
 
         print('*'*30)
-        print(lengths)
+        print(x_lens)
         print('*'*30)
         
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
