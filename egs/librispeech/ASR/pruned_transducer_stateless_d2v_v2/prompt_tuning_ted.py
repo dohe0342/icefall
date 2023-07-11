@@ -1621,7 +1621,7 @@ def run_adapter(rank, world_size, args, wb=None):
     
     #librispeech = LibriSpeechAsrDataModule(args)
     tedlium = TedLiumAsrDataModule(args)
-    model.prompt = model.prompt.to(device)
+    model.module.prompt = model.module.prompt.to(device)
 
     '''
     if params.hpo:
