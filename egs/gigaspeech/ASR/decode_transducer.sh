@@ -6,7 +6,6 @@
   --decoding-method greedy_search \
   --exp-dir pruned_transducer_stateless2_prompt/$1 \
   --bpe-model data/lang_bpe_500/bpe.model \
-  --manifest-dir data/fbank_ted2 \
   --max-duration 600 
   #--prompt True 
   #--input-strategy PrecomputedFeatures
