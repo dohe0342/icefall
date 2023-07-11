@@ -579,7 +579,7 @@ def main():
         dev_dl = tedlium(dev_cuts)
         test_dl = tedlium(test_cuts)
 
-        test-sets = ["dev", "test"]
+        test_sets = ["dev", "test"]
         test_dls = [dev_dl, test_dl]
 
     '''
