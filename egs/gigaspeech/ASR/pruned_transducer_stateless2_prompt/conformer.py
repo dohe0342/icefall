@@ -147,11 +147,8 @@ class Conformer(EncoderInterface):
         x = self.encoder_embed(x)
         x, pos_emb = self.encoder_pos(x)
         if prompt is not None:
-            print(x_lens, x.size())
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
             x = torch.cat([prompt, x], dim=1)
-            x_lens += prompt.size()[1]
-            print(x_lens, x.size())
 
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
@@ -161,9 +158,10 @@ class Conformer(EncoderInterface):
         #
         # Note: rounding_mode in torch.div() is available only in torch >= 1.8.0
         lengths = (((x_lens - 1) >> 1) - 1) >> 1
-
+        
+        if prompt is not None:
+            lengths += prompt.size(1)
         if not is_jit_tracing():
-            print(x.size(0), lengths.max().item())
             assert x.size(0) == lengths.max().item()
 
         src_key_padding_mask = make_pad_mask(lengths)
