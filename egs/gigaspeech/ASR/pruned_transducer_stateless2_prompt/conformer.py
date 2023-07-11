@@ -154,8 +154,9 @@ class Conformer(EncoderInterface):
         if prompt is not None:
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
             x = torch.cat([prompt, x], dim=1)
-            zero_pos = torch.zeros(pos_emb.size()[0], 2*prompt.size()[1], pos_emb.size()[2]).to(pos_emb.device)
-            pos_emb = torch.cat([zero_pos, pos_emb], dim=1)
+            print(pos_emb[0][0])
+            #zero_pos = torch.zeros(pos_emb.size()[0], 2*prompt.size()[1], pos_emb.size()[2]).to(pos_emb.device)
+            #pos_emb = torch.cat([zero_pos, pos_emb], dim=1)
         
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
