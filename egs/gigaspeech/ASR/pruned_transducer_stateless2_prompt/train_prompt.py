@@ -854,7 +854,7 @@ def run(rank, world_size, args):
         train_cuts += librispeech.train_clean_360_cuts()
         train_cuts += librispeech.train_other_500_cuts()
 
-    def remove_short_and_long_utt(c: Cut):
+    def remove_short_and_long_utt(c):
         # Keep only utterances with duration between 1 second and 20 seconds
         #    
         # Caution: There is a reason to select 20.0 here. Please see
