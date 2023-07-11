@@ -621,8 +621,17 @@ def run(rank, world_size, args):
     if world_size > 1:
         model = DDP(model, device_ids=[rank])
 
+    model_params = []
+    if params.prompt:
+        for n, p in model.named_parameters():
+            if 'prompt' in n:
+                p.requires_grad = True
+                model_params.append(p)
+            else:
+                p.requries_grad = False
+
     optimizer = Noam(
-        model.parameters(),
+        model_params,
         model_size=params.attention_dim,
         factor=params.lr_factor,
         warm_step=params.warm_step,
