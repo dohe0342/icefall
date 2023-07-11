@@ -2,7 +2,7 @@
 for i in 100 200 300 400 500 600 700 800 900; do
 	./pruned_transducer_stateless2_prompt/decode.py \
 	  --avg 1 \
-	  --iter 1900 \
+	  --iter $i \
 	  --dataset ted2 \
 	  --decoding-method greedy_search \
 	  --exp-dir pruned_transducer_stateless2_prompt/$1 \
