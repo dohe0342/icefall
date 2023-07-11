@@ -1,5 +1,5 @@
 # greedy search
-./pruned_transducer_stateless2/decode.py \
+./pruned_transducer_stateless2_prompt/decode.py \
   --avg 1 \
   --epoch 20 \
   --decoding-method greedy_search \
