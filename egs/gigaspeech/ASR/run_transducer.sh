@@ -9,5 +9,5 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --num-epochs 3 \
   --prompt True \
   --input-strategy PrecomputedFeatures \
-  --initial-lr 0.0001 \
+  --initial-lr 0.01 \
   --use-fp16 True
