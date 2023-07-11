@@ -8,4 +8,5 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --bpe-model data/lang_bpe_500/bpe.model \
   --num-epochs 3 \
   --prompt True \
+  --input-strategy PrecomputedFeatures \
   --use-fp16 True
