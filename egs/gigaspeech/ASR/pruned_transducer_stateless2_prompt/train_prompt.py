@@ -824,8 +824,8 @@ def run(rank, world_size, args):
     if params.prompt:
         for n, p in model.named_parameters():
             if 'prompt' in n:
-                print(n)
                 p.requires_grad = True
+                model_params.append(p)
             else:
                 p.requries_grad = False
     
