@@ -455,6 +455,8 @@ def save_results(
 @torch.no_grad()
 def main():
     parser = get_parser()
+    
+    dataset_check = parser.parse_arse_args()
     if parser.dataset == 'libri':
         #GigaSpeechAsrDataModule.add_arguments(parser)
         LibriSpeechAsrDataModule.add_arguments(parser)
