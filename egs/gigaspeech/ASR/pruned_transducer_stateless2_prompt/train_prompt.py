@@ -894,6 +894,8 @@ def run(rank, world_size, args):
     valid_cuts = gigaspeech.dev_cuts()
     valid_dl = gigaspeech.valid_dataloaders(valid_cuts)
     '''
+
+    '''
     if not params.print_diagnostics:
         scan_pessimistic_batches_for_oom(
             model=model,
@@ -902,6 +904,7 @@ def run(rank, world_size, args):
             sp=sp,
             params=params,
         )
+    '''
 
     scaler = GradScaler(enabled=params.use_fp16)
     if checkpoints and "grad_scaler" in checkpoints:
