@@ -125,6 +125,12 @@ class TedLiumAsrDataModule:
             "if available.",
         )
         group.add_argument(
+            "--input-strategy",
+            type=str,
+            default="AudioSamples",
+            help="AudioSamples or PrecomputedFeatures",
+        )
+        group.add_argument(
             "--shuffle",
             type=str2bool,
             default=True,
