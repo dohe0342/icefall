@@ -155,8 +155,10 @@ class Conformer(EncoderInterface):
             print(x.size(), pos_emb.size())
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
             x = torch.cat([prompt, x], dim=1)
+            print(x.size(), pos_emb.size())
             zero_pos = torch.zeros(pos_emb.size()[0], prompt.size()[1], pos_emb.size()[2]).to(pos_emb.device)
             pos_emb = torch.cat([zero_pos, pos_emb], dim=1)
+            print(x.size(), pos_emb.size())
         
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
