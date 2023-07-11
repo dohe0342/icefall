@@ -148,7 +148,7 @@ class Conformer(EncoderInterface):
         
         if prompt is not None:
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
-            x = torch.cat([x, prompt], dim=1)
+            x = torch.cat([prompt, x], dim=1)
             #x = torch.cat([x, prompt], dim=1)
         
         x, pos_emb = self.encoder_pos(x)
