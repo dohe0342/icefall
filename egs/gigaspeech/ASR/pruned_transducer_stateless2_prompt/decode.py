@@ -576,8 +576,8 @@ def main():
         dev_cuts = tedlium.dev_cuts()
         test_cuts = tedlium.test_cuts()
 
-        dev_dl = tedlium(dev_cuts)
-        test_dl = tedlium(test_cuts)
+        dev_dl = tedlium.test_dataloaders(dev_cuts)
+        test_dl = tedlium.test_dataloaders(test_cuts)
 
         test_sets = ["dev", "test"]
         test_dls = [dev_dl, test_dl]
