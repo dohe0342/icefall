@@ -456,7 +456,7 @@ def save_results(
 def main():
     parser = get_parser()
     
-    dataset_check = parser.parse_arse_args()
+    dataset_check = parser.parse_args()
     if dataset_check.dataset == 'libri':
         #GigaSpeechAsrDataModule.add_arguments(parser)
         LibriSpeechAsrDataModule.add_arguments(parser)
