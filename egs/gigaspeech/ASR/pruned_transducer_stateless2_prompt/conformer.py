@@ -148,8 +148,6 @@ class Conformer(EncoderInterface):
         
         if prompt is not None:
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
-            prompt *= 20
-            print('fuck!!!!!!!!!!')
             x = torch.cat([prompt, x], dim=1)
 
         x, pos_emb = self.encoder_pos(x)
