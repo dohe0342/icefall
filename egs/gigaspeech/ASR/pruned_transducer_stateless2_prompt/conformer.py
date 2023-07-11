@@ -154,6 +154,7 @@ class Conformer(EncoderInterface):
         x, pos_emb = self.encoder_pos(x)
         print(x[0][0][1])
         print(pos_emb.size())
+        print(pos_emb[0][0])
         
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
