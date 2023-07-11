@@ -458,7 +458,7 @@ def main():
     
     #GigaSpeechAsrDataModule.add_arguments(parser)
     #LibriSpeechAsrDataModule.add_arguments(parser)
-    TedLiumAsrDataModule.add_arguments(aprser)
+    TedLiumAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
