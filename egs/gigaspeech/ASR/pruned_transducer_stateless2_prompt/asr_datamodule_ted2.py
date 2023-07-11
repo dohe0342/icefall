@@ -31,7 +31,7 @@ from lhotse.dataset import (
     SingleCutSampler,
     SpecAugment,
 )
-from lhotse.dataset.input_strategies import OnTheFlyFeatures
+from lhotse.dataset.input_strategies import OnTheFlyFeatures, AudioSamples
 from torch.utils.data import DataLoader
 
 from icefall.utils import str2bool
