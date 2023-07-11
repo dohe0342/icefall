@@ -546,7 +546,7 @@ def compute_loss(
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
-    feature_lens = supervisions["   '''num_frames"].to(device)
+    feature_lens = supervisions["num_frames"].to(device)
 
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
