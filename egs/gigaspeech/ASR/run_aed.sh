@@ -1,5 +1,5 @@
 export CUDA_VISIBLE_DEVICES="0,1,2,3"
-./conformer_ctc/train_prompt.py \
+./conformer_ctc_prompt/train_prompt.py \
   --max-duration 600 \
   --num-workers 9 \
   --world-size 4 \
