@@ -100,7 +100,7 @@ from torch import Tensor
 from torch.cuda.amp import GradScaler
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.tensorboard import SummaryWriter
-from zipformer import Zipformer
+#from zipformer import Zipformer
 from data2vec_encoder import FairSeqData2VecEncoder
 
 from icefall import diagnostics
