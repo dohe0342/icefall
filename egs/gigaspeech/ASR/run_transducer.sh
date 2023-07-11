@@ -1,5 +1,5 @@
 export CUDA_VISIBLE_DEVICES="0,1,2,3"
-./pruned_transducer_stateless2_prompt/train.py \
+./pruned_transducer_stateless2_prompt/train_prompt.py \
   --max-duration 600 \
   --num-workers 9 \
   --world-size 4 \
