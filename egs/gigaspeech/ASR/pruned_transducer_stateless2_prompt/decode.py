@@ -194,6 +194,12 @@ def get_parser():
         help="""Maximum number of symbols per frame.
         Used only when --decoding_method is greedy_search""",
     )
+    
+    parser.add_argument(
+        "--prompt",
+        type=str2bool,
+        default=False,
+    )
 
     return parser
 
