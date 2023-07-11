@@ -149,11 +149,8 @@ class Conformer(EncoderInterface):
         if prompt is not None:
             prompt = prompt.expand((x.size()[0], prompt.size()[0], prompt.size()[1]))
             x = torch.cat([prompt, x], dim=1)
+            x_lens += prompt.size()[1]
 
-        print('*'*30)
-        print(x_lens)
-        print('*'*30)
-        
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
         # Caution: We assume the subsampling factor is 4!
