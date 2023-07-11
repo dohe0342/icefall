@@ -267,7 +267,7 @@ def get_parser():
     )
     
     parser.add_argument(
-        "--prompot",
+        "--prompt",
         type=str2bool,
         default=False,
         help="Use prompting.",
