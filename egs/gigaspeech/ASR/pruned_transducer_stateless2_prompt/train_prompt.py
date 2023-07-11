@@ -550,6 +550,7 @@ def compute_loss(
     feature_lens = supervisions["num_frames"].to(device)
 
     texts = batch["supervisions"]["text"]
+    texts = [text.upper() for text in texts]
     y = sp.encode(texts, out_type=int)
     y = k2.RaggedTensor(y).to(device)
 
