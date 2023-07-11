@@ -302,12 +302,12 @@ class TedLiumAsrDataModule:
         if self.args.on_the_fly_feats:
             validate = K2SpeechRecognitionDataset(
                 cut_transforms=transforms,
-                input_strategy=eval(self.args.input_strategy)(),
-                #input_strategy=OnTheFlyFeatures(Fbank(FbankConfig(num_mel_bins=80))),
+                input_strategy=OnTheFlyFeatures(Fbank(FbankConfig(num_mel_bins=80))),
                 return_cuts=self.args.return_cuts,
             )
         else:
             validate = K2SpeechRecognitionDataset(
+                input_strategy=eval(self.args.input_strategy)(),
                 cut_transforms=transforms,
                 return_cuts=self.args.return_cuts,
             )
