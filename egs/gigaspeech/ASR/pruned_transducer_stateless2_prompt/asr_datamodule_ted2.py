@@ -130,7 +130,7 @@ class TedLiumAsrDataModule:
         group.add_argument(
             "--input-strategy",
             type=str,
-            default="AudioSamples",
+            default="PrecomputedFeatures",
             help="AudioSamples or PrecomputedFeatures",
         )
         group.add_argument(
