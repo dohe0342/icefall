@@ -76,6 +76,12 @@ def get_parser():
         default=True,
         help="Should various information be logged in tensorboard.",
     )
+    
+    parser.add_argument(
+        "--prompt",
+        type=str2bool,
+        default=False,
+    )
 
     parser.add_argument(
         "--num-epochs",
