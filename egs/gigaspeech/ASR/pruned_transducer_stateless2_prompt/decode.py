@@ -68,7 +68,7 @@ import torch
 import torch.nn as nn
 from asr_datamodule import GigaSpeechAsrDataModule
 from asr_datamodule_libri import LibriSpeechAsrDataModule
-from asr_datamodule_libri import TedLiumAsrDataModule
+from asr_datamodule_ted2 import TedLiumAsrDataModule
 from beam_search import (
     beam_search,
     fast_beam_search_one_best,
