@@ -1652,7 +1652,7 @@ def run_adapter(rank, world_size, args, wb=None):
     valid_dl = librispeech.valid_dataloaders(valid_cuts)
     '''
     tedlium = TedLiumAsrDataModule(args)
-    train_cuts = tedlium.train-cuts()
+    train_cuts = tedlium.train_cuts()
     
     sampler_state_dict = None
 
