@@ -31,7 +31,7 @@ from lhotse.dataset import (
     SingleCutSampler,
     SpecAugment,
 )
-from lhotse.dataset.input_strategies import OnTheFlyFeatures
+from lhotse.dataset.input_strategies import OnTheFlyFeatures, AudioSamples
 from torch.utils.data import DataLoader
 
 from icefall.utils import str2bool
@@ -123,6 +123,12 @@ class TedLiumAsrDataModule:
             help="When enabled, use on-the-fly cut mixing and feature "
             "extraction. Will drop existing precomputed feature manifests "
             "if available.",
+        )
+        group.add_argument(
+            "--input-strategy",
+            type=str,
+            default="AudioSamples",
+            help="AudioSamples or PrecomputedFeatures",
         )
         group.add_argument(
             "--shuffle",
@@ -244,6 +250,7 @@ class TedLiumAsrDataModule:
             )
         else:
             train = K2SpeechRecognitionDataset(
+                input_strategy=eval(self.args.input_strategy)(),
                 cut_transforms=transforms,
                 input_transforms=input_transforms,
                 return_cuts=self.args.return_cuts,
@@ -300,6 +307,7 @@ class TedLiumAsrDataModule:
             )
         else:
             validate = K2SpeechRecognitionDataset(
+                input_strategy=eval(self.args.input_strategy)(),
                 cut_transforms=transforms,
                 return_cuts=self.args.return_cuts,
             )
@@ -331,6 +339,7 @@ class TedLiumAsrDataModule:
             )
         else:
             test = K2SpeechRecognitionDataset(
+                input_strategy=eval(self.args.input_strategy)(),
                 return_cuts=self.args.return_cuts,
             )
 
