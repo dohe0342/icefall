@@ -603,6 +603,7 @@ def run(rank, world_size, args):
         num_decoder_layers=params.num_decoder_layers,
         vgg_frontend=False,
         use_feat_batchnorm=params.use_feat_batchnorm,
+        prompt=params.prompt,
     )
 
     checkpoints = load_checkpoint_if_available(params=params, model=model)
