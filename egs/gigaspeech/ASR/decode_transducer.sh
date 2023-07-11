@@ -3,7 +3,7 @@
   --avg 1 \
   --epoch 2 \
   --decoding-method greedy_search \
-  --exp-dir pruned_transducer_stateless2/exp \
+  --exp-dir pruned_transducer_stateless2_prompt/exp \
   --bpe-model data/lang_bpe_500/bpe.model \
   --max-duration 600 \
   --input-strategy PrecomputedFeatures
