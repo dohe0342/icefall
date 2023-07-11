@@ -99,7 +99,7 @@ class Conformer(Transformer):
 
         self.prompt = None
         if prompt:
-            self.prompt = torch.nn.Parameter(torch.rand((prompt_len, encoder_dim)))
+            self.prompt = torch.nn.Parameter(torch.rand((prompt_len, d_model)))
 
     def run_encoder(
         self, x: Tensor, supervisions: Optional[Supervisions] = None
