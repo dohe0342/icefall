@@ -97,6 +97,10 @@ class Conformer(Transformer):
             #       and throws an error without this change.
             self.after_norm = identity
 
+        self.prompt = None
+        if prompt:
+            self.prompt = torch.nn.Parameter(torch.rand((prompt_len, encoder_dim)))
+
     def run_encoder(
         self, x: Tensor, supervisions: Optional[Supervisions] = None
     ) -> Tuple[Tensor, Optional[Tensor]]:
