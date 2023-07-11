@@ -826,9 +826,9 @@ def run(rank, world_size, args):
             else:
                 p.requries_grad = False
     
-    params = [p for n, p in model.named_parameters() if p.requires_grad]
+    model_params = [p for n, p in model.named_parameters() if p.requires_grad]
 
-    optimizer = Eve(params, lr=params.initial_lr)
+    optimizer = Eve(model_params, lr=params.initial_lr)
     scheduler = Eden(optimizer, params.lr_batches, params.lr_epochs)
 
     if checkpoints and "optimizer" in checkpoints:
