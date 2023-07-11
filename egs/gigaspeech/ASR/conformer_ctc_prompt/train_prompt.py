@@ -264,17 +264,19 @@ def load_checkpoint_if_available(
     Returns:
       Return None.
     """
-    if params.start_epoch <= 0:
-        return
+    #if params.start_epoch <= 0:
+    #    return
 
-    filename = params.exp_dir / f"epoch-{params.start_epoch-1}.pt"
+    #filename = params.exp_dir / f"epoch-{params.start_epoch-1}.pt"
+    filename = params.exp_dir / f"{params.model_name}"
     saved_params = load_checkpoint(
         filename,
         model=model,
         optimizer=optimizer,
         scheduler=scheduler,
     )
-
+    
+    '''
     keys = [
         "best_train_epoch",
         "best_valid_epoch",
@@ -284,7 +286,7 @@ def load_checkpoint_if_available(
     ]
     for k in keys:
         params[k] = saved_params[k]
-
+    '''
     return saved_params
 
 
