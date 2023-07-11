@@ -56,6 +56,7 @@ class Conformer(Transformer):
         normalize_before: bool = True,
         vgg_frontend: bool = False,
         use_feat_batchnorm: Union[float, bool] = 0.1,
+        prompt: bool = False,
     ) -> None:
         super(Conformer, self).__init__(
             num_features=num_features,
