@@ -58,6 +58,7 @@ import torch.multiprocessing as mp
 import torch.nn as nn
 from asr_datamodule import GigaSpeechAsrDataModule
 from asr_datamodule_libri import LibriSpeechAsrDataModule
+from asr_datamodule_ted2 import LibriSpeechAsrDataModule
 from conformer import Conformer
 from decoder import Decoder
 from joiner import Joiner
