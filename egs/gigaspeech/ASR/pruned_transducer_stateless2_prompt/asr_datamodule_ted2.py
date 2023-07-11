@@ -23,11 +23,20 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from lhotse import CutSet, Fbank, FbankConfig, load_manifest, load_manifest_lazy
-from lhotse.dataset import (
+#from lhotse.dataset import (
+#    CutConcatenate,
+#    CutMix,
+#    DynamicBucketingSampler,
+#    K2SpeechRecognitionDataset,
+#    SingleCutSampler,
+#    SpecAugment,
+#)
+from lhotse.dataset import (  # noqa F401 for PrecomputedFeatures
     CutConcatenate,
     CutMix,
     DynamicBucketingSampler,
     K2SpeechRecognitionDataset,
+    PrecomputedFeatures,
     SingleCutSampler,
     SpecAugment,
 )
