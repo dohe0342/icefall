@@ -142,6 +142,14 @@ def get_parser():
         files, e.g., checkpoints, log, etc, are saved
         """,
     )
+    
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        default="epoch-20.pt",
+        help="""load model name.
+        """,
+    )
 
     parser.add_argument(
         "--bpe-model",
@@ -421,7 +429,7 @@ def load_checkpoint_if_available(
     elif params.start_epoch > 0:
         filename = params.exp_dir / f"epoch-{params.start_epoch-1}.pt"
     else:
-        return None
+        filename = params.exp_dir / f"{params.model_name}"
 
     assert filename.is_file(), f"{filename} does not exist!"
 
@@ -804,8 +812,17 @@ def run(rank, world_size, args):
         model = DDP(model, device_ids=[rank])
     model.device = device
 
-    optimizer = Eve(model.parameters(), lr=params.initial_lr)
+    #optimizer = Eve(model.parameters(), lr=params.initial_lr)
+    if params.prompt:
+        for n, p in model.parameters():
+            if 'prompt' in n:
+                p.requires_grad = True
+            else:
+                p.requries_grad = False
+    
+    params = [p for n, p in model.named_parameters() if p.requires_grad]
 
+    optimizer = Eve(params, lr=params.initial_lr)
     scheduler = Eden(optimizer, params.lr_batches, params.lr_epochs)
 
     if checkpoints and "optimizer" in checkpoints:
