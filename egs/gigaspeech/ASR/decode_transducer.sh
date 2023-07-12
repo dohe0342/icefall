@@ -1,5 +1,5 @@
 # greedy search
-for i in {0..9}; do
+for i in {20..29}; do
 	./pruned_transducer_stateless2_prompt/decode.py \
 	  --avg 1 \
 	  --iter $i \
