@@ -2,7 +2,7 @@
 for i in {20..29}; do
 	./pruned_transducer_stateless2_prompt/decode.py \
 	  --avg 1 \
-	  --iter $i \
+	  --epoch $i \
 	  --dataset ted2 \
 	  --decoding-method greedy_search \
 	  --exp-dir pruned_transducer_stateless2_prompt/$1 \
