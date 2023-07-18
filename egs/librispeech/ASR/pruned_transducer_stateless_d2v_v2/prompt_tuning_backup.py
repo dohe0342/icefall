@@ -1796,8 +1796,8 @@ def scan_pessimistic_batches_for_oom(
 
 def main():
     parser = get_parser()
-    TedLiumAsrDataModule.add_arguments(parser)
-    #LibriSpeechAsrDataModule.add_arguments(parser)
+    #TedLiumAsrDataModule.add_arguments(parser)
+    LibriSpeechAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     if args.wandb: args.exp_dir = args.exp_dir + str(random.randint(0,400))
     args.exp_dir = Path(args.exp_dir)
