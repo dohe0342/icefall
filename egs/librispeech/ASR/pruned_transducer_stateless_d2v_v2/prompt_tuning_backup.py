@@ -1621,7 +1621,6 @@ def run_adapter(rank, world_size, args, wb=None):
     optimizer, scheduler = optimizer_adapter, scheduler_adapter
     
     librispeech = LibriSpeechAsrDataModule(args)
-
     model.module.prompt = model.module.prompt.to(device)
 
     '''
