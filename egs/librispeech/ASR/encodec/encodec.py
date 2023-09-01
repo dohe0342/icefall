@@ -22,6 +22,8 @@ inputs = processor(raw_audio=audio_sample, sampling_rate=processor.sampling_rate
 
 # explicitly encode then decode the audio inputs
 print(inputs["padding_mask"])
+
+'''
 encoder_outputs = model.encode(inputs["input_values"], inputs["padding_mask"], bandwidth=bandwidth)
 print(encoder_outputs.keys())
 print(encoder_outputs.audio_codes.size())
@@ -36,3 +38,4 @@ audio_values = model.decode(encoder_outputs.audio_codes, encoder_outputs.audio_s
 
 audio_values = audio_values.detach().numpy()[0][0]
 sf.write(f'encodec_{bandwidth}kb_test.wav', audio_values, 16000)
+'''
