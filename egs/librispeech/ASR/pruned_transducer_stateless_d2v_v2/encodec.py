@@ -25,7 +25,7 @@ print(encoder_outputs.keys())
 print(encoder_outputs.audio_codes.size())
 print(encoder_outputs.audio_codes[0][0][0][0])
 
-codes = encoder_outputs.audio_codes[0].trnaspose(0, 1)
+codes = encoder_outputs.audio_codes[0].transpose(0, 1)
 #codebook = model.quantizer.decode(encoder_outputs.audio_codes[0])
 codebook = model.quantizer.decode(codes)
 print(codebook.size())
