@@ -3,7 +3,7 @@ from transformers import EncodecModel, AutoProcessor
 import numpy as np
 import soundfile as sf
 
-bandwidth = 3
+bandwidth = 1.5
 # load a demonstration datasets
 librispeech_dummy = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
 
