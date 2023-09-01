@@ -1130,6 +1130,7 @@ def run(rank, world_size, args):
             tb_writer=tb_writer,
             world_size=world_size,
             rank=rank,
+            encodec=encodec,
         )
 
         if params.print_diagnostics:
