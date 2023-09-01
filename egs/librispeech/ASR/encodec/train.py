@@ -650,14 +650,7 @@ def compute_loss(
     print(feature.size())
     # at entry, feature is (N, T, C)
     assert feature.ndim == 2 or feature.ndim == 3
-    if encodec is not None:
-        padding_mask = torch.ones(feature.size())
-        feature_idx = encodec.encode(feature, inputs["padding_mask"], bandwidth=24)
-        feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
-        feature = encodec.quantizer.decode(feature_idx)
-        print(feature.size())
-    feature = feature.to(device)
-
+    
     supervisions = batch["supervisions"]
     if feature.ndim == 2:
         feature_lens = []
@@ -668,6 +661,17 @@ def compute_loss(
 
     elif feature.ndim == 3:
         feature_lens = supervisions["num_frames"].to(device)
+    
+    if encodec is not None:
+        padding_mask = torch.ones(feature.size())
+        for i, length in enumerate(feature_lens):
+            length = int(length.item())
+            padding_mask[i][:
+        feature_idx = encodec.encode(feature, inputs["padding_mask"], bandwidth=24)
+        feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
+        feature = encodec.quantizer.decode(feature_idx)
+        print(feature.size())
+    feature = feature.to(device)
 
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
