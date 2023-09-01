@@ -651,6 +651,7 @@ def compute_loss(
     # at entry, feature is (N, T, C)
     assert feature.ndim == 2 or feature.ndim == 3
     if encodec is not None:
+        padding_mask = torch.ones(feature.size())
         feature_idx = encodec.encode(feature, inputs["padding_mask"], bandwidth=24)
         feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
         feature = encodec.quantizer.decode(feature_idx)
