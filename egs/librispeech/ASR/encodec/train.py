@@ -651,7 +651,7 @@ def compute_loss(
     # at entry, feature is (N, T, C)
     assert feature.ndim == 2 or feature.ndim == 3
     if encodec is not None:
-        feature_codebook = encodec.encode(inputs["input_values"], inputs["padding_mask"], bandwidth=bandwidth)
+        feature_codebook = encodec.encode(feature, inputs["padding_mask"], bandwidth=bandwidth)
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
