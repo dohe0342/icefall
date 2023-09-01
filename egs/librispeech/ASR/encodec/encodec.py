@@ -21,6 +21,7 @@ sf.write('original.wav', np.array(audio_sample), 16000)
 inputs = processor(raw_audio=audio_sample, sampling_rate=processor.sampling_rate, return_tensors="pt")
 
 # explicitly encode then decode the audio inputs
+print(inputs["input_values"].size())
 print(inputs["padding_mask"])
 
 encoder_outputs = model.encode(inputs["input_values"], inputs["padding_mask"], bandwidth=bandwidth)
