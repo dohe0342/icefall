@@ -89,6 +89,9 @@ from icefall.utils import (
     str2bool,
 )
 
+from datasets import load_dataset, Audio
+from transformers import EncodecModel, AutoProcessor
+
 LRSchedulerType = Union[torch.optim.lr_scheduler._LRScheduler, optim.LRScheduler]
 
 
