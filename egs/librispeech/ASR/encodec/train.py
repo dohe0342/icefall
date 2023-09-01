@@ -625,6 +625,7 @@ def compute_loss(
     batch: dict,
     is_training: bool,
     warmup: float = 1.0,
+    encodec,
 ) -> Tuple[Tensor, MetricsTracker]:
     """
     Compute RNN-T loss given the model and its inputs.
