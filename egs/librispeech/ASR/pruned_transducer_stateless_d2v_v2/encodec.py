@@ -30,7 +30,7 @@ codes = encoder_outputs.audio_codes[0].transpose(0, 1)
 codebook = model.quantizer.decode(codes)
 print(codebook.size())
 print(codebook)
-audio_values = model.decode(encoder_outputs.audio_codes[:,:,:4,:], encoder_outputs.audio_scales, inputs["padding_mask"])[0]
+audio_values = model.decode(encoder_outputs.audio_codes, encoder_outputs.audio_scales, inputs["padding_mask"])[0]
 
 audio_values = audio_values.detach().numpy()[0][0]
 sf.write(f'encodec_{bandwidth}kb_test.wav', audio_values, 24000)
