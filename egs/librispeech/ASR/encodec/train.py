@@ -643,6 +643,7 @@ def compute_loss(
     """
     device = model.device if isinstance(model, DDP) else next(model.parameters()).device
     feature = batch["inputs"]
+    print(feature.size())
     # at entry, feature is (N, T, C)
     assert feature.ndim == 2 or feature.ndim == 3
     feature = feature.to(device)
