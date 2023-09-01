@@ -644,11 +644,19 @@ def compute_loss(
     device = model.device if isinstance(model, DDP) else next(model.parameters()).device
     feature = batch["inputs"]
     # at entry, feature is (N, T, C)
-    assert feature.ndim == 3
+    assert feature.ndim == 2 or feature.ndim == 3
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
-    feature_lens = supervisions["num_frames"].to(device)
+    if feature.ndim == 2:
+        feature_lens = []
+        for supervision in supervisions['cut']:
+            try: feature_lens.append(supervision.tracks[0].cut.recording.num_samples)
+            except: feature_lens.append(supervision.recording.num_samples)
+        feature_lens = torch.tensor(feature_lens)
+
+    elif feature.ndim == 3:
+        feature_lens = supervisions["num_frames"].to(device)
 
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
