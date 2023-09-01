@@ -29,7 +29,5 @@ print(codebook.size())
 print(codebook)
 audio_values = model.decode(encoder_outputs.audio_codes, encoder_outputs.audio_scales, inputs["padding_mask"])[0]
 
-# or the equivalent with a forward pass
-audio_values = model(inputs["input_values"], inputs["padding_mask"]).audio_values
 audio_values = audio_values.detach().numpy()[0][0]
 sf.write('encodec_24kb_test.wav', audio_values, 24000)
