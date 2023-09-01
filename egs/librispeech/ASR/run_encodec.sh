@@ -6,6 +6,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --start-epoch 1 \
   --full-libri 1 \
   --input-strategy AudioSamples \
+  ----enable-spec-aug False \
   --exp-dir pruned_transducer_stateless5/exp-L \
   --max-duration 450 \
   --use-fp16 1 \
