@@ -649,6 +649,7 @@ def compute_loss(
     print(feature.size())
     # at entry, feature is (N, T, C)
     assert feature.ndim == 2 or feature.ndim == 3
+    feature_codebook = encodec.encode(inputs["input_values"], inputs["padding_mask"], bandwidth=bandwidth)
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
