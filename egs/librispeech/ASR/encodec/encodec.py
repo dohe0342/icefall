@@ -23,6 +23,7 @@ inputs = processor(raw_audio=audio_sample, sampling_rate=processor.sampling_rate
 # explicitly encode then decode the audio inputs
 print(inputs["input_values"].size())
 print(inputs["padding_mask"])
+exit()
 
 encoder_outputs = model.encode(inputs["input_values"], inputs["padding_mask"], bandwidth=bandwidth)
 print(encoder_outputs.keys())
