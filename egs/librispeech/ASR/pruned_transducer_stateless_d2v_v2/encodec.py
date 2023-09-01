@@ -14,7 +14,7 @@ processor = AutoProcessor.from_pretrained("facebook/encodec_24khz")
 # cast the audio data to the correct sampling rate for the model
 librispeech_dummy = librispeech_dummy.cast_column("audio", Audio(sampling_rate=processor.sampling_rate))
 audio_sample = librispeech_dummy[0]["audio"]["array"]
-sf.write('original.wav', np.array(audio_sample), 24000)
+sf.write('original.wav', np.array(audio_sample), 16000)
 
 # pre-process the inputs
 inputs = processor(raw_audio=audio_sample, sampling_rate=processor.sampling_rate, return_tensors="pt")
@@ -33,4 +33,4 @@ print(codebook)
 audio_values = model.decode(encoder_outputs.audio_codes, encoder_outputs.audio_scales, inputs["padding_mask"])[0]
 
 audio_values = audio_values.detach().numpy()[0][0]
-sf.write(f'encodec_{bandwidth}kb_test.wav', audio_values, 24000)
+sf.write(f'encodec_{bandwidth}kb_test.wav', audio_values, 16000)
