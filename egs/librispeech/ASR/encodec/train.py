@@ -673,14 +673,12 @@ def compute_loss(
 
     print(feature.size())
     exit() 
+    
     feature = feature.to(device)
 
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
     y = k2.RaggedTensor(y).to(device)
-
-    print(feature_lens)
-    exit()
 
     with torch.set_grad_enabled(is_training):
         simple_loss, pruned_loss = model(
