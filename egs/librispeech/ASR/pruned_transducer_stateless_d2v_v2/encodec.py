@@ -12,7 +12,8 @@ model = EncodecModel.from_pretrained("facebook/encodec_24khz")
 processor = AutoProcessor.from_pretrained("facebook/encodec_24khz")
 
 # cast the audio data to the correct sampling rate for the model
-librispeech_dummy = librispeech_dummy.cast_column("audio", Audio(sampling_rate=processor.sampling_rate))
+#librispeech_dummy = librispeech_dummy.cast_column("audio", Audio(sampling_rate=processor.sampling_rate))
+librispeech_dummy = librispeech_dummy.cast_column("audio", Audio(sampling_rate=16000))
 audio_sample = librispeech_dummy[0]["audio"]["array"]
 sf.write('original.wav', np.array(audio_sample), 16000)
 
