@@ -647,7 +647,6 @@ def compute_loss(
     """
     device = model.device if isinstance(model, DDP) else next(model.parameters()).device
     feature = batch["inputs"]
-    print(feature.size())
     # at entry, feature is (N, T, C)
     assert feature.ndim == 2 or feature.ndim == 3
     
@@ -667,7 +666,7 @@ def compute_loss(
         for i, length in enumerate(feature_lens):
             length = int(length.item())
             padding_mask[i][length:] = 0
-        feature_idx = encodec.encode(feature, inputs["padding_mask"], bandwidth=24)
+        feature_idx = encodec.encode(feature, padding_mask, bandwidth=24)
         feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
         feature = encodec.quantizer.decode(feature_idx)
 
