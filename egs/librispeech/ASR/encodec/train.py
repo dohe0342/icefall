@@ -652,7 +652,7 @@ def compute_loss(
     assert feature.ndim == 2 or feature.ndim == 3
     if encodec is not None:
         feature_idx = encodec.encode(feature, inputs["padding_mask"], bandwidth=24)
-        feature_codebook = encoder_outputs.audio_codes[0].transpose(0, 1)
+        feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
