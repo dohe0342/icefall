@@ -654,6 +654,7 @@ def compute_loss(
         feature_idx = encodec.encode(feature, inputs["padding_mask"], bandwidth=24)
         feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
         feature = encodec.quantizer.decode(feature_idx)
+        print(feature.size())
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
