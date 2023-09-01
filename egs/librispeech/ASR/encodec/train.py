@@ -668,9 +668,7 @@ def compute_loss(
             padding_mask[i][length:] = 0
         feature = feature.unsqueeze(1)
         feature_idx = encodec.encode(feature, padding_mask, bandwidth=24)
-        print(feature_idx.audio_codes.size())
         feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
-        print(feature_idx.size())
         feature = encodec.quantizer.decode(feature_idx)
 
     print(feature.size())
