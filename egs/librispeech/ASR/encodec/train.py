@@ -672,9 +672,6 @@ def compute_loss(
         feature = encodec.quantizer.decode(feature_idx)
         feature = feature.transpose(1,2).contiguous()
 
-    print(feature.size())
-    exit() 
-    
     feature = feature.to(device)
 
     texts = batch["supervisions"]["text"]
