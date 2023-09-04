@@ -161,7 +161,7 @@ class Conformer(EncoderInterface):
 
         #lengths = (((x_lens - 1) >> 1) - 1) >> 1
         lengths = x.size(0)
-        assert x.size(0) == lengths.max().item()
+        #assert x.size(0) == lengths.max().item()
         src_key_padding_mask = make_pad_mask(lengths)
 
         if self.dynamic_chunk_training:
