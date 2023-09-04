@@ -689,8 +689,6 @@ def compute_loss(
             feature = feature.transpose(1,2).contiguous()
             s4 = time.time() - s4
 
-        print(s1, s2, s3, s4)
-
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
     y = k2.RaggedTensor(y).to(device)
