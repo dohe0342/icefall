@@ -764,7 +764,7 @@ def compute_loss(
     info["simple_loss"] = simple_loss.detach().cpu().item()
     info["pruned_loss"] = pruned_loss.detach().cpu().item()
 
-    if decode:
+    if random.random() < 0.001:
         model.eval()
         with torch.no_grad():
             hypos = model.module.decode(
