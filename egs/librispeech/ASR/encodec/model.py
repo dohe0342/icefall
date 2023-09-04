@@ -214,3 +214,23 @@ class Transducer(nn.Module):
             )
 
         return (simple_loss, pruned_loss)
+
+    def decode(
+        self,
+        x: torch.Tensor,
+        x_lens: torch.Tensor,
+        y: k2.RaggedTensor,
+        sp, 
+    ):  
+        from beam_search import greedy_search_batch
+
+        encoder_out, x_lens = self.encoder(x, x_lens)
+
+        hyps = []
+        hyp_tokens = greedy_search_batch(self, encoder_out, x_lens)
+
+        for hyp in sp.decode(hyp_tokens):
+            hyps.append(hyp.split())
+
+        return hyps
+
