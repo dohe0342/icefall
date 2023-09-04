@@ -662,6 +662,7 @@ def compute_loss(
     elif feature.ndim == 3:
         feature_lens = supervisions["num_frames"].to(device)
     
+    feature = feature.to(device)
     if encodec is not None:
         s1 = time.time()
         padding_mask = torch.ones(feature.size())
