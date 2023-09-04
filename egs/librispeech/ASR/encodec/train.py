@@ -662,6 +662,7 @@ def compute_loss(
         feature_lens = supervisions["num_frames"].to(device)
     
     if encodec is not None:
+        logging.info(encodec)
         padding_mask = torch.ones(feature.size())
         for i, length in enumerate(feature_lens):
             length = int(length.item())
