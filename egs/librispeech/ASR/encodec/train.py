@@ -658,6 +658,7 @@ def compute_loss(
             try: feature_lens.append(supervision.tracks[0].cut.recording.num_samples)
             except: feature_lens.append(supervision.recording.num_samples)
         feature_lens = torch.tensor(feature_lens)
+        feature_lens = feature_lens.to(device)
 
     elif feature.ndim == 3:
         feature_lens = supervisions["num_frames"].to(device)
