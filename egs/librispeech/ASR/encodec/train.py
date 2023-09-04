@@ -662,15 +662,29 @@ def compute_loss(
         feature_lens = supervisions["num_frames"].to(device)
     
     if encodec is not None:
+        s1 = time.time()
         padding_mask = torch.ones(feature.size())
+        s1 = time.time() - s1
+
+        s2 = time.time()
         for i, length in enumerate(feature_lens):
             length = int(length.item())
             padding_mask[i][length:] = 0
+        s2 = time.time() - s2
+
         feature = feature.unsqueeze(1)
+
+        s3 = time.time()
         feature_idx = encodec.encode(feature, padding_mask, bandwidth=24)
+        s3 = time.time() - s3
+
+        s4 = time.time()
         feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
         feature = encodec.quantizer.decode(feature_idx)
         feature = feature.transpose(1,2).contiguous()
+        s4 = time.tiem() - s4
+
+        print(s1, s2, s3, s4)
 
     feature = feature.to(device)
 
