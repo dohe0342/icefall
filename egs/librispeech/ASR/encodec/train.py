@@ -1009,6 +1009,8 @@ def run(rank, world_size, args):
     checkpoints = load_checkpoint_if_available(
         params=params, model=model, model_avg=model_avg
     )
+    
+    logging.info(model)
 
     model.to(device)
     if world_size > 1:
