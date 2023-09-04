@@ -8,7 +8,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --input-strategy AudioSamples \
   --enable-spec-aug False \
   --exp-dir pruned_transducer_stateless5/exp-L \
-  --max-duration 450 \
+  --max-duration 300 \
   --use-fp16 1 \
   --num-encoder-layers 18 \
   --dim-feedforward 2048 \
