@@ -658,12 +658,10 @@ def compute_loss(
             try: feature_lens.append(supervision.tracks[0].cut.recording.num_samples)
             except: feature_lens.append(supervision.recording.num_samples)
         feature_lens = torch.tensor(feature_lens)
-        feature_lens = feature_lens.to(device)
 
     elif feature.ndim == 3:
         feature_lens = supervisions["num_frames"].to(device)
     
-    feature = feature.to(device)
     if encodec is not None:
         s1 = time.time()
         padding_mask = torch.ones(feature.size())
@@ -676,16 +674,17 @@ def compute_loss(
         s2 = time.time() - s2
 
         feature = feature.unsqueeze(1)
+        
+        with torch.no_grad():
+            s3 = time.time()
+            feature_idx = encodec.encode(feature, padding_mask, bandwidth=24)
+            s3 = time.time() - s3
 
-        s3 = time.time()
-        feature_idx = encodec.encode(feature, padding_mask, bandwidth=24)
-        s3 = time.time() - s3
-
-        s4 = time.time()
-        feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
-        feature = encodec.quantizer.decode(feature_idx)
-        feature = feature.transpose(1,2).contiguous()
-        s4 = time.time() - s4
+            s4 = time.time()
+            feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
+            feature = encodec.quantizer.decode(feature_idx)
+            feature = feature.transpose(1,2).contiguous()
+            s4 = time.time() - s4
 
         #print(s1, s2, s3, s4)
 
@@ -1029,7 +1028,7 @@ def run(rank, world_size, args):
     model.to(device)
     if world_size > 1:
         logging.info("Using DDP")
-        model = DDP(model, device_ids=[rank], find_unused_parameters=False)
+        model = DDP(model, device_ids=[rank], find_unused_parameters=True)
 
     optimizer = Eve(model.parameters(), lr=params.initial_lr)
 
@@ -1125,7 +1124,7 @@ def run(rank, world_size, args):
             warmup=0.0 if params.start_epoch == 1 else 1.0,
         )
     '''
-    encodec = EncodecModel.from_pretrained("facebook/encodec_24khz").to
+    encodec = EncodecModel.from_pretrained("facebook/encodec_24khz")
 
     scaler = GradScaler(enabled=params.use_fp16)
     if checkpoints and "grad_scaler" in checkpoints:
