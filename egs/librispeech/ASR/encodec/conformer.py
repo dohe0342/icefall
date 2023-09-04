@@ -161,6 +161,9 @@ class Conformer(EncoderInterface):
 
         #lengths = (((x_lens - 1) >> 1) - 1) >> 1
         lengths = (((((((x_lens - 1) // 2) - 1) // 4) - 1) // 5) - 1) // 8
+        for i in range(lengths.size(0)):
+            if lengths[i] > x.size(0):
+                lengths[i] = x.size(0)
         #lengths = x.size(0)
         #assert x.size(0) == lengths.max().item()
         src_key_padding_mask = make_pad_mask(lengths)
