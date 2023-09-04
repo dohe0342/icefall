@@ -168,6 +168,7 @@ class Conformer(EncoderInterface):
         #assert x.size(0) == lengths.max().item()
         print('1111', lengths)
         print('2222', x.size())
+        exit()
 
         src_key_padding_mask = make_pad_mask(lengths)
 
