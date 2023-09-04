@@ -160,7 +160,7 @@ class Conformer(EncoderInterface):
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
         #lengths = (((x_lens - 1) >> 1) - 1) >> 1
-        print(lenghts)
+        print(x_lens)
         exit()
         lengths = (((x_lens - 1) >> 1) - 1) >> 1
         #lengths = x.size(0)
