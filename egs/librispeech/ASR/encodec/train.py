@@ -683,7 +683,7 @@ def compute_loss(
         feature_idx = feature_idx.audio_codes[0].transpose(0, 1)
         feature = encodec.quantizer.decode(feature_idx)
         feature = feature.transpose(1,2).contiguous()
-        s4 = time.tiem() - s4
+        s4 = time.time() - s4
 
         print(s1, s2, s3, s4)
 
