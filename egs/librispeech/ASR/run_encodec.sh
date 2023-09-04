@@ -8,7 +8,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --input-strategy AudioSamples \
   --enable-spec-aug False \
   --exp-dir encodec/test \
-  --max-duration 200 \
+  --max-duration 150 \
   --use-fp16 1 \
   --num-encoder-layers 18 \
   --dim-feedforward 2048 \
