@@ -663,6 +663,8 @@ def compute_loss(
     elif feature.ndim == 3:
         feature_lens = supervisions["num_frames"].to(device)
     
+    feature = feature.to(device)
+    
     if encodec is not None:
         s1 = time.time()
         padding_mask = torch.ones(feature.size())
@@ -688,8 +690,6 @@ def compute_loss(
             s4 = time.time() - s4
 
         print(s1, s2, s3, s4)
-
-    feature = feature.to(device)
 
     texts = batch["supervisions"]["text"]
     y = sp.encode(texts, out_type=int)
@@ -1125,7 +1125,7 @@ def run(rank, world_size, args):
             warmup=0.0 if params.start_epoch == 1 else 1.0,
         )
     '''
-    encodec = EncodecModel.from_pretrained("facebook/encodec_24khz")
+    encodec = EncodecModel.from_pretrained("facebook/encodec_24khz").to(device)
 
     scaler = GradScaler(enabled=params.use_fp16)
     if checkpoints and "grad_scaler" in checkpoints:
