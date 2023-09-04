@@ -159,8 +159,8 @@ class Conformer(EncoderInterface):
         x, pos_emb = self.encoder_pos(x)
         x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
 
-        lengths = (((x_lens - 1) >> 1) - 1) >> 1
-        assert x.size(0) == lengths.max().item()
+        #lengths = (((x_lens - 1) >> 1) - 1) >> 1
+        #assert x.size(0) == lengths.max().item()
         src_key_padding_mask = make_pad_mask(lengths)
 
         if self.dynamic_chunk_training:
