@@ -49,6 +49,7 @@ import copy
 import logging
 import warnings
 import time
+import random
 from pathlib import Path
 from shutil import copyfile
 from typing import Any, Dict, Optional, Tuple, Union
@@ -762,6 +763,19 @@ def compute_loss(
     info["loss"] = loss.detach().cpu().item()
     info["simple_loss"] = simple_loss.detach().cpu().item()
     info["pruned_loss"] = pruned_loss.detach().cpu().item()
+
+    if decode:
+        model.eval()
+        with torch.no_grad():
+            hypos = model.module.decode(
+                x=feature,
+                x_lens=feature_lens,
+                y=y,
+                sp=sp
+            )
+            logging.info(f'ref: {batch["supervisions"]["text"][0]}')
+            logging.info(f'hyp: {" ".join(hypos[0])}')
+        model.train()
 
     return loss, info
 
