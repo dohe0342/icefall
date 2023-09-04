@@ -685,7 +685,7 @@ def compute_loss(
         feature = feature.transpose(1,2).contiguous()
         s4 = time.time() - s4
 
-        print(s1, s2, s3, s4)
+        #print(s1, s2, s3, s4)
 
     feature = feature.to(device)
 
