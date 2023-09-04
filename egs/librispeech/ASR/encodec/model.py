@@ -233,4 +233,3 @@ class Transducer(nn.Module):
             hyps.append(hyp.split())
 
         return hyps
-
