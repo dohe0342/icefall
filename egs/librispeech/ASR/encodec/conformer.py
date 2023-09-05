@@ -100,7 +100,7 @@ class Conformer(EncoderInterface):
         #   (1) subsampling: T -> T//subsampling_factor
         #   (2) embedding: num_features -> d_model
         #self.encoder_embed = Conv2dSubsampling(num_features, d_model)
-        self.encoder_embed = ScaledLinear(128, d_model, bias=True)
+        #self.encoder_embed = ScaledLinear(128, d_model, bias=True)
         self.encoder_embed = nn.Sequential(
             ScaledLinear(d_model, dim_feedforward),
             ActivationBalancer(channel_dim=-1),
