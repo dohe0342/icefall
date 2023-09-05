@@ -5,6 +5,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
   --num-epochs 30 \
   --start-epoch 1 \
   --full-libri 1 \
+  --initial-lr 0.0001 \
   --input-strategy AudioSamples \
   --enable-spec-aug False \
   --exp-dir encodec/test \
