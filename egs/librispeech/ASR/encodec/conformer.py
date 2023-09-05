@@ -100,7 +100,9 @@ class Conformer(EncoderInterface):
         #   (1) subsampling: T -> T//subsampling_factor
         #   (2) embedding: num_features -> d_model
         #self.encoder_embed = Conv2dSubsampling(num_features, d_model)
-        self.encoder_embed = ScaledLinear(128, d_model, bias=True)
+        self.encoder_embed = nn.ModuleList([
+                                ScaledLinear(128, d_model, bias=True),
+                                ScaledLinear(d_model, d_model, bias=True),
         self.encoder_pos = RelPositionalEncoding(d_model, dropout)
 
         self.encoder_layers = num_encoder_layers
