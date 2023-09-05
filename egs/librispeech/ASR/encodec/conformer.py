@@ -106,7 +106,7 @@ class Conformer(EncoderInterface):
             ActivationBalancer(channel_dim=-1),
             DoubleSwish(),
             nn.Dropout(dropout),
-            ScaledLinear(dim_feedforward, d_model, initial_scale=0.25),
+            ScaledLinear(d_model, d_model, initial_scale=0.25),
         )
 
         self.encoder_pos = RelPositionalEncoding(d_model, dropout)
