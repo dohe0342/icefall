@@ -102,7 +102,17 @@ class Conformer(EncoderInterface):
         #self.encoder_embed = Conv2dSubsampling(num_features, d_model)
         self.encoder_embed = nn.ModuleList([
                                 ScaledLinear(128, d_model, bias=True),
+                                torch.nn.functional
+
                                 ScaledLinear(d_model, d_model, bias=True),
+        self.encoder_embed = nn.Sequential(
+            ScaledLinear(d_model, dim_feedforward),
+            ActivationBalancer(channel_dim=-1),
+            DoubleSwish(),
+            nn.Dropout(dropout),
+            ScaledLinear(dim_feedforward, d_model, initial_scale=0.25),
+        )
+
         self.encoder_pos = RelPositionalEncoding(d_model, dropout)
 
         self.encoder_layers = num_encoder_layers
