@@ -102,7 +102,7 @@ class Conformer(EncoderInterface):
         #self.encoder_embed = Conv2dSubsampling(num_features, d_model)
         #self.encoder_embed = ScaledLinear(128, d_model, bias=True)
         self.encoder_embed = nn.Sequential(
-            ScaledLinear(d_model, dim_feedforward),
+            ScaledLinear(128, d_model),
             ActivationBalancer(channel_dim=-1),
             DoubleSwish(),
             nn.Dropout(dropout),
