@@ -800,6 +800,7 @@ def compute_validation_loss(
             sp=sp,
             batch=batch,
             is_training=False,
+            encodec=encodec,
         )
         assert loss.requires_grad is False
         tot_loss = tot_loss + loss_info
