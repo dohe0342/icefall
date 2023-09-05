@@ -786,6 +786,7 @@ def compute_validation_loss(
     sp: spm.SentencePieceProcessor,
     valid_dl: torch.utils.data.DataLoader,
     world_size: int = 1,
+    encodec=None,
 ) -> MetricsTracker:
     """Run the validation process."""
     model.eval()
