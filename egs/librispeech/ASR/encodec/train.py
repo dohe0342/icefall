@@ -958,6 +958,7 @@ def train_one_epoch(
                 sp=sp,
                 valid_dl=valid_dl,
                 world_size=world_size,
+                encodec=encodec,
             )
             model.train()
             logging.info(f"Epoch {params.cur_epoch}, validation: {valid_info}")
