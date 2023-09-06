@@ -682,6 +682,8 @@ def compute_loss(
         with torch.no_grad():
             s3 = time.time()
             feature_idx = encodec.encode(feature, padding_mask, bandwidth=24)
+            print(feature_idx[0])
+            print(feature_idx[1])
             s3 = time.time() - s3
 
             s4 = time.time()
