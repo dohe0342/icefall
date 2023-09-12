@@ -19,7 +19,8 @@ END
 	  --decoding-method greedy_search \
 	  --exp-dir pruned_transducer_stateless2_prompt/exp \
 	  --bpe-model data/lang_bpe_500/bpe.model \
-	  --max-duration 200 
+	  --max-duration 200 \
+	  --prompt True
 
   #--prompt True 
   #--input-strategy PrecomputedFeatures
