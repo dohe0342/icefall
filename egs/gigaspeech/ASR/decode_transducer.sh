@@ -17,7 +17,7 @@ END
 	  --epoch 7 \
 	  --dataset ted2 \
 	  --decoding-method greedy_search \
-	  --exp-dir pruned_transducer_stateless2_prompt/test \
+	  --exp-dir pruned_transducer_stateless2_prompt/test2 \
 	  --bpe-model data/lang_bpe_500/bpe.model \
 	  --max-duration 200 \
 	  --prompt True
