@@ -14,7 +14,7 @@ done
 END
 ./pruned_transducer_stateless2_prompt/decode.py \
 	  --avg 1 \
-	  --epoch 7 \
+	  --epoch 3 \
 	  --dataset ted2 \
 	  --decoding-method greedy_search \
 	  --exp-dir pruned_transducer_stateless2_prompt/test1 \
