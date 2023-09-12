@@ -206,7 +206,7 @@ def get_parser():
     parser.add_argument(
         "--dataset",
         type=str,
-        default="libri",
+        default="ted2",
     )
 
     return parser
