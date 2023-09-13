@@ -12,10 +12,10 @@ for i in {20..29}; do
 	  --prompt True 
 done
 END
-for i in {20..29}; do
+for i in {10..29}; do
 ./pruned_transducer_stateless2_prompt/decode.py \
 	  --avg 1 \
-	  --epoch 3 \
+	  --epoch $i \
 	  --dataset ted2 \
 	  --decoding-method greedy_search \
 	  --exp-dir pruned_transducer_stateless2_prompt/test1 \
