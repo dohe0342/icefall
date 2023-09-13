@@ -22,7 +22,7 @@ for i in {20..29}; do
 	  --bpe-model data/lang_bpe_500/bpe.model \
 	  --max-duration 200 \
 	  --prompt True
-  done
+done
   #--prompt True 
   #--input-strategy PrecomputedFeatures
 # fast beam search
