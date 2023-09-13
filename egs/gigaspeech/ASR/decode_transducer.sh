@@ -12,6 +12,7 @@ for i in {20..29}; do
 	  --prompt True 
 done
 END
+for i in {20..29}; do
 ./pruned_transducer_stateless2_prompt/decode.py \
 	  --avg 1 \
 	  --epoch 3 \
