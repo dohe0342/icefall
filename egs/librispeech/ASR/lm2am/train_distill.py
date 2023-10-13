@@ -802,7 +802,7 @@ def compute_loss(
                     "There are too many utterances in this batch "
                     "leading to inf or nan losses."
                 )
-        if self.distill:
+        if params.distill:
             distill_loss_is_finite = torch.isfinite(distill_loss)
             if torch.any(~distill_loss_is_finite):
                 #logging.info(
