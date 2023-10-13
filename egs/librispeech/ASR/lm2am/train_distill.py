@@ -779,7 +779,6 @@ def compute_loss(
 
         ctc_loss_is_finite = torch.isfinite(ctc_loss)
         att_loss_is_finite = torch.isfinite(att_loss)
-        distill_loss_is_finite = torch.isfinite(distill_loss)
         if torch.any(~ctc_loss_is_finite) or torch.any(~att_loss_is_finite):
             #logging.info(
             #    "Not all losses are finite!\n"
@@ -798,6 +797,26 @@ def compute_loss(
                     "There are too many utterances in this batch "
                     "leading to inf or nan losses."
                 )
+        if self.distill:
+            distill_loss_is_finite = torch.isfinite(distill_loss)
+            if torch.any(~distill_loss_is_finite):
+                #logging.info(
+                #    "Not all losses are finite!\n"
+                #    f"ctc_loss: {ctc_loss}\n"
+                #    f"att_loss: {att_loss}"
+                #)
+                display_and_save_batch(batch, params=params, sp=graph_compiler.sp)
+                ctc_loss = ctc_loss[ctc_loss_is_finite]
+                att_loss = att_loss[att_loss_is_finite]
+
+                # If the batch contains more than 10 utterances AND
+                # if either all ctc_loss or att_loss is inf or nan,
+                # we stop the training process by raising an exception
+                if torch.all(~ctc_loss_is_finite) or torch.all(~att_loss_is_finite):
+                    raise ValueError(
+                        "There are too many utterances in this batch "
+                        "leading to inf or nan losses."
+                    )
 
         ctc_loss = ctc_loss.sum()
         att_loss = att_loss.sum()
