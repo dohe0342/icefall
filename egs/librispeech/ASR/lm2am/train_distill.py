@@ -692,6 +692,34 @@ def compute_loss(
 
             ctc_loss = (1-params.interctc_weight) * ctc_loss + params.interctc_weight * inter_ctc_loss
         
+        if params.distill:
+            if type(nnet_output) == tuple:
+                nnet_output = nnet_output[0]
+
+            dense_fsa_vec = k2.DenseFsaVec(
+                nnet_output,
+                supervision_segments,
+                allow_truncate=params.subsampling_factor - 1,
+            )
+            
+            print(nnet_output.size())
+            print(supervision_segments)
+            print(decoding_graph)
+            print(params.use_double_scores)
+            print(token_ids)
+            print(supervisions["text"])
+            exit()
+
+            ctc_loss = k2.ctc_loss(
+                decoding_graph=decoding_graph,
+                dense_fsa_vec=dense_fsa_vec,
+                output_beam=params.beam_size,
+                reduction=params.reduction,
+                use_double_scores=params.use_double_scores,
+                texts=supervisions["text"],
+            )
+
+
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
                 nnet_output = nnet_output[0]
