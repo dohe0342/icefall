@@ -1049,6 +1049,7 @@ def run(rank, world_size, args):
         interctc=params.interctc,
         interctc_condition=params.condition,
         learnable_alpha=params.learnable_alpha,
+        distill=params.distill,
     )
     logging.info(model)
 
