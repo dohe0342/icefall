@@ -707,6 +707,7 @@ def compute_loss(
             print(decoding_graph)
             print(params.use_double_scores)
             print(token_ids)
+            print(supervisions["text"])
             exit()
 
             ctc_loss = k2.ctc_loss(
@@ -715,6 +716,7 @@ def compute_loss(
                 output_beam=params.beam_size,
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
+                texts=
             )
 
         if params.att_rate > 0.0:
