@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-#
-# Copyright 2021-2022 Xiaomi Corporation (Author: Fangjun Kuang,
-#                                                 Zengwei Yao,
-#                                                 Xiaoyu Yang)
+# Copyright 2021 Xiaomi Corporation (Author: Liyong Guo,
+#                                            Fangjun Kuang,
+#                                            Quandong Wang)
 #
 # See ../../../../LICENSE for clarification regarding multiple authors
 #
@@ -17,99 +16,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""
-Usage:
-(1) greedy search
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method greedy_search
-(2) beam search (not recommended)
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method beam_search \
-    --beam-size 4
-(3) modified beam search
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method modified_beam_search \
-    --beam-size 4
-(4) fast beam search (one best)
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method fast_beam_search \
-    --beam 20.0 \
-    --max-contexts 8 \
-    --max-states 64
-(5) fast beam search (nbest)
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method fast_beam_search_nbest \
-    --beam 20.0 \
-    --max-contexts 8 \
-    --max-states 64 \
-    --num-paths 200 \
-    --nbest-scale 0.5
-(6) fast beam search (nbest oracle WER)
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method fast_beam_search_nbest_oracle \
-    --beam 20.0 \
-    --max-contexts 8 \
-    --max-states 64 \
-    --num-paths 200 \
-    --nbest-scale 0.5
-(7) fast beam search (with LG)
-./pruned_transducer_stateless5/decode.py \
-    --epoch 28 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method fast_beam_search_nbest_LG \
-    --beam 20.0 \
-    --max-contexts 8 \
-    --max-states 64
-
-(8) modified beam search with RNNLM shallow fusion (with LG)
-./pruned_transducer_stateless5/decode.py \
-    --epoch 35 \
-    --avg 15 \
-    --exp-dir ./pruned_transducer_stateless5/exp \
-    --max-duration 600 \
-    --decoding-method fast_beam_search_nbest_LG \
-    --beam 4 \
-    --max-contexts 4 \
-    --rnn-lm-scale 0.4 \
-    --rnn-lm-exp-dir /path/to/RNNLM/exp \
-    --rnn-lm-epoch 99 \
-    --rnn-lm-avg 1 \
-    --rnn-lm-num-layers 3 \
-    --rnn-lm-tie-weights 1
-
-
-"""
 
 
 import argparse
 import logging
-import math
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -119,47 +29,54 @@ import sentencepiece as spm
 import torch
 import torch.nn as nn
 from asr_datamodule import LibriSpeechAsrDataModule
-from beam_search import (
-    beam_search,
-    fast_beam_search_nbest,
-    fast_beam_search_nbest_LG,
-    fast_beam_search_nbest_oracle,
-    fast_beam_search_one_best,
-    greedy_search,
-    greedy_search_batch,
-    modified_beam_search,
-    modified_beam_search_rnnlm_shallow_fusion,
-)
-from train import add_model_arguments, get_params, get_transducer_model
+from conformer import Conformer
 
+from icefall.bpe_graph_compiler import BpeCtcTrainingGraphCompiler
 from icefall.checkpoint import (
     average_checkpoints,
     average_checkpoints_with_averaged_model,
     find_checkpoints,
     load_checkpoint,
 )
+from icefall.decode import (
+    get_lattice,
+    nbest_decoding,
+    nbest_oracle,
+    one_best_decoding,
+    rescore_with_attention_decoder,
+    rescore_with_n_best_list,
+    rescore_with_rnn_lm,
+    rescore_with_whole_lattice,
+)
+from icefall.env import get_env_info
 from icefall.lexicon import Lexicon
 from icefall.rnn_lm.model import RnnLmModel
 from icefall.utils import (
     AttributeDict,
+    get_texts,
+    load_averaged_model,
     setup_logger,
     store_transcripts,
     str2bool,
     write_error_stats,
 )
 
-LOG_EPS = math.log(1e-10)
-
 
 def get_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
+    
+    parser.add_argument(
+        "--group-num",
+        type=int,
+        default=0,
+    )
 
     parser.add_argument(
         "--epoch",
         type=int,
-        default=30,
+        default=77,
         help="""It specifies the checkpoint to use for decoding.
         Note: Epoch counts from 1.
         You can specify --avg to use more checkpoints for model averaging.""",
@@ -185,6 +102,37 @@ def get_parser():
     )
 
     parser.add_argument(
+        "--method",
+        type=str,
+        default="attention-decoder",
+        help="""Decoding method.
+        Supported values are:
+            - (0) ctc-decoding. Use CTC decoding. It uses a sentence piece
+              model, i.e., lang_dir/bpe.model, to convert word pieces to words.
+              It needs neither a lexicon nor an n-gram LM.
+            - (1) ctc-greedy-search. It only use CTC output and a sentence piece
+              model for decoding. It produces the same results with ctc-decoding.
+            - (2) 1best. Extract the best path from the decoding lattice as the
+              decoding result.
+            - (3) nbest. Extract n paths from the decoding lattice; the path
+              with the highest score is the decoding result.
+            - (4) nbest-rescoring. Extract n paths from the decoding lattice,
+              rescore them with an n-gram LM (e.g., a 4-gram LM), the path with
+              the highest score is the decoding result.
+            - (5) whole-lattice-rescoring. Rescore the decoding lattice with an
+              n-gram LM (e.g., a 4-gram LM), the best path of rescored lattice
+              is the decoding result.
+            - (6) attention-decoder. Extract n paths from the LM rescored
+              lattice, the path with the highest score is the decoding result.
+            - (7) rnn-lm. Rescoring with attention-decoder and RNN LM. We assume
+              you have trained an RNN LM using ./rnn_lm/train.py
+            - (8) nbest-oracle. Its WER is the lower bound of any n-best
+              rescoring method can achieve. Useful for debugging n-best
+              rescoring method.
+        """,
+    )
+
+    parser.add_argument(
         "--use-averaged-model",
         type=str2bool,
         default=True,
@@ -196,157 +144,56 @@ def get_parser():
     )
 
     parser.add_argument(
-        "--exp-dir",
-        type=str,
-        default="pruned_transducer_stateless5/exp",
-        help="The experiment dir",
-    )
-
-    parser.add_argument(
-        "--bpe-model",
-        type=str,
-        default="data/lang_bpe_500/bpe.model",
-        help="Path to the BPE model",
-    )
-
-    parser.add_argument(
-        "--lang-dir",
-        type=Path,
-        default="data/lang_bpe_500",
-        help="The lang dir containing word table and LG graph",
-    )
-
-    parser.add_argument(
-        "--decoding-method",
-        type=str,
-        default="greedy_search",
-        help="""Possible values are:
-          - greedy_search
-          - beam_search
-          - modified_beam_search
-          - fast_beam_search
-          - fast_beam_search_LG
-          - fast_beam_search_nbest
-          - fast_beam_search_nbest_oracle
-          - fast_beam_search_nbest_LG
-          - modified_beam_search_rnnlm_shallow_fusion # for rnn lm shallow fusion
-        If you use fast_beam_search_nbest_LG, you have to specify
-        `--lang-dir`, which should contain `LG.pt`.
+        "--num-decoder-layers",
+        type=int,
+        default=6,
+        help="""Number of decoder layer of transformer decoder.
+        Setting this to 0 will not create the decoder at all (pure CTC model)
         """,
-    )
-
-    parser.add_argument(
-        "--beam-size",
-        type=int,
-        default=4,
-        help="""An integer indicating how many candidates we will keep for each
-        frame. Used only when --decoding-method is beam_search or
-        modified_beam_search.""",
-    )
-
-    parser.add_argument(
-        "--beam",
-        type=float,
-        default=20.0,
-        help="""A floating point value to calculate the cutoff score during beam
-        search (i.e., `cutoff = max-score - beam`), which is the same as the
-        `beam` in Kaldi.
-        Used only when --decoding-method is fast_beam_search, fast_beam_search_LG,
-        fast_beam_search_nbest, fast_beam_search_nbest_LG,
-        and fast_beam_search_nbest_oracle
-        """,
-    )
-
-    parser.add_argument(
-        "--ngram-lm-scale",
-        type=float,
-        default=0.01,
-        help="""
-        Used only when --decoding_method is fast_beam_search_nbest_LG and fast_beam_search_LG.
-        It specifies the scale for n-gram LM scores.
-        """,
-    )
-
-    parser.add_argument(
-        "--decode-chunk-size",
-        type=int,
-        default=16,
-        help="The chunk size for decoding (in frames after subsampling)",
-    )
-
-    parser.add_argument(
-        "--left-context",
-        type=int,
-        default=64,
-        help="left context can be seen during decoding (in frames after subsampling)",
-    )
-
-    parser.add_argument(
-        "--max-contexts",
-        type=int,
-        default=8,
-        help="""Used only when --decoding-method is fast_beam_search_LG,
-        fast_beam_search, fast_beam_search_nbest, fast_beam_search_nbest_LG,
-        and fast_beam_search_nbest_oracle""",
-    )
-
-    parser.add_argument(
-        "--max-states",
-        type=int,
-        default=64,
-        help="""Used only when --decoding-method is fast_beam_search_LG,
-        fast_beam_search, fast_beam_search_nbest, fast_beam_search_nbest_LG,
-        and fast_beam_search_nbest_oracle""",
-    )
-
-    parser.add_argument(
-        "--context-size",
-        type=int,
-        default=2,
-        help="The context size in the decoder. 1 means bigram; 2 means tri-gram",
-    )
-
-    parser.add_argument(
-        "--max-sym-per-frame",
-        type=int,
-        default=1,
-        help="""Maximum number of symbols per frame.
-        Used only when --decoding_method is greedy_search""",
     )
 
     parser.add_argument(
         "--num-paths",
         type=int,
-        default=200,
-        help="""Number of paths for nbest decoding.
-        Used only when the decoding method is fast_beam_search_nbest,
-        fast_beam_search_nbest_LG, and fast_beam_search_nbest_oracle""",
+        default=100,
+        help="""Number of paths for n-best based decoding method.
+        Used only when "method" is one of the following values:
+        nbest, nbest-rescoring, attention-decoder, rnn-lm, and nbest-oracle
+        """,
     )
 
     parser.add_argument(
         "--nbest-scale",
         type=float,
         default=0.5,
-        help="""Scale applied to lattice scores when computing nbest paths.
-        Used only when the decoding method is fast_beam_search_nbest,
-        fast_beam_search_nbest_LG, and fast_beam_search_nbest_oracle""",
-    )
-
-    parser.add_argument(
-        "--simulate-streaming",
-        type=str2bool,
-        default=False,
-        help="""Whether to simulate streaming in decoding, this is a good way to
-        test a streaming model.
+        help="""The scale to be applied to `lattice.scores`.
+        It's needed if you use any kinds of n-best based rescoring.
+        Used only when "method" is one of the following values:
+        nbest, nbest-rescoring, attention-decoder, rnn-lm, and nbest-oracle
+        A smaller value results in more unique paths.
         """,
     )
 
     parser.add_argument(
-        "--rnn-lm-scale",
-        type=float,
-        default=0.0,
-        help="""Used only when --method is modified_beam_search_rnnlm_shallow_fusion.
-        It specifies the path to RNN LM exp dir.
+        "--exp-dir",
+        type=str,
+        default="conformer_ctc2/exp",
+        help="The experiment dir",
+    )
+
+    parser.add_argument(
+        "--lang-dir",
+        type=str,
+        default="data/lang_bpe_500",
+        help="The lang dir",
+    )
+
+    parser.add_argument(
+        "--lm-dir",
+        type=str,
+        default="data/lm",
+        help="""The n-gram LM dir.
+        It should contain either G_4_gram.pt or G_4_gram.fst.txt
         """,
     )
 
@@ -354,7 +201,7 @@ def get_parser():
         "--rnn-lm-exp-dir",
         type=str,
         default="rnn_lm/exp",
-        help="""Used only when --method is modified_beam_search_rnnlm_shallow_fusion.
+        help="""Used only when --method is rnn-lm.
         It specifies the path to RNN LM exp dir.
         """,
     )
@@ -363,7 +210,7 @@ def get_parser():
         "--rnn-lm-epoch",
         type=int,
         default=7,
-        help="""Used only when --method is modified_beam_search_rnnlm_shallow_fusion.
+        help="""Used only when --method is rnn-lm.
         It specifies the checkpoint to use.
         """,
     )
@@ -372,7 +219,7 @@ def get_parser():
         "--rnn-lm-avg",
         type=int,
         default=2,
-        help="""Used only when --method is modified_beam_search_rnnlm_shallow_fusion.
+        help="""Used only when --method is rnn-lm.
         It specifies the number of checkpoints to average.
         """,
     )
@@ -405,223 +252,347 @@ def get_parser():
         last output linear layer
         """,
     )
-    add_model_arguments(parser)
 
     return parser
+
+
+def get_params() -> AttributeDict:
+    params = AttributeDict(
+        {
+            # parameters for conformer
+            "subsampling_factor": 4,
+            "feature_dim": 80,
+            "nhead": 8,
+            "dim_feedforward": 1024,
+            "encoder_dim": 256,
+            "num_encoder_layers": 18,
+            # parameters for decoding
+            "search_beam": 20,
+            "output_beam": 8,
+            "min_active_states": 30,
+            "max_active_states": 10000,
+            "use_double_scores": True,
+            "env_info": get_env_info(),
+        }
+    )
+    return params
+
+
+def ctc_greedy_search(
+    nnet_output: torch.Tensor,
+    memory: torch.Tensor,
+    memory_key_padding_mask: torch.Tensor,
+) -> List[List[int]]:
+    """Apply CTC greedy search
+
+     Args:
+         speech (torch.Tensor): (batch, max_len, feat_dim)
+         speech_length (torch.Tensor): (batch, )
+    Returns:
+         List[List[int]]: best path result
+    """
+    batch_size = memory.shape[1]
+    # Let's assume B = batch_size
+    encoder_out = memory
+    encoder_mask = memory_key_padding_mask
+    maxlen = encoder_out.size(0)
+
+    ctc_probs = nnet_output  # (B, maxlen, vocab_size)
+    topk_prob, topk_index = ctc_probs.topk(1, dim=2)  # (B, maxlen, 1)
+    topk_index = topk_index.view(batch_size, maxlen)  # (B, maxlen)
+    topk_index = topk_index.masked_fill_(encoder_mask, 0)  # (B, maxlen)
+    hyps = [hyp.tolist() for hyp in topk_index]
+    scores = topk_prob.max(1)
+    hyps = [remove_duplicates_and_blank(hyp) for hyp in hyps]
+    return hyps, scores
+
+
+def remove_duplicates_and_blank(hyp: List[int]) -> List[int]:
+    # from https://github.com/wenet-e2e/wenet/blob/main/wenet/utils/common.py
+    new_hyp: List[int] = []
+    cur = 0
+    while cur < len(hyp):
+        if hyp[cur] != 0:
+            new_hyp.append(hyp[cur])
+        prev = cur
+        while cur < len(hyp) and hyp[cur] == hyp[prev]:
+            cur += 1
+    return new_hyp
 
 
 def decode_one_batch(
     params: AttributeDict,
     model: nn.Module,
-    sp: spm.SentencePieceProcessor,
+    rnn_lm_model: Optional[nn.Module],
+    HLG: Optional[k2.Fsa],
+    H: Optional[k2.Fsa],
+    bpe_model: Optional[spm.SentencePieceProcessor],
     batch: dict,
-    word_table: Optional[k2.SymbolTable] = None,
-    decoding_graph: Optional[k2.Fsa] = None,
-    rnnlm: Optional[RnnLmModel] = None,
-    rnnlm_scale: float = 1.0,
+    word_table: k2.SymbolTable,
+    sos_id: int,
+    eos_id: int,
+    G: Optional[k2.Fsa] = None,
 ) -> Dict[str, List[List[str]]]:
     """Decode one batch and return the result in a dict. The dict has the
     following format:
 
         - key: It indicates the setting used for decoding. For example,
-               if greedy_search is used, it would be "greedy_search"
-               If beam search with a beam size of 7 is used, it would be
-               "beam_7"
+               if no rescoring is used, the key is the string `no_rescore`.
+               If LM rescoring is used, the key is the string `lm_scale_xxx`,
+               where `xxx` is the value of `lm_scale`. An example key is
+               `lm_scale_0.7`
         - value: It contains the decoding result. `len(value)` equals to
                  batch size. `value[i]` is the decoding result for the i-th
                  utterance in the given batch.
     Args:
       params:
         It's the return value of :func:`get_params`.
+
+        - params.method is "1best", it uses 1best decoding without LM rescoring.
+        - params.method is "nbest", it uses nbest decoding without LM rescoring.
+        - params.method is "nbest-rescoring", it uses nbest LM rescoring.
+        - params.method is "whole-lattice-rescoring", it uses whole lattice LM
+          rescoring.
+
       model:
         The neural model.
-      sp:
-        The BPE model.
+      rnn_lm_model:
+        The neural model for RNN LM.
+      HLG:
+        The decoding graph. Used only when params.method is NOT ctc-decoding.
+      H:
+        The ctc topo. Used only when params.method is ctc-decoding.
+      bpe_model:
+        The BPE model. Used only when params.method is ctc-decoding.
       batch:
         It is the return value from iterating
         `lhotse.dataset.K2SpeechRecognitionDataset`. See its documentation
         for the format of the `batch`.
       word_table:
         The word symbol table.
-      decoding_graph:
-        The decoding graph. Can be either a `k2.trivial_graph` or LG, Used
-        only when --decoding_method is fast_beam_search, fast_beam_search_LG, fast_beam_search_nbest,
-        fast_beam_search_nbest_oracle, and fast_beam_search_nbest_LG.
+      sos_id:
+        The token ID of the SOS.
+      eos_id:
+        The token ID of the EOS.
+      G:
+        An LM. It is not None when params.method is "nbest-rescoring"
+        or "whole-lattice-rescoring". In general, the G in HLG
+        is a 3-gram LM, while this G is a 4-gram LM.
     Returns:
       Return the decoding result. See above description for the format of
-      the returned dict.
+      the returned dict. Note: If it decodes to nothing, then return None.
     """
-    device = next(model.parameters()).device
+    if HLG is not None:
+        device = HLG.device
+    else:
+        device = H.device
     feature = batch["inputs"]
     assert feature.ndim == 3
-
     feature = feature.to(device)
     # at entry, feature is (N, T, C)
 
     supervisions = batch["supervisions"]
-    feature_lens = supervisions["num_frames"].to(device)
 
-    if params.simulate_streaming:
-        feature_lens += params.left_context
-        feature = torch.nn.functional.pad(
-            feature,
-            pad=(0, 0, 0, params.left_context),
-            value=LOG_EPS,
-        )
-        encoder_out, encoder_out_lens, _ = model.encoder.streaming_forward(
-            x=feature,
-            x_lens=feature_lens,
-            chunk_size=params.decode_chunk_size,
-            left_context=params.left_context,
-            simulate_streaming=True,
-        )
+    nnet_output, memory, memory_key_padding_mask = model(feature, supervisions)
+    # nnet_output is (N, T, C)
+
+    supervision_segments = torch.stack(
+        (
+            supervisions["sequence_idx"],
+            torch.div(
+                supervisions["start_frame"],
+                params.subsampling_factor,
+                rounding_mode="trunc",
+            ),
+            torch.div(
+                supervisions["num_frames"],
+                params.subsampling_factor,
+                rounding_mode="trunc",
+            ),
+        ),
+        1,
+    ).to(torch.int32)
+
+    if H is None:
+        assert HLG is not None
+        decoding_graph = HLG
     else:
-        encoder_out, encoder_out_lens = model.encoder(x=feature, x_lens=feature_lens)
+        assert HLG is None
+        assert bpe_model is not None
+        decoding_graph = H
 
-    hyps = []
+    lattice = get_lattice(
+        nnet_output=nnet_output,
+        decoding_graph=decoding_graph,
+        supervision_segments=supervision_segments,
+        search_beam=params.search_beam,
+        output_beam=params.output_beam,
+        min_active_states=params.min_active_states,
+        max_active_states=params.max_active_states,
+        subsampling_factor=params.subsampling_factor,
+    )
 
-    if (
-        params.decoding_method == "fast_beam_search"
-        or params.decoding_method == "fast_beam_search_LG"
-    ):
-        hyp_tokens = fast_beam_search_one_best(
-            model=model,
-            decoding_graph=decoding_graph,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-            beam=params.beam,
-            max_contexts=params.max_contexts,
-            max_states=params.max_states,
+    if params.method == "ctc-decoding":
+        best_path = one_best_decoding(
+            lattice=lattice, use_double_scores=params.use_double_scores
         )
-        if params.decoding_method == "fast_beam_search":
-            for hyp in sp.decode(hyp_tokens):
-                hyps.append(hyp.split())
-        else:
-            for hyp in hyp_tokens:
-                hyps.append([word_table[i] for i in hyp])
-    elif params.decoding_method == "fast_beam_search_nbest_LG":
-        hyp_tokens = fast_beam_search_nbest_LG(
-            model=model,
-            decoding_graph=decoding_graph,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-            beam=params.beam,
-            max_contexts=params.max_contexts,
-            max_states=params.max_states,
-            num_paths=params.num_paths,
-            nbest_scale=params.nbest_scale,
-        )
-        for hyp in hyp_tokens:
-            hyps.append([word_table[i] for i in hyp])
-    elif params.decoding_method == "fast_beam_search_nbest":
-        hyp_tokens = fast_beam_search_nbest(
-            model=model,
-            decoding_graph=decoding_graph,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-            beam=params.beam,
-            max_contexts=params.max_contexts,
-            max_states=params.max_states,
-            num_paths=params.num_paths,
-            nbest_scale=params.nbest_scale,
-        )
-        for hyp in sp.decode(hyp_tokens):
-            hyps.append(hyp.split())
-    elif params.decoding_method == "fast_beam_search_nbest_oracle":
-        hyp_tokens = fast_beam_search_nbest_oracle(
-            model=model,
-            decoding_graph=decoding_graph,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-            beam=params.beam,
-            max_contexts=params.max_contexts,
-            max_states=params.max_states,
-            num_paths=params.num_paths,
-            ref_texts=sp.encode(supervisions["text"]),
-            nbest_scale=params.nbest_scale,
-        )
-        for hyp in sp.decode(hyp_tokens):
-            hyps.append(hyp.split())
-    elif params.decoding_method == "greedy_search" and params.max_sym_per_frame == 1:
-        hyp_tokens = greedy_search_batch(
-            model=model,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-        )
-        for hyp in sp.decode(hyp_tokens):
-            hyps.append(hyp.split())
-    elif params.decoding_method == "modified_beam_search":
-        hyp_tokens = modified_beam_search(
-            model=model,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-            beam=params.beam_size,
-        )
-        for hyp in sp.decode(hyp_tokens):
-            hyps.append(hyp.split())
-    elif params.decoding_method == "modified_beam_search_rnnlm_shallow_fusion":
-        hyp_tokens = modified_beam_search_rnnlm_shallow_fusion(
-            model=model,
-            encoder_out=encoder_out,
-            encoder_out_lens=encoder_out_lens,
-            beam=params.beam_size,
-            sp=sp,
-            rnnlm=rnnlm,
-            rnnlm_scale=rnnlm_scale,
-        )
-        for hyp in sp.decode(hyp_tokens):
-            hyps.append(hyp.split())
-    else:
-        batch_size = encoder_out.size(0)
+        # Note: `best_path.aux_labels` contains token IDs, not word IDs
+        # since we are using H, not HLG here.
+        #
+        # token_ids is a lit-of-list of IDs
+        token_ids = get_texts(best_path)
 
-        for i in range(batch_size):
-            # fmt: off
-            encoder_out_i = encoder_out[i:i+1, :encoder_out_lens[i]]
-            # fmt: on
-            if params.decoding_method == "greedy_search":
-                hyp = greedy_search(
-                    model=model,
-                    encoder_out=encoder_out_i,
-                    max_sym_per_frame=params.max_sym_per_frame,
-                )
-            elif params.decoding_method == "beam_search":
-                hyp = beam_search(
-                    model=model,
-                    encoder_out=encoder_out_i,
-                    beam=params.beam_size,
-                )
-            else:
-                raise ValueError(
-                    f"Unsupported decoding method: {params.decoding_method}"
-                )
-            hyps.append(sp.decode(hyp).split())
+        # hyps is a list of str, e.g., ['xxx yyy zzz', ...]
+        hyps = bpe_model.decode(token_ids)
 
-    if params.decoding_method == "greedy_search":
-        return {"greedy_search": hyps}
-    elif "fast_beam_search" in params.decoding_method:
-        key = f"beam_{params.beam}_"
-        key += f"max_contexts_{params.max_contexts}_"
-        key += f"max_states_{params.max_states}"
-        if "nbest" in params.decoding_method:
-            key += f"_num_paths_{params.num_paths}_"
-            key += f"nbest_scale_{params.nbest_scale}"
-        if "LG" in params.decoding_method:
-            key += f"_ngram_lm_scale_{params.ngram_lm_scale}"
-
+        # hyps is a list of list of str, e.g., [['xxx', 'yyy', 'zzz'], ... ]
+        hyps = [s.split() for s in hyps]
+        key = "ctc-decoding"
         return {key: hyps}
+
+    if params.method == "ctc-greedy-search":
+        hyps, _ = ctc_greedy_search(
+            nnet_output,
+            memory,
+            memory_key_padding_mask,
+        )
+
+        # hyps is a list of str, e.g., ['xxx yyy zzz', ...]
+        hyps = bpe_model.decode(hyps)
+
+        # hyps is a list of list of str, e.g., [['xxx', 'yyy', 'zzz'], ... ]
+        hyps = [s.split() for s in hyps]
+        key = "ctc-greedy-search"
+        return {key: hyps}
+
+    if params.method == "nbest-oracle":
+        # Note: You can also pass rescored lattices to it.
+        # We choose the HLG decoded lattice for speed reasons
+        # as HLG decoding is faster and the oracle WER
+        # is only slightly worse than that of rescored lattices.
+        best_path = nbest_oracle(
+            lattice=lattice,
+            num_paths=params.num_paths,
+            ref_texts=supervisions["text"],
+            word_table=word_table,
+            nbest_scale=params.nbest_scale,
+            oov="<UNK>",
+        )
+        hyps = get_texts(best_path)
+        hyps = [[word_table[i] for i in ids] for ids in hyps]
+        key = f"oracle_{params.num_paths}_nbest_scale_{params.nbest_scale}"  # noqa
+        return {key: hyps}
+
+    if params.method in ["1best", "nbest"]:
+        if params.method == "1best":
+            best_path = one_best_decoding(
+                lattice=lattice, use_double_scores=params.use_double_scores
+            )
+            key = "no_rescore"
+        else:
+            best_path = nbest_decoding(
+                lattice=lattice,
+                num_paths=params.num_paths,
+                use_double_scores=params.use_double_scores,
+                nbest_scale=params.nbest_scale,
+            )
+            key = f"no_rescore-nbest-scale-{params.nbest_scale}-{params.num_paths}"  # noqa
+
+        hyps = get_texts(best_path)
+        hyps = [[word_table[i] for i in ids] for ids in hyps]
+        return {key: hyps}
+
+    assert params.method in [
+        "nbest-rescoring",
+        "whole-lattice-rescoring",
+        "attention-decoder",
+        "rnn-lm",
+    ]
+
+    lm_scale_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+    lm_scale_list += [0.8, 0.9, 1.0, 1.1, 1.2, 1.3]
+    lm_scale_list += [1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]
+
+    if params.method == "nbest-rescoring":
+        best_path_dict = rescore_with_n_best_list(
+            lattice=lattice,
+            G=G,
+            num_paths=params.num_paths,
+            lm_scale_list=lm_scale_list,
+            nbest_scale=params.nbest_scale,
+        )
+    elif params.method == "whole-lattice-rescoring":
+        best_path_dict = rescore_with_whole_lattice(
+            lattice=lattice,
+            G_with_epsilon_loops=G,
+            lm_scale_list=lm_scale_list,
+        )
+    elif params.method == "attention-decoder":
+        # lattice uses a 3-gram Lm. We rescore it with a 4-gram LM.
+        rescored_lattice = rescore_with_whole_lattice(
+            lattice=lattice,
+            G_with_epsilon_loops=G,
+            lm_scale_list=None,
+        )
+        # TODO: pass `lattice` instead of `rescored_lattice` to
+        # `rescore_with_attention_decoder`
+
+        best_path_dict = rescore_with_attention_decoder(
+            lattice=rescored_lattice,
+            num_paths=params.num_paths,
+            model=model,
+            memory=memory,
+            memory_key_padding_mask=memory_key_padding_mask,
+            sos_id=sos_id,
+            eos_id=eos_id,
+            nbest_scale=params.nbest_scale,
+        )
+    elif params.method == "rnn-lm":
+        # lattice uses a 3-gram Lm. We rescore it with a 4-gram LM.
+        rescored_lattice = rescore_with_whole_lattice(
+            lattice=lattice,
+            G_with_epsilon_loops=G,
+            lm_scale_list=None,
+        )
+
+        best_path_dict = rescore_with_rnn_lm(
+            lattice=rescored_lattice,
+            num_paths=params.num_paths,
+            rnn_lm_model=rnn_lm_model,
+            model=model,
+            memory=memory,
+            memory_key_padding_mask=memory_key_padding_mask,
+            sos_id=sos_id,
+            eos_id=eos_id,
+            blank_id=0,
+            nbest_scale=params.nbest_scale,
+        )
     else:
-        return {f"beam_size_{params.beam_size}": hyps}
+        assert False, f"Unsupported decoding method: {params.method}"
+
+    ans = dict()
+    if best_path_dict is not None:
+        for lm_scale_str, best_path in best_path_dict.items():
+            hyps = get_texts(best_path)
+            hyps = [[word_table[i] for i in ids] for ids in hyps]
+            ans[lm_scale_str] = hyps
+    else:
+        ans = None
+    return ans
 
 
 def decode_dataset(
     dl: torch.utils.data.DataLoader,
     params: AttributeDict,
     model: nn.Module,
-    sp: spm.SentencePieceProcessor,
-    word_table: Optional[k2.SymbolTable] = None,
-    decoding_graph: Optional[k2.Fsa] = None,
-    rnnlm: Optional[RnnLmModel] = None,
-    rnnlm_scale: float = 1.0,
+    rnn_lm_model: Optional[nn.Module],
+    HLG: Optional[k2.Fsa],
+    H: Optional[k2.Fsa],
+    bpe_model: Optional[spm.SentencePieceProcessor],
+    word_table: k2.SymbolTable,
+    sos_id: int,
+    eos_id: int,
+    G: Optional[k2.Fsa] = None,
 ) -> Dict[str, List[Tuple[str, List[str], List[str]]]]:
     """Decode dataset.
 
@@ -632,17 +603,27 @@ def decode_dataset(
         It is returned by :func:`get_params`.
       model:
         The neural model.
-      sp:
-        The BPE model.
+      rnn_lm_model:
+        The neural model for RNN LM.
+      HLG:
+        The decoding graph. Used only when params.method is NOT ctc-decoding.
+      H:
+        The ctc topo. Used only when params.method is ctc-decoding.
+      bpe_model:
+        The BPE model. Used only when params.method is ctc-decoding.
       word_table:
-        The word symbol table.
-      decoding_graph:
-        The decoding graph. Can be either a `k2.trivial_graph` or LG, Used
-        only when --decoding_method is fast_beam_search, fast_beam_search_LG, fast_beam_search_nbest,
-        fast_beam_search_nbest_oracle, and fast_beam_search_nbest_LG.
+        It is the word symbol table.
+      sos_id:
+        The token ID for SOS.
+      eos_id:
+        The token ID for EOS.
+      G:
+        An LM. It is not None when params.method is "nbest-rescoring"
+        or "whole-lattice-rescoring". In general, the G in HLG
+        is a 3-gram LM, while this G is a 4-gram LM.
     Returns:
-      Return a dict, whose key may be "greedy_search" if greedy search
-      is used, or it may be "beam_7" if beam size of 7 is used.
+      Return a dict, whose key may be "no-rescore" if no LM rescoring
+      is used, or it may be "lm_scale_0.7" if LM rescoring is used.
       Its value is a list of tuples. Each tuple contains two elements:
       The first is the reference transcript, and the second is the
       predicted result.
@@ -654,40 +635,48 @@ def decode_dataset(
     except TypeError:
         num_batches = "?"
 
-    if params.decoding_method == "greedy_search":
-        log_interval = 50
-    else:
-        log_interval = 20
-
     results = defaultdict(list)
     for batch_idx, batch in enumerate(dl):
         texts = batch["supervisions"]["text"]
         cut_ids = [cut.id for cut in batch["supervisions"]["cut"]]
-        #logging.info(f"Decoding {batch_idx}-th batch")
 
         hyps_dict = decode_one_batch(
             params=params,
             model=model,
-            sp=sp,
-            decoding_graph=decoding_graph,
-            word_table=word_table,
+            rnn_lm_model=rnn_lm_model,
+            HLG=HLG,
+            H=H,
+            bpe_model=bpe_model,
             batch=batch,
-            rnnlm=rnnlm,
-            rnnlm_scale=rnnlm_scale,
+            word_table=word_table,
+            G=G,
+            sos_id=sos_id,
+            eos_id=eos_id,
         )
 
-        for name, hyps in hyps_dict.items():
-            this_batch = []
-            assert len(hyps) == len(texts)
-            for cut_id, hyp_words, ref_text in zip(cut_ids, hyps, texts):
-                ref_words = ref_text.split()
-                this_batch.append((cut_id, ref_words, hyp_words))
+        if hyps_dict is not None:
+            for lm_scale, hyps in hyps_dict.items():
+                this_batch = []
+                assert len(hyps) == len(texts)
+                for cut_id, hyp_words, ref_text in zip(cut_ids, hyps, texts):
+                    ref_words = ref_text.split()
+                    this_batch.append((cut_id, ref_words, hyp_words))
 
-            results[name].extend(this_batch)
+                results[lm_scale].extend(this_batch)
+        else:
+            assert len(results) > 0, "It should not decode to empty in the first batch!"
+            this_batch = []
+            hyp_words = []
+            for ref_text in texts:
+                ref_words = ref_text.split()
+                this_batch.append((ref_words, hyp_words))
+
+            for lm_scale in results.keys():
+                results[lm_scale].extend(this_batch)
 
         num_cuts += len(texts)
 
-        if batch_idx % log_interval == 0:
+        if batch_idx % 100 == 0:
             batch_str = f"{batch_idx}/{num_batches}"
 
             logging.info(f"batch {batch_str}, cuts processed until now is {num_cuts}")
@@ -699,32 +688,33 @@ def save_results(
     test_set_name: str,
     results_dict: Dict[str, List[Tuple[str, List[str], List[str]]]],
 ):
+    if params.method in ("attention-decoder", "rnn-lm"):
+        # Set it to False since there are too many logs.
+        enable_log = False
+    else:
+        enable_log = True
     test_set_wers = dict()
     for key, results in results_dict.items():
-        recog_path = (
-            params.res_dir / f"recogs-{test_set_name}-{key}-{params.suffix}.txt"
-        )
+        recog_path = params.exp_dir / f"recogs-{test_set_name}-{key}.txt"
         results = sorted(results)
         store_transcripts(filename=recog_path, texts=results)
-        logging.info(f"The transcripts are stored in {recog_path}")
+        if enable_log:
+            logging.info(f"The transcripts are stored in {recog_path}")
 
         # The following prints out WERs, per-word error statistics and aligned
         # ref/hyp pairs.
-        errs_filename = (
-            params.res_dir / f"errs-{test_set_name}-{key}-{params.suffix}.txt"
-        )
+        errs_filename = params.exp_dir / f"errs-{test_set_name}-{key}.txt"
         with open(errs_filename, "w") as f:
             wer = write_error_stats(
-                f, f"{test_set_name}-{key}", results, enable_log=True
+                f, f"{test_set_name}-{key}", results, enable_log=enable_log
             )
             test_set_wers[key] = wer
 
-        logging.info("Wrote detailed error stats to {}".format(errs_filename))
+        if enable_log:
+            logging.info("Wrote detailed error stats to {}".format(errs_filename))
 
     test_set_wers = sorted(test_set_wers.items(), key=lambda x: x[1])
-    errs_info = (
-        params.res_dir / f"wer-summary-{test_set_name}-{key}-{params.suffix}.txt"
-    )
+    errs_info = params.exp_dir / f"wer-summary-{test_set_name}.txt"
     with open(errs_info, "w") as f:
         print("settings\tWER", file=f)
         for key, val in test_set_wers:
@@ -744,76 +734,122 @@ def main():
     LibriSpeechAsrDataModule.add_arguments(parser)
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
+    args.lang_dir = Path(args.lang_dir)
+    args.lm_dir = Path(args.lm_dir)
 
     params = get_params()
     params.update(vars(args))
 
-    assert params.decoding_method in (
-        "greedy_search",
-        "beam_search",
-        "fast_beam_search",
-        "fast_beam_search_LG",
-        "fast_beam_search_nbest",
-        "fast_beam_search_nbest_LG",
-        "fast_beam_search_nbest_oracle",
-        "modified_beam_search",
-        "modified_beam_search_rnnlm_shallow_fusion",
-    )
-    params.res_dir = params.exp_dir / params.decoding_method
-
-    if params.iter > 0:
-        params.suffix = f"iter-{params.iter}-avg-{params.avg}"
-    else:
-        params.suffix = f"epoch-{params.epoch}-avg-{params.avg}"
-    if params.simulate_streaming:
-        params.suffix += f"-streaming-chunk-size-{params.decode_chunk_size}"
-        params.suffix += f"-left-context-{params.left_context}"
-    if "fast_beam_search" in params.decoding_method:
-        params.suffix += f"-beam-{params.beam}"
-        params.suffix += f"-max-contexts-{params.max_contexts}"
-        params.suffix += f"-max-states-{params.max_states}"
-        if "nbest" in params.decoding_method:
-            params.suffix += f"-nbest-scale-{params.nbest_scale}"
-            params.suffix += f"-num-paths-{params.num_paths}"
-        if "LG" in params.decoding_method:
-            params.suffix += f"-ngram-lm-scale-{params.ngram_lm_scale}"
-    elif "beam_search" in params.decoding_method:
-        params.suffix += f"-{params.decoding_method}-beam-size-{params.beam_size}"
-    else:
-        params.suffix += f"-context-{params.context_size}"
-        params.suffix += f"-max-sym-per-frame-{params.max_sym_per_frame}"
-
-    params.suffix += f"-rnnlm-lm-scale-{params.rnn_lm_scale}"
-
-    if params.use_averaged_model:
-        params.suffix += "-use-averaged-model"
-
-    setup_logger(f"{params.res_dir}/log-decode-{params.suffix}")
+    setup_logger(f"{params.exp_dir}/log-{params.method}/log-decode")
     logging.info("Decoding started")
+    logging.info(params)
+
+    lexicon = Lexicon(params.lang_dir)
+    max_token_id = max(lexicon.tokens)
+    num_classes = max_token_id + 1  # +1 for the blank
 
     device = torch.device("cpu")
     if torch.cuda.is_available():
         device = torch.device("cuda", 0)
 
-    logging.info(f"Device: {device}")
+    logging.info(f"device: {device}")
 
-    sp = spm.SentencePieceProcessor()
-    sp.load(params.bpe_model)
+    graph_compiler = BpeCtcTrainingGraphCompiler(
+        params.lang_dir,
+        device=device,
+        sos_token="<sos/eos>",
+        eos_token="<sos/eos>",
+    )
+    sos_id = graph_compiler.sos_id
+    eos_id = graph_compiler.eos_id
 
-    # <blk> and <unk> are defined in local/train_bpe_model.py
-    params.blank_id = sp.piece_to_id("<blk>")
-    params.unk_id = sp.piece_to_id("<unk>")
-    params.vocab_size = sp.get_piece_size()
+    params.num_classes = num_classes
+    params.sos_id = sos_id
+    params.eos_id = eos_id
 
-    if params.simulate_streaming:
-        assert (
-            params.causal_convolution
-        ), "Decoding in streaming requires causal convolution"
+    if params.method == "ctc-decoding" or params.method == "ctc-greedy-search":
+        HLG = None
+        H = k2.ctc_topo(
+            max_token=max_token_id,
+            modified=False,
+            device=device,
+        )
+        bpe_model = spm.SentencePieceProcessor()
+        bpe_model.load(str(params.lang_dir / "bpe.model"))
+    else:
+        H = None
+        bpe_model = None
+        HLG = k2.Fsa.from_dict(
+            torch.load(f"{params.lang_dir}/HLG.pt", map_location=device)
+        )
+        assert HLG.requires_grad is False
 
-    logging.info(params)
+        if not hasattr(HLG, "lm_scores"):
+            HLG.lm_scores = HLG.scores.clone()
 
-    logging.info("About to create model")
-    model = get_transducer_model(params)
+    if params.method in (
+        "nbest-rescoring",
+        "whole-lattice-rescoring",
+        "attention-decoder",
+        "rnn-lm",
+    ):
+        if not (params.lm_dir / "G_4_gram.pt").is_file():
+            logging.info("Loading G_4_gram.fst.txt")
+            logging.warning("It may take 8 minutes.")
+            with open(params.lm_dir / "G_4_gram.fst.txt") as f:
+                first_word_disambig_id = lexicon.word_table["#0"]
+
+                G = k2.Fsa.from_openfst(f.read(), acceptor=False)
+                # G.aux_labels is not needed in later computations, so
+                # remove it here.
+                del G.aux_labels
+                # CAUTION: The following line is crucial.
+                # Arcs entering the back-off state have label equal to #0.
+                # We have to change it to 0 here.
+                G.labels[G.labels >= first_word_disambig_id] = 0
+                # See https://github.com/k2-fsa/k2/issues/874
+                # for why we need to set G.properties to None
+                G.__dict__["_properties"] = None
+                G = k2.Fsa.from_fsas([G]).to(device)
+                G = k2.arc_sort(G)
+                # Save a dummy value so that it can be loaded in C++.
+                # See https://github.com/pytorch/pytorch/issues/67902
+                # for why we need to do this.
+                G.dummy = 1
+
+                torch.save(G.as_dict(), params.lm_dir / "G_4_gram.pt")
+        else:
+            logging.info("Loading pre-compiled G_4_gram.pt")
+            d = torch.load(params.lm_dir / "G_4_gram.pt", map_location=device)
+            G = k2.Fsa.from_dict(d)
+
+        if params.method in [
+            "whole-lattice-rescoring",
+            "attention-decoder",
+            "rnn-lm",
+        ]:
+            # Add epsilon self-loops to G as we will compose
+            # it with the whole lattice later
+            G = k2.add_epsilon_self_loops(G)
+            G = k2.arc_sort(G)
+            G = G.to(device)
+
+        # G.lm_scores is used to replace HLG.lm_scores during
+        # LM rescoring.
+        G.lm_scores = G.scores.clone()
+    else:
+        G = None
+
+    model = Conformer(
+        num_features=params.feature_dim,
+        nhead=params.nhead,
+        d_model=params.encoder_dim,
+        num_classes=num_classes,
+        subsampling_factor=params.subsampling_factor,
+        num_encoder_layers=params.num_encoder_layers,
+        num_decoder_layers=params.num_decoder_layers,
+        group_num=params.group_num,
+    )
 
     if not params.use_averaged_model:
         if params.iter > 0:
@@ -894,45 +930,33 @@ def main():
 
     model.to(device)
     model.eval()
+    num_param = sum([p.numel() for p in model.parameters()])
+    logging.info(f"Number of model parameters: {num_param}")
 
     rnn_lm_model = None
-    rnn_lm_scale = params.rnn_lm_scale
-    if params.decoding_method == "modified_beam_search_rnnlm_shallow_fusion":
+    if params.method == "rnn-lm":
         rnn_lm_model = RnnLmModel(
-            vocab_size=params.vocab_size,
+            vocab_size=params.num_classes,
             embedding_dim=params.rnn_lm_embedding_dim,
             hidden_dim=params.rnn_lm_hidden_dim,
             num_layers=params.rnn_lm_num_layers,
             tie_weights=params.rnn_lm_tie_weights,
         )
-        assert params.rnn_lm_avg == 1
-
-        load_checkpoint(
-            f"{params.rnn_lm_exp_dir}/epoch-{params.rnn_lm_epoch}.pt",
-            rnn_lm_model,
-        )
-        rnn_lm_model.to(device)
-        rnn_lm_model.eval()
-
-    if "fast_beam_search" in params.decoding_method:
-        if "LG" in params.decoding_method:
-            lexicon = Lexicon(params.lang_dir)
-            word_table = lexicon.word_table
-            lg_filename = params.lang_dir / "LG.pt"
-            logging.info(f"Loading {lg_filename}")
-            decoding_graph = k2.Fsa.from_dict(
-                torch.load(lg_filename, map_location=device)
+        if params.rnn_lm_avg == 1:
+            load_checkpoint(
+                f"{params.rnn_lm_exp_dir}/epoch-{params.rnn_lm_epoch}.pt",
+                rnn_lm_model,
             )
-            decoding_graph.scores *= params.ngram_lm_scale
+            rnn_lm_model.to(device)
         else:
-            word_table = None
-            decoding_graph = k2.trivial_graph(params.vocab_size - 1, device=device)
-    else:
-        decoding_graph = None
-        word_table = None
-
-    num_param = sum([p.numel() for p in model.parameters()])
-    logging.info(f"Number of model parameters: {num_param}")
+            rnn_lm_model = load_averaged_model(
+                params.rnn_lm_exp_dir,
+                rnn_lm_model,
+                params.rnn_lm_epoch,
+                params.rnn_lm_avg,
+                device,
+            )
+        rnn_lm_model.eval()
 
     # we need cut ids to display recognition results.
     args.return_cuts = True
@@ -952,21 +976,23 @@ def main():
             dl=test_dl,
             params=params,
             model=model,
-            sp=sp,
-            word_table=word_table,
-            decoding_graph=decoding_graph,
-            rnnlm=rnn_lm_model,
-            rnnlm_scale=rnn_lm_scale,
+            rnn_lm_model=rnn_lm_model,
+            HLG=HLG,
+            H=H,
+            bpe_model=bpe_model,
+            word_table=lexicon.word_table,
+            G=G,
+            sos_id=sos_id,
+            eos_id=eos_id,
         )
 
-        save_results(
-            params=params,
-            test_set_name=test_set,
-            results_dict=results_dict,
-        )
+        save_results(params=params, test_set_name=test_set, results_dict=results_dict)
 
     logging.info("Done!")
 
+
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
 
 if __name__ == "__main__":
     main()

@@ -19,11 +19,9 @@
 import copy
 import math
 import warnings
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import torch
-import torch.nn as nn
-from combiner import RandomCombine
 from scaling import (
     ActivationBalancer,
     BasicNorm,
@@ -32,10 +30,27 @@ from scaling import (
     ScaledLinear,
 )
 from subsampling import Conv2dSubsampling
-from transformer import Supervisions, Transformer, encoder_padding_mask
+from torch import Tensor, nn
+from transformer import Supervisions, Transformer, encoder_padding_mask, TransformerEncoder, TransformerEncoder
 
 
 class Conformer(Transformer):
+    """
+    Args:
+        num_features (int): Number of input features
+        num_classes (int): Number of output classes
+        subsampling_factor (int): subsampling factor of encoder (the convolution layers before transformers)
+        d_model (int): attention dimension, also the output dimension
+        nhead (int): number of head
+        dim_feedforward (int): feedforward dimention
+        num_encoder_layers (int): number of encoder layers
+        num_decoder_layers (int): number of decoder layers
+        dropout (float): dropout rate
+        layer_dropout (float): layer-dropout rate.
+        cnn_module_kernel (int): Kernel size of convolution module
+        vgg_frontend (bool): whether to use vgg frontend.
+    """
+
     def __init__(
         self,
         num_features: int,
@@ -48,44 +63,10 @@ class Conformer(Transformer):
         num_decoder_layers: int = 6,
         dropout: float = 0.1,
         layer_dropout: float = 0.075,
-        cnn_module_kernel: int = 15,
-        aux_layer_period: int = 3,
+        cnn_module_kernel: int = 31,
         group_num: int = 0,
-        interctc: bool = False,
-        interctc_condition: bool = False,
-        learnable_alpha: bool = True,
     ) -> None:
-        """
-        Args:
-          num_features (int):
-            number of input features.
-          num_classes (int):
-            number of output classes.
-          subsampling_factor (int):
-            subsampling factor of encoder;
-            currently, subsampling_factor MUST be 4.
-          d_model (int):
-            attention dimension, also the output dimension.
-          nhead (int):
-            number of heads in multi-head attention;
-            must satisfy d_model // nhead == 0.
-          dim_feedforward (int):
-            feedforward dimention.
-          num_encoder_layers (int):
-            number of encoder layers.
-          num_decoder_layers (int):
-            number of decoder layers.
-          dropout (float):
-            dropout rate.
-          layer_dropout (float):
-            layer-dropout rate.
-          cnn_module_kernel (int):
-            kernel size of convolution module.
-          aux_layer_period (int):
-            determines the auxiliary encoder layers.
-        """
-
-        super().__init__(
+        super(Conformer, self).__init__(
             num_features=num_features,
             num_classes=num_classes,
             subsampling_factor=subsampling_factor,
@@ -113,42 +94,21 @@ class Conformer(Transformer):
         self.encoder_pos = RelPositionalEncoding(d_model, dropout)
 
         encoder_layer = ConformerEncoderLayer(
-            d_model=d_model,
-            nhead=nhead,
-            dim_feedforward=dim_feedforward,
-            dropout=dropout,
-            layer_dropout=layer_dropout,
-            cnn_module_kernel=cnn_module_kernel,
+            d_model,
+            nhead,
+            dim_feedforward,
+            dropout,
+            layer_dropout,
+            cnn_module_kernel,
         )
-
-        # aux_layers from 1/3
-        self.encoder = ConformerEncoder(
-            encoder_layer=encoder_layer,
-            num_layers=num_encoder_layers,
-            aux_layers=list(
-                range(
-                    num_encoder_layers // 3,
-                    num_encoder_layers - 1,
-                    aux_layer_period,
-                )
-            ),
-        )
-
+        self.encoder = ConformerEncoder(encoder_layer, num_encoder_layers)
+        
         self.group_num = group_num
         if self.group_num != 0:
-            self.learnable_alpha = learnable_alpha
             self.group_layer_num = int(num_encoder_layers // self.group_num)
-            if self.learnable_alpha:
-                self.alpha = nn.Parameter(torch.rand(self.group_num))
-                self.sigmoid = nn.Sigmoid()
+            self.alpha = nn.Parameter(torch.rand(self.group_num))
+            self.sigmoid = nn.Sigmoid()
             self.layer_norm = nn.LayerNorm(d_model)
-
-        self.interctc = interctc
-        self.interctc_condition = interctc_condition
-        if self.interctc_condition:
-            self.condition_layer = ScaledLinear(500, d_model)
-        else:
-            self.condition_layer = None
 
     def run_encoder(
         self,
@@ -159,7 +119,7 @@ class Conformer(Transformer):
         """
         Args:
           x:
-            the input tensor. Its shape is (batch_size, seq_len, feature_dim).
+            The input tensor. Its shape is (batch_size, seq_len, feature_dim).
           supervisions:
             Supervision in lhotse format.
             See https://github.com/lhotse-speech/lhotse/blob/master/lhotse/dataset/speech_recognition.py#L32  # noqa
@@ -169,43 +129,34 @@ class Conformer(Transformer):
             to compute encoder padding mask, which is used as memory key padding
             mask for the decoder.
           warmup:
-            a floating point value that gradually increases from 0 throughout
+            A floating point value that gradually increases from 0 throughout
             training; when it is >= 1.0 we are "fully warmed up".  It is used
             to turn modules on sequentially.
-
         Returns:
-          torch.Tensor: Predictor tensor of dimension (S, N, C).
-          torch.Tensor: Mask tensor of dimension (N, S)
+            Tensor: Predictor tensor of dimension (input_length, batch_size, d_model).
+            Tensor: Mask tensor of dimension (batch_size, input_length)
         """
         x = self.encoder_embed(x)
         x, pos_emb = self.encoder_pos(x)
-        x = x.permute(1, 0, 2)  # (N, S, C) -> (S, N, C)
+        x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
         mask = encoder_padding_mask(x.size(0), supervisions)
-        mask = mask.to(x.device) if mask is not None else None
+        if mask is not None:
+            mask = mask.to(x.device)
+
+        # Caution: We assume the subsampling factor is 4!
 
         x, layer_outputs = self.encoder(
-            x, 
-            pos_emb, 
-            src_key_padding_mask=mask, 
-            warmup=warmup, 
-            condition_layer=self.condition_layer, 
-            ctc_output=self.ctc_output,
-        )  # (S, N, C)
+            x, pos_emb, src_key_padding_mask=mask, warmup=warmup
+        )  # (T, N, C)
         
-        if self.group_num > 0:
+        if self.group_num != 0:
             x = 0
-            if self.learnable_alpha:
-                for enum, alpha in enumerate(self.alpha):
-                    x += self.sigmoid(alpha) * layer_outputs[(enum+1)*self.group_layer_num-1]
-            else:
-                for enum in range(self.group_num):
-                    x += (1/self.group_num) * layer_outputs[(enum+1)*self.group_layer_num-1]
-            x = self.layer_norm(x)
-
-        if self.interctc or self.interctc_condition or self.group_num > 0:
-            return (x, layer_outputs), mask
-        else:
-            return x, mask
+            for enum, alpha in enumerate(self.alpha):
+                x += self.sigmoid(alpha) * layer_outputs[(enum+1)*self.group_layer_num-1]
+            x = self.layer_norm(x/self.group_num)
+        # x = x.permute(1, 0, 2)  # (T, N, C) ->(N, T, C)
+        # return x, lengths
+        return x, mask
 
 
 class ConformerEncoderLayer(nn.Module):
@@ -213,7 +164,14 @@ class ConformerEncoderLayer(nn.Module):
     ConformerEncoderLayer is made up of self-attn, feedforward and convolution networks.
     See: "Conformer: Convolution-augmented Transformer for Speech Recognition"
 
-    Examples:
+    Args:
+        d_model: the number of expected features in the input (required).
+        nhead: the number of heads in the multiheadattention models (required).
+        dim_feedforward: the dimension of the feedforward network model (default=2048).
+        dropout: the dropout value (default=0.1).
+        cnn_module_kernel (int): Kernel size of convolution module.
+
+    Examples::
         >>> encoder_layer = ConformerEncoderLayer(d_model=512, nhead=8)
         >>> src = torch.rand(10, 32, 512)
         >>> pos_emb = torch.rand(32, 19, 512)
@@ -226,40 +184,14 @@ class ConformerEncoderLayer(nn.Module):
         nhead: int,
         dim_feedforward: int = 2048,
         dropout: float = 0.1,
-        bypass_scale: float = 0.1,
         layer_dropout: float = 0.075,
         cnn_module_kernel: int = 31,
     ) -> None:
-        """
-        Args:
-          d_model:
-            the number of expected features in the input (required).
-          nhead:
-            the number of heads in the multiheadattention models (required).
-          dim_feedforward:
-            the dimension of the feedforward network model (default=2048).
-          dropout:
-            the dropout value (default=0.1).
-          bypass_scale:
-            a scale on the layer's output, used in bypass (resnet-type) skip-connection;
-            when the layer is bypassed the final output will be a
-            weighted sum of the layer's input and layer's output with weights
-            (1.0-bypass_scale) and bypass_scale correspondingly (default=0.1).
-          layer_dropout:
-            the probability to bypass the layer (default=0.075).
-          cnn_module_kernel (int):
-            kernel size of convolution module (default=31).
-        """
-        super().__init__()
+        super(ConformerEncoderLayer, self).__init__()
 
-        if bypass_scale < 0.0 or bypass_scale > 1.0:
-            raise ValueError("bypass_scale should be between 0.0 and 1.0")
-
-        if layer_dropout < 0.0 or layer_dropout > 1.0:
-            raise ValueError("layer_dropout should be between 0.0 and 1.0")
-
-        self.bypass_scale = bypass_scale
         self.layer_dropout = layer_dropout
+
+        self.d_model = d_model
 
         self.self_attn = RelPositionMultiheadAttention(d_model, nhead, dropout=0.0)
 
@@ -292,44 +224,40 @@ class ConformerEncoderLayer(nn.Module):
 
     def forward(
         self,
-        src: torch.Tensor,
-        pos_emb: torch.Tensor,
-        src_mask: Optional[torch.Tensor] = None,
-        src_key_padding_mask: Optional[torch.Tensor] = None,
+        src: Tensor,
+        pos_emb: Tensor,
+        src_mask: Optional[Tensor] = None,
+        src_key_padding_mask: Optional[Tensor] = None,
         warmup: float = 1.0,
-    ) -> torch.Tensor:
+    ) -> Tensor:
         """
         Pass the input through the encoder layer.
 
         Args:
-          src:
-            the sequence to the encoder layer of shape (S, N, C) (required).
-          pos_emb:
-            positional embedding tensor of shape (N, 2*S-1, C) (required).
-          src_mask:
-            the mask for the src sequence of shape (S, S) (optional).
-          src_key_padding_mask:
-            the mask for the src keys per batch of shape (N, S) (optional).
-          warmup:
-            controls selective bypass of of layers; if < 1.0, we will
-            bypass layers more frequently.
+            src: the sequence to the encoder layer (required).
+            pos_emb: Positional embedding tensor (required).
+            src_mask: the mask for the src sequence (optional).
+            src_key_padding_mask: the mask for the src keys per batch (optional).
+            warmup: controls selective bypass of of layers; if < 1.0, we will
+              bypass layers more frequently.
 
-        Returns:
-            Output tensor of the shape (S, N, C), where
-            S is the source sequence length,
-            N is the batch size,
-            C is the feature number
+        Shape:
+            src: (S, N, E).
+            pos_emb: (N, 2*S-1, E)
+            src_mask: (S, S).
+            src_key_padding_mask: (N, S).
+            S is the source sequence length, N is the batch size, E is the feature number
         """
         src_orig = src
 
-        warmup_scale = min(self.bypass_scale + warmup, 1.0)
+        warmup_scale = min(0.1 + warmup, 1.0)
         # alpha = 1.0 means fully use this encoder layer, 0.0 would mean
         # completely bypass it.
         if self.training:
             alpha = (
                 warmup_scale
                 if torch.rand(()).item() <= (1.0 - self.layer_dropout)
-                else self.bypass_scale
+                else 0.1
             )
         else:
             alpha = 1.0
@@ -346,11 +274,12 @@ class ConformerEncoderLayer(nn.Module):
             attn_mask=src_mask,
             key_padding_mask=src_key_padding_mask,
         )[0]
-
         src = src + self.dropout(src_att)
 
         # convolution module
-        src = src + self.dropout(self.conv_module(src))
+        src = src + self.dropout(
+            self.conv_module(src, src_key_padding_mask=src_key_padding_mask)
+        )
 
         # feed forward module
         src = src + self.dropout(self.feed_forward(src))
@@ -364,10 +293,13 @@ class ConformerEncoderLayer(nn.Module):
 
 
 class ConformerEncoder(nn.Module):
-    """
-    ConformerEncoder is a stack of N encoder layers
+    r"""ConformerEncoder is a stack of N encoder layers
 
-    Examples:
+    Args:
+        encoder_layer: an instance of the ConformerEncoderLayer() class (required).
+        num_layers: the number of sub-encoder-layers in the encoder (required).
+
+    Examples::
         >>> encoder_layer = ConformerEncoderLayer(d_model=512, nhead=8)
         >>> conformer_encoder = ConformerEncoder(encoder_layer, num_layers=6)
         >>> src = torch.rand(10, 32, 512)
@@ -375,78 +307,41 @@ class ConformerEncoder(nn.Module):
         >>> out = conformer_encoder(src, pos_emb)
     """
 
-    def __init__(
-        self,
-        encoder_layer: nn.Module,
-        num_layers: int,
-        aux_layers: List[int],
-    ) -> None:
-
-        """
-        Args:
-          encoder_layer:
-            an instance of the ConformerEncoderLayer() class (required).
-          num_layers:
-            the number of sub-encoder-layers in the encoder (required).
-          aux_layers:
-            list of indexes of sub-encoder-layers outputs to be combined (required).
-        """
-
+    def __init__(self, encoder_layer: nn.Module, num_layers: int) -> None:
         super().__init__()
         self.layers = nn.ModuleList(
             [copy.deepcopy(encoder_layer) for i in range(num_layers)]
         )
         self.num_layers = num_layers
 
-        assert len(set(aux_layers)) == len(aux_layers)
-
-        assert num_layers - 1 not in aux_layers
-        self.aux_layers = aux_layers + [num_layers - 1]
-
-        self.combiner = RandomCombine(
-            num_inputs=len(self.aux_layers),
-            final_weight=0.5,
-            pure_prob=0.333,
-            stddev=2.0,
-        )
-
     def forward(
         self,
-        src: torch.Tensor,
-        pos_emb: torch.Tensor,
-        mask: Optional[torch.Tensor] = None,
-        src_key_padding_mask: Optional[torch.Tensor] = None,
+        src: Tensor,
+        pos_emb: Tensor,
+        mask: Optional[Tensor] = None,
+        src_key_padding_mask: Optional[Tensor] = None,
         warmup: float = 1.0,
-        condition_layer = None,
-        ctc_output = None,
-    ) -> torch.Tensor:
-        """
-        Pass the input through the encoder layers in turn.
+    ) -> Tensor:
+        r"""Pass the input through the encoder layers in turn.
 
         Args:
-          src:
-            the sequence to the encoder of shape (S, N, C) (required).
-          pos_emb:
-            positional embedding tensor of shape (N, 2*S-1, C) (required).
-          mask:
-            the mask for the src sequence of shape (S, S) (optional).
-          src_key_padding_mask:
-            the mask for the src keys per batch of shape (N, S) (optional).
-          warmup:
-            controls selective bypass of layer; if < 1.0, we will
-            bypass the layer more frequently (default=1.0).
+            src: the sequence to the encoder (required).
+            pos_emb: Positional embedding tensor (required).
+            mask: the mask for the src sequence (optional).
+            src_key_padding_mask: the mask for the src keys per batch (optional).
 
-        Returns:
-          Output tensor of the shape (S, N, C), where
-          S is the source sequence length,
-          N is the batch size,
-          C is the feature number.
+        Shape:
+            src: (S, N, E).
+            pos_emb: (N, 2*S-1, E)
+            mask: (S, S).
+            src_key_padding_mask: (N, S).
+            S is the source sequence length, T is the target sequence length, N is the batch size, E is the feature number
 
         """
         output = src
 
-        outputs = []
         layer_outputs = []
+
         for i, mod in enumerate(self.layers):
             output = mod(
                 output,
@@ -455,56 +350,35 @@ class ConformerEncoder(nn.Module):
                 src_key_padding_mask=src_key_padding_mask,
                 warmup=warmup,
             )
-            
+
             layer_outputs.append(output)
-            if i in self.aux_layers:
-                outputs.append(output)
 
-            if i+1 in [3,6,9,12,15] and condition_layer is not None:
-                ctc_out = ctc_output(output, log_prob=False)
-                output = output + condition_layer(ctc_out).transpose(0,1)
-
-        #output = self.combiner(outputs)
         return output, layer_outputs
 
 
 class RelPositionalEncoding(torch.nn.Module):
-    """
-    Relative positional encoding module.
+    """Relative positional encoding module.
 
-    See: Appendix B in "Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context"
+    See : Appendix B in "Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context"
     Modified from https://github.com/espnet/espnet/blob/master/espnet/nets/pytorch_backend/transformer/embedding.py
+
+    Args:
+        d_model: Embedding dimension.
+        dropout_rate: Dropout rate.
+        max_len: Maximum input length.
 
     """
 
     def __init__(self, d_model: int, dropout_rate: float, max_len: int = 5000) -> None:
-        """
-        Construct an PositionalEncoding object.
-
-        Args:
-          d_model: Embedding dimension.
-          dropout_rate: Dropout rate.
-          max_len: Maximum input length.
-
-        """
-        super().__init__()
+        """Construct an PositionalEncoding object."""
+        super(RelPositionalEncoding, self).__init__()
         self.d_model = d_model
         self.dropout = torch.nn.Dropout(p=dropout_rate)
         self.pe = None
         self.extend_pe(torch.tensor(0.0).expand(1, max_len))
 
-    def extend_pe(self, x: torch.Tensor) -> None:
-        """
-        Reset the positional encodings.
-
-        Args:
-          x:
-            input tensor (N, T, C), where
-            T is the source sequence length,
-            N is the batch size.
-            C is the feature number.
-
-        """
+    def extend_pe(self, x: Tensor) -> None:
+        """Reset the positional encodings."""
         if self.pe is not None:
             # self.pe contains both positive and negative parts
             # the length of self.pe is 2 * input_len - 1
@@ -536,20 +410,15 @@ class RelPositionalEncoding(torch.nn.Module):
         pe = torch.cat([pe_positive, pe_negative], dim=1)
         self.pe = pe.to(device=x.device, dtype=x.dtype)
 
-    def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        """
-        Add positional encoding.
+    def forward(self, x: torch.Tensor) -> Tuple[Tensor, Tensor]:
+        """Add positional encoding.
 
         Args:
-          x:
-            input tensor (N, T, C).
+            x (torch.Tensor): Input tensor (batch, time, `*`).
 
         Returns:
-          torch.Tensor: Encoded tensor (N, T, C).
-          torch.Tensor: Encoded tensor (N, 2*T-1, C), where
-          T is the source sequence length,
-          N is the batch size.
-          C is the feature number.
+            torch.Tensor: Encoded tensor (batch, time, `*`).
+            torch.Tensor: Encoded tensor (batch, 2*time-1, `*`).
 
         """
         self.extend_pe(x)
@@ -564,10 +433,19 @@ class RelPositionalEncoding(torch.nn.Module):
 
 
 class RelPositionMultiheadAttention(nn.Module):
-    """
-    Multi-Head Attention layer with relative position encoding
-    See reference: "Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context".
+    r"""Multi-Head Attention layer with relative position encoding
 
+    See reference: "Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context"
+
+    Args:
+        embed_dim: total dimension of the model.
+        num_heads: parallel attention heads.
+        dropout: a Dropout layer on attn_output_weights. Default: 0.0.
+
+    Examples::
+
+        >>> rel_pos_multihead_attn = RelPositionMultiheadAttention(embed_dim, num_heads)
+        >>> attn_output, attn_output_weights = multihead_attn(query, key, value, pos_emb)
     """
 
     def __init__(
@@ -576,16 +454,7 @@ class RelPositionMultiheadAttention(nn.Module):
         num_heads: int,
         dropout: float = 0.0,
     ) -> None:
-        """
-        Args:
-          embed_dim:
-            total dimension of the model.
-          num_heads:
-            parallel attention heads.
-          dropout:
-            a Dropout layer on attn_output_weights. Default: 0.0.
-        """
-        super().__init__()
+        super(RelPositionMultiheadAttention, self).__init__()
         self.embed_dim = embed_dim
         self.num_heads = num_heads
         self.dropout = dropout
@@ -621,43 +490,42 @@ class RelPositionMultiheadAttention(nn.Module):
 
     def forward(
         self,
-        query: torch.Tensor,
-        key: torch.Tensor,
-        value: torch.Tensor,
-        pos_emb: torch.Tensor,
-        key_padding_mask: Optional[torch.Tensor] = None,
-        need_weights: bool = False,
-        attn_mask: Optional[torch.Tensor] = None,
-    ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
-        """
+        query: Tensor,
+        key: Tensor,
+        value: Tensor,
+        pos_emb: Tensor,
+        key_padding_mask: Optional[Tensor] = None,
+        need_weights: bool = True,
+        attn_mask: Optional[Tensor] = None,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        r"""
         Args:
-          query, key, value: map a query and a set of key-value pairs to an output.
-          pos_emb: Positional embedding tensor
-          key_padding_mask: if provided, specified padding elements in the key will
-                            be ignored by the attention. When given a binary mask
-                            and a value is True, the corresponding value on the attention
-                            layer will be ignored. When given a byte mask and a value is
-                            non-zero, the corresponding value on the attention layer will be ignored.
-          need_weights: output attn_output_weights.
-          attn_mask: 2D or 3D mask that prevents attention to certain positions.
-                     A 2D mask will be broadcasted for all the batches while a 3D
-                     mask allows to specify a different mask for the entries of each batch.
+            query, key, value: map a query and a set of key-value pairs to an output.
+            pos_emb: Positional embedding tensor
+            key_padding_mask: if provided, specified padding elements in the key will
+                be ignored by the attention. When given a binary mask and a value is True,
+                the corresponding value on the attention layer will be ignored. When given
+                a byte mask and a value is non-zero, the corresponding value on the attention
+                layer will be ignored
+            need_weights: output attn_output_weights.
+            attn_mask: 2D or 3D mask that prevents attention to certain positions. A 2D mask will be broadcasted for all
+                the batches while a 3D mask allows to specify a different mask for the entries of each batch.
 
         Shape:
-          - Inputs:
-          - query: :math:`(L, N, E)` where L is the target sequence length, N is the batch size, E is
+            - Inputs:
+            - query: :math:`(L, N, E)` where L is the target sequence length, N is the batch size, E is
             the embedding dimension.
-          - key: :math:`(S, N, E)`, where S is the source sequence length, N is the batch size, E is
+            - key: :math:`(S, N, E)`, where S is the source sequence length, N is the batch size, E is
             the embedding dimension.
-          - value: :math:`(S, N, E)` where S is the source sequence length, N is the batch size, E is
+            - value: :math:`(S, N, E)` where S is the source sequence length, N is the batch size, E is
             the embedding dimension.
-          - pos_emb: :math:`(N, 2*L-1, E)` where L is the target sequence length, N is the batch size, E is
+            - pos_emb: :math:`(N, 2*L-1, E)` where L is the target sequence length, N is the batch size, E is
             the embedding dimension.
-          - key_padding_mask: :math:`(N, S)` where N is the batch size, S is the source sequence length.
+            - key_padding_mask: :math:`(N, S)` where N is the batch size, S is the source sequence length.
             If a ByteTensor is provided, the non-zero positions will be ignored while the position
             with the zero positions will be unchanged. If a BoolTensor is provided, the positions with the
             value of ``True`` will be ignored while the position with the value of ``False`` will be unchanged.
-          - attn_mask: 2D mask :math:`(L, S)` where L is the target sequence length, S is the source sequence length.
+            - attn_mask: 2D mask :math:`(L, S)` where L is the target sequence length, S is the source sequence length.
             3D mask :math:`(N*num_heads, L, S)` where N is the batch size, L is the target sequence length,
             S is the source sequence length. attn_mask ensure that position i is allowed to attend the unmasked
             positions. If a ByteTensor is provided, the non-zero positions are not allowed to attend
@@ -665,10 +533,10 @@ class RelPositionMultiheadAttention(nn.Module):
             is not allowed to attend while ``False`` values will be unchanged. If a FloatTensor
             is provided, it will be added to the attention weight.
 
-          - Outputs:
-          - attn_output: :math:`(L, N, E)` where L is the target sequence length, N is the batch size,
+            - Outputs:
+            - attn_output: :math:`(L, N, E)` where L is the target sequence length, N is the batch size,
             E is the embedding dimension.
-          - attn_output_weights: :math:`(N, L, S)` where N is the batch size,
+            - attn_output_weights: :math:`(N, L, S)` where N is the batch size,
             L is the target sequence length, S is the source sequence length.
         """
         return self.multi_head_attention_forward(
@@ -689,17 +557,15 @@ class RelPositionMultiheadAttention(nn.Module):
             attn_mask=attn_mask,
         )
 
-    def rel_shift(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Compute relative positional encoding.
+    def rel_shift(self, x: Tensor) -> Tensor:
+        """Compute relative positional encoding.
 
         Args:
-          x:
-            input tensor (batch, head, time1, 2*time1-1).
-            time1 means the length of query vector.
+            x: Input tensor (batch, head, time1, 2*time1-1).
+                time1 means the length of query vector.
 
         Returns:
-          torch.Tensor: tensor of shape (batch, head, time1, time2)
+            Tensor: tensor of shape (batch, head, time1, time2)
           (note: time2 has the same value as time1, but it is for
           the key, while time1 is for the query).
         """
@@ -718,56 +584,54 @@ class RelPositionMultiheadAttention(nn.Module):
 
     def multi_head_attention_forward(
         self,
-        query: torch.Tensor,
-        key: torch.Tensor,
-        value: torch.Tensor,
-        pos_emb: torch.Tensor,
+        query: Tensor,
+        key: Tensor,
+        value: Tensor,
+        pos_emb: Tensor,
         embed_dim_to_check: int,
         num_heads: int,
-        in_proj_weight: torch.Tensor,
-        in_proj_bias: torch.Tensor,
+        in_proj_weight: Tensor,
+        in_proj_bias: Tensor,
         dropout_p: float,
-        out_proj_weight: torch.Tensor,
-        out_proj_bias: torch.Tensor,
+        out_proj_weight: Tensor,
+        out_proj_bias: Tensor,
         training: bool = True,
-        key_padding_mask: Optional[torch.Tensor] = None,
-        need_weights: bool = False,
-        attn_mask: Optional[torch.Tensor] = None,
-    ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
-        """
+        key_padding_mask: Optional[Tensor] = None,
+        need_weights: bool = True,
+        attn_mask: Optional[Tensor] = None,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        r"""
         Args:
-          query, key, value: map a query and a set of key-value pairs to an output.
-          pos_emb: Positional embedding tensor
-          embed_dim_to_check: total dimension of the model.
-          num_heads: parallel attention heads.
-          in_proj_weight, in_proj_bias: input projection weight and bias.
-          dropout_p: probability of an element to be zeroed.
-          out_proj_weight, out_proj_bias: the output projection weight and bias.
-          training: apply dropout if is ``True``.
-          key_padding_mask: if provided, specified padding elements in the key will
-                            be ignored by the attention. This is an binary mask.
-                            When the value is True, the corresponding value on the
-                            attention layer will be filled with -inf.
-          need_weights: output attn_output_weights.
-          attn_mask: 2D or 3D mask that prevents attention to certain positions.
-                     A 2D mask will be broadcasted for all the batches while a 3D
-                     mask allows to specify a different mask for the entries of each batch.
+            query, key, value: map a query and a set of key-value pairs to an output.
+            pos_emb: Positional embedding tensor
+            embed_dim_to_check: total dimension of the model.
+            num_heads: parallel attention heads.
+            in_proj_weight, in_proj_bias: input projection weight and bias.
+            dropout_p: probability of an element to be zeroed.
+            out_proj_weight, out_proj_bias: the output projection weight and bias.
+            training: apply dropout if is ``True``.
+            key_padding_mask: if provided, specified padding elements in the key will
+                be ignored by the attention. This is an binary mask. When the value is True,
+                the corresponding value on the attention layer will be filled with -inf.
+            need_weights: output attn_output_weights.
+            attn_mask: 2D or 3D mask that prevents attention to certain positions. A 2D mask will be broadcasted for all
+                the batches while a 3D mask allows to specify a different mask for the entries of each batch.
 
         Shape:
-          Inputs:
-          - query: :math:`(L, N, E)` where L is the target sequence length, N is the batch size, E is
+            Inputs:
+            - query: :math:`(L, N, E)` where L is the target sequence length, N is the batch size, E is
             the embedding dimension.
-          - key: :math:`(S, N, E)`, where S is the source sequence length, N is the batch size, E is
+            - key: :math:`(S, N, E)`, where S is the source sequence length, N is the batch size, E is
             the embedding dimension.
-          - value: :math:`(S, N, E)` where S is the source sequence length, N is the batch size, E is
+            - value: :math:`(S, N, E)` where S is the source sequence length, N is the batch size, E is
             the embedding dimension.
-          - pos_emb: :math:`(N, 2*L-1, E)` or :math:`(1, 2*L-1, E)` where L is the target sequence
+            - pos_emb: :math:`(N, 2*L-1, E)` or :math:`(1, 2*L-1, E)` where L is the target sequence
             length, N is the batch size, E is the embedding dimension.
-          - key_padding_mask: :math:`(N, S)` where N is the batch size, S is the source sequence length.
+            - key_padding_mask: :math:`(N, S)` where N is the batch size, S is the source sequence length.
             If a ByteTensor is provided, the non-zero positions will be ignored while the zero positions
             will be unchanged. If a BoolTensor is provided, the positions with the
             value of ``True`` will be ignored while the position with the value of ``False`` will be unchanged.
-          - attn_mask: 2D mask :math:`(L, S)` where L is the target sequence length, S is the source sequence length.
+            - attn_mask: 2D mask :math:`(L, S)` where L is the target sequence length, S is the source sequence length.
             3D mask :math:`(N*num_heads, L, S)` where N is the batch size, L is the target sequence length,
             S is the source sequence length. attn_mask ensures that position i is allowed to attend the unmasked
             positions. If a ByteTensor is provided, the non-zero positions are not allowed to attend
@@ -775,10 +639,10 @@ class RelPositionMultiheadAttention(nn.Module):
             are not allowed to attend while ``False`` values will be unchanged. If a FloatTensor
             is provided, it will be added to the attention weight.
 
-          Outputs:
-          - attn_output: :math:`(L, N, E)` where L is the target sequence length, N is the batch size,
+            Outputs:
+            - attn_output: :math:`(L, N, E)` where L is the target sequence length, N is the batch size,
             E is the embedding dimension.
-          - attn_output_weights: :math:`(N, L, S)` where N is the batch size,
+            - attn_output_weights: :math:`(N, L, S)` where N is the batch size,
             L is the target sequence length, S is the source sequence length.
         """
 
@@ -876,7 +740,7 @@ class RelPositionMultiheadAttention(nn.Module):
                     raise RuntimeError("The size of the 3D attn_mask is not correct.")
             else:
                 raise RuntimeError(
-                    f"attn_mask's dimension {attn_mask.dim()} is not supported"
+                    "attn_mask's dimension {} is not supported".format(attn_mask.dim())
                 )
             # attn_mask's dim is 3 now.
 
@@ -929,9 +793,14 @@ class RelPositionMultiheadAttention(nn.Module):
         matrix_bd = self.rel_shift(matrix_bd)
 
         attn_output_weights = matrix_ac + matrix_bd  # (batch, head, time1, time2)
+
         attn_output_weights = attn_output_weights.view(bsz * num_heads, tgt_len, -1)
 
-        assert list(attn_output_weights.size()) == [bsz * num_heads, tgt_len, src_len]
+        assert list(attn_output_weights.size()) == [
+            bsz * num_heads,
+            tgt_len,
+            src_len,
+        ]
 
         if attn_mask is not None:
             if attn_mask.dtype == torch.bool:
@@ -974,21 +843,19 @@ class RelPositionMultiheadAttention(nn.Module):
 
 
 class ConvolutionModule(nn.Module):
-    def __init__(self, channels: int, kernel_size: int, bias: bool = True) -> None:
-        """
-        ConvolutionModule in Conformer model.
-        Modified from https://github.com/espnet/espnet/blob/master/espnet/nets/pytorch_backend/conformer/convolution.py
-        Construct a ConvolutionModule object.
+    """ConvolutionModule in Conformer model.
+    Modified from https://github.com/espnet/espnet/blob/master/espnet/nets/pytorch_backend/conformer/convolution.py
 
-        Args:
-          channels (int):
-            the number of channels of conv layers.
-          kernel_size (int):
-            kernerl size of conv layers.
-          bias (bool):
-            whether to use bias in conv layers (default=True).
-        """
-        super().__init__()
+    Args:
+        channels (int): The number of channels of conv layers.
+        kernel_size (int): Kernerl size of conv layers.
+        bias (bool): Whether to use bias in conv layers (default=True).
+
+    """
+
+    def __init__(self, channels: int, kernel_size: int, bias: bool = True) -> None:
+        """Construct an ConvolutionModule object."""
+        super(ConvolutionModule, self).__init__()
         # kernerl_size should be a odd number for 'SAME' padding
         assert (kernel_size - 1) % 2 == 0
 
@@ -1044,18 +911,19 @@ class ConvolutionModule(nn.Module):
             initial_scale=0.25,
         )
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        x: Tensor,
+        src_key_padding_mask: Optional[Tensor] = None,
+    ) -> Tensor:
         """Compute convolution module.
 
         Args:
-          x:
-            input tensor of shape (T, N, C).
+            x: Input tensor (#time, batch, channels).
+            src_key_padding_mask: the mask for the src keys per batch (optional).
 
         Returns:
-          torch.Tensor: Output tensor (T, N, C), where
-          T is the source sequence length,
-          N is the batch size,
-          C is the feature number.
+            Tensor: Output tensor (#time, batch, channels).
 
         """
         # exchange the temporal dimension and the feature dimension
@@ -1068,6 +936,8 @@ class ConvolutionModule(nn.Module):
         x = nn.functional.glu(x, dim=1)  # (batch, channels, time)
 
         # 1D Depthwise Conv
+        if src_key_padding_mask is not None:
+            x.masked_fill_(src_key_padding_mask.unsqueeze(1).expand_as(x), 0.0)
         x = self.depthwise_conv(x)
 
         x = self.deriv_balancer2(x)
@@ -1076,3 +946,16 @@ class ConvolutionModule(nn.Module):
         x = self.pointwise_conv2(x)  # (batch, channel, time)
 
         return x.permute(2, 0, 1)
+
+
+if __name__ == "__main__":
+    feature_dim = 50
+    c = Conformer(num_features=feature_dim, d_model=128, nhead=4)
+    batch_size = 5
+    seq_len = 20
+    # Just make sure the forward pass runs.
+    f = c(
+        torch.randn(batch_size, seq_len, feature_dim),
+        torch.full((batch_size,), seq_len, dtype=torch.int64),
+        warmup=0.5,
+    )
