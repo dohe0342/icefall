@@ -289,6 +289,7 @@ class Conformer(Transformer):
             #############for alignment target ###############################
             alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
             print(alignment_lengths)
+            exit()
             '''
             if 0:
                 alignment_lengths -= 1
