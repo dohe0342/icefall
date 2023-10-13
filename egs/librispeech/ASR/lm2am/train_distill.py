@@ -816,6 +816,7 @@ def compute_loss(
                         "There are too many utterances in this batch "
                         "leading to inf or nan losses."
                     )
+
             distill_loss = distill_loss.sum()
 
         ctc_loss = ctc_loss.sum()
@@ -823,6 +824,8 @@ def compute_loss(
 
         if params.att_rate > 0.0:
             loss = (1.0 - params.att_rate) * ctc_loss + params.att_rate * att_loss
+        elif params.distill:
+            loss = ctc_loss + params.distill_rate * distill_loss
         else:
             loss = ctc_loss
 
