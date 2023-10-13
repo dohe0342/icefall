@@ -727,8 +727,6 @@ def compute_loss(
                 use_double_scores=params.use_double_scores,
             )
 
-            ctc_loss = ctc_loss + 0.1*distill_loss
-
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
                 nnet_output = nnet_output[0]
