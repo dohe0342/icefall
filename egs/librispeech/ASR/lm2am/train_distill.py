@@ -176,7 +176,6 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
     )
 
 
-
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
