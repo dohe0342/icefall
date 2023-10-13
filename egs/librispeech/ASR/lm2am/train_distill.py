@@ -704,6 +704,14 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
             
+            #print(nnet_output.size())
+            #print(supervision_segments)
+            print(decoding_graph)
+            print(dense_fsa_vec)
+            #print(params.use_double_scores)
+            #print(token_ids)
+            #print(supervisions["text"])
+
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
