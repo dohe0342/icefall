@@ -717,6 +717,8 @@ def compute_loss(
                 use_double_scores=params.use_double_scores,
                 texts=supervisions["text"],
             )
+            exit()
+
 
 
         if not params.interctc and not params.condition and not params.distill:
