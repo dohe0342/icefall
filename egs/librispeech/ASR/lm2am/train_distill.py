@@ -169,6 +169,12 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
         default=0.3,
     )
 
+    parser.add_argument(
+        "--distill",
+        type=str2boola,
+        default=True,
+    )
+
 
 
 def get_parser() -> argparse.ArgumentParser:
