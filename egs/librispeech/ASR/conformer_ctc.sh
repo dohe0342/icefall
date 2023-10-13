@@ -11,4 +11,5 @@
     --num-epochs 30 \
     --att-rate 0.0 \
     --num-decoder-layers 0 \
-	--distil True
+	--distil True \
+	--unused-params True
