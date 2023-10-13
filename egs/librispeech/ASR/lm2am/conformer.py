@@ -266,7 +266,7 @@ class Conformer(Transformer):
         elif self.distill:
             ############for distillation###########
             device = x.device
-            tgt_list = texts 
+            tgt_list = [text.lower() for text in texts]
             print(tgt_list)
             lm_input = self.tokenizer(tgt_list, return_tensors='pt', padding=True, return_attention_mask=True).to(device)
             with torch.no_grad():
