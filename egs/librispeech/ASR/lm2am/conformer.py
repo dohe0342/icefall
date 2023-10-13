@@ -281,8 +281,6 @@ class Conformer(Transformer):
             am_output = F.normalize(am_output, dim=2) 
             print('1', am_output.size())
             print('2', lm_output.size())
-
-
             '''
             am_output = net_output['encoder_feat'].transpose(0, 1) ## T x B x C -> B x T x C
             #am_output = F.gelu(am_output)
