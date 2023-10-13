@@ -572,6 +572,8 @@ def compute_loss(
 
         #token_ids = convert_texts_into_ids(texts, graph_compiler.sp)
         token_ids = graph_compiler.texts_to_ids(texts)
+        print(token_ids)
+        exit()
         decoding_graph = graph_compiler.compile(token_ids)
         
         if params.interctc and params.group_num == 0:
