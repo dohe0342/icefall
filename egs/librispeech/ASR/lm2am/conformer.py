@@ -260,9 +260,13 @@ class Conformer(Transformer):
             x = self.ctc_output(encoder_memory)
             layer_outputs = [self.ctc_output(x) for x in layer_outputs]
             return (x, layer_outputs), encoder_memory, memory_key_padding_mask
+        elif self.distill:
+            x = self.ctc_output(encoder_memory)
+            return x, encoder_memory, memory_key_padding_mask
         else:
             x = self.ctc_output(encoder_memory)
             return x, encoder_memory, memory_key_padding_mask
+
 
 
 class ConformerEncoderLayer(nn.Module):
