@@ -1,6 +1,6 @@
     WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
-    ./lm2am/train.py \
+    ./lm2am/train_distill.py \
     --manifest-dir data/fbank \
     --exp-dir lm2am/$1 \
     --full-libri 1 \
