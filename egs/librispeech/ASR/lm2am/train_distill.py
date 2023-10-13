@@ -698,6 +698,7 @@ def compute_loss(
             )
 
             print(supervision_segmetns)
+            exit()
 
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
