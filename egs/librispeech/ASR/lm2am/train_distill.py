@@ -696,7 +696,8 @@ def compute_loss(
                 supervision_segments,
                 allow_truncate=params.subsampling_factor - 1,
             )
-
+            
+            print(nnet_output.size())
             print(supervision_segments)
             exit()
 
