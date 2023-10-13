@@ -704,11 +704,9 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
             
+            decoding_graph = graph_compiler.compile(alignment_target)
             #print(nnet_output.size())
             #print(supervision_segments)
-            print('1', decoding_graph)
-            print('2', dense_fsa_vec)
-            exit()
             #print(params.use_double_scores)
             #print(token_ids)
             #print(supervisions["text"])
