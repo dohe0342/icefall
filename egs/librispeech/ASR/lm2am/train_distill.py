@@ -697,7 +697,7 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
 
-            print(supervision_segmetns)
+            print(supervision_segments)
             exit()
 
             ctc_loss = k2.ctc_loss(
