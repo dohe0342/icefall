@@ -33,6 +33,7 @@ from scaling import (
 )
 from subsampling import Conv2dSubsampling
 from transformer import Supervisions, Transformer, encoder_padding_mask
+from transformers import GPT2Tokenizer, GPT2Model, BertTokenizer, BertModel
 
 
 class Conformer(Transformer):
