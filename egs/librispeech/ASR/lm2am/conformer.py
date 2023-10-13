@@ -263,18 +263,7 @@ class Conformer(Transformer):
             return (x, layer_outputs), encoder_memory, memory_key_padding_mask
         elif self.distill:
             ############for distillation###########
-            device = lprobs.device
-            toks_list = sample["target"]
-            tgt_list = []
-            for toks in toks_list:
-                # Processes target.
-                target_tokens = utils.strip_pad(toks, self.tgt_dict.pad())
-                tgt_pieces = self.tgt_dict.string(target_tokens.int().cpu())
-                #tgt_words = post_process(tgt_pieces, 'letter')
-                tgt_words = post_process(tgt_pieces, 'letter').lower()
-
-                tgt_list.append(tgt_words)
-
+            tgt_list = texts 
             lm_input = self.tokenizer(tgt_list, return_tensors='pt', padding=True, return_attention_mask=True).to(device)
             with torch.cuda.amp.autocast(enabled=True):
                 with torch.no_grad():
