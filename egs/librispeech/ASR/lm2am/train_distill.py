@@ -719,8 +719,6 @@ def compute_loss(
             )
             exit()
 
-
-
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
                 nnet_output = nnet_output[0]
