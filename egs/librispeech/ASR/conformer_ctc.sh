@@ -2,7 +2,7 @@
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./lm2am/train.py \
     --manifest-dir data/fbank \
-    --exp-dir conformer_ctc2/$1 \
+    --exp-dir lm2am/$1 \
     --full-libri 1 \
     --spec-aug-time-warp-factor 80 \
     --max-duration 600 \
