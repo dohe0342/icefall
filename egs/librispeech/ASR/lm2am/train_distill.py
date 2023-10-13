@@ -856,6 +856,8 @@ def compute_loss(
     info["ctc_loss"] = ctc_loss.detach().cpu().item()
     if params.att_rate > 0.0:
         info["att_loss"] = att_loss.detach().cpu().item()
+    if params.distill:
+        info["distill_loss"] = distill_loss.detach().cpu().item()
 
     return loss, info
 
