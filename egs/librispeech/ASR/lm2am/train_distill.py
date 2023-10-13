@@ -560,7 +560,7 @@ def compute_loss(
         nnet_output, encoder_memory, memory_mask = model(
             feature, supervisions, warmup=warmup
         )
-
+        
         supervision_segments, texts = encode_supervisions(
             supervisions, subsampling_factor=params.subsampling_factor
         )
@@ -698,6 +698,7 @@ def compute_loss(
             )
             
             print(nnet_output.size())
+            print(supervisions)
             print(supervision_segments)
             exit()
 
