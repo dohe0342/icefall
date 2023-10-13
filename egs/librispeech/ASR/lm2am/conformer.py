@@ -263,6 +263,7 @@ class Conformer(Transformer):
             return (x, layer_outputs), encoder_memory, memory_key_padding_mask
         elif self.distill:
             ############for distillation###########
+            device = x.device
             tgt_list = texts 
             lm_input = self.tokenizer(tgt_list, return_tensors='pt', padding=True, return_attention_mask=True).to(device)
             with torch.cuda.amp.autocast(enabled=True):
