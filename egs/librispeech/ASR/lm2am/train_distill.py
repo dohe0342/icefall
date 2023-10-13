@@ -705,6 +705,7 @@ def compute_loss(
             print(nnet_output.size())
             print(supervisions)
             print(supervision_segments)
+            print(params.reduction)
             exit()
 
             ctc_loss = k2.ctc_loss(
