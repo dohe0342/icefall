@@ -704,7 +704,7 @@ def compute_loss(
             
             print(nnet_output.size())
             print(supervision_segments)
-            print(dense_sfa_fec)
+            print(dense_fsa_vec)
             print(params.use_double_scores)
             exit()
 
