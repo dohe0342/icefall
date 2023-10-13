@@ -222,6 +222,48 @@ class Conformer(Transformer):
         else:
             return x, mask
 
+    def forward(
+        self,
+        x: torch.Tensor,
+        supervision: Optional[Supervisions] = None,
+        warmup: float = 1.0,
+    ) -> Tuple[torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
+        """
+        Args:
+          x:
+            The input tensor. Its shape is (N, S, C).
+          supervision:
+            Supervision in lhotse format.
+            See https://github.com/lhotse-speech/lhotse/blob/master/lhotse/dataset/speech_recognition.py#L32  # noqa
+            (CAUTION: It contains length information, i.e., start and number of
+             frames, before subsampling)
+          warmup:
+            a floating point value that gradually increases from 0 throughout
+            training; when it is >= 1.0 we are "fully warmed up". It is used
+            to turn modules on sequentially.
+
+        Returns:
+          Return a tuple containing 3 tensors:
+            - CTC output for ctc decoding. Its shape is (N, S, C)
+            - Encoder output with shape (S, N, C). It can be used as key and
+              value for the decoder.
+            - Encoder output padding mask. It can be used as
+              memory_key_padding_mask for the decoder. Its shape is (N, S).
+              It is None if `supervision` is None.
+        """
+
+        encoder_memory, memory_key_padding_mask = self.run_encoder(
+            x, supervision, warmup
+        )
+        if type(encoder_memory) == tuple:
+            (encoder_memory, layer_outputs) = encoder_memory
+            x = self.ctc_output(encoder_memory)
+            layer_outputs = [self.ctc_output(x) for x in layer_outputs]
+            return (x, layer_outputs), encoder_memory, memory_key_padding_mask
+        else:
+            x = self.ctc_output(encoder_memory)
+            return x, encoder_memory, memory_key_padding_mask
+
 
 class ConformerEncoderLayer(nn.Module):
     """
