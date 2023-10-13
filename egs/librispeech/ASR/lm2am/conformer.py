@@ -298,6 +298,7 @@ class Conformer(Transformer):
 
             ##############################
             x = self.ctc_output(encoder_memory)
+            print('4', x.size())
             return x, encoder_memory, memory_key_padding_mask
         else:
             x = self.ctc_output(encoder_memory)
