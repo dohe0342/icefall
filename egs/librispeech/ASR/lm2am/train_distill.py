@@ -572,8 +572,6 @@ def compute_loss(
 
         #token_ids = convert_texts_into_ids(texts, graph_compiler.sp)
         token_ids = graph_compiler.texts_to_ids(texts)
-        print(token_ids)
-        exit()
         decoding_graph = graph_compiler.compile(token_ids)
         
         if params.interctc and params.group_num == 0:
@@ -696,6 +694,8 @@ def compute_loss(
         
         if params.distill:
             if type(nnet_output) == tuple:
+                lm_am_sim = nnet_output[1]
+                alignment_target = nnet_output[2]
                 nnet_output = nnet_output[0]
 
             dense_fsa_vec = k2.DenseFsaVec(
