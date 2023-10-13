@@ -5,7 +5,7 @@
     --exp-dir conformer_ctc2/$1 \
     --full-libri 1 \
     --spec-aug-time-warp-factor 80 \
-    --max-duration 300 \
+    --max-duration 600 \
     --world-size ${WORLD_SIZE} \
     --start-epoch 1 \
     --num-epochs 30 \
