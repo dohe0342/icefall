@@ -697,6 +697,8 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
 
+            print(supervision_segmetns)
+
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
