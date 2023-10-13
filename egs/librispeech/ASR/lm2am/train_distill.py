@@ -703,7 +703,6 @@ def compute_loss(
             )
             
             print(nnet_output.size())
-            print(supervisions)
             print(supervision_segments)
             print(dense_sfa_fec)
             print(params.reduction)
