@@ -306,8 +306,6 @@ class Conformer(Transformer):
                 lm_am_sim = lm_am_sim.transpose(0, 1).contiguous()
 
             ##############################
-
-
             x = self.ctc_output(encoder_memory)
             return x, encoder_memory, memory_key_padding_mask
         else:
