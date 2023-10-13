@@ -54,7 +54,7 @@ class Conformer(Transformer):
         interctc: bool = False,
         interctc_condition: bool = False,
         learnable_alpha: bool = True,
-        distill:bool = True,
+        distill:bool = False,
     ) -> None:
         """
         Args:
