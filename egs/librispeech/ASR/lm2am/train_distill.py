@@ -708,7 +708,6 @@ def compute_loss(
             print(params.use_double_scores)
             print(token_ids)
             print(supervisions["text"])
-            exit()
 
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
