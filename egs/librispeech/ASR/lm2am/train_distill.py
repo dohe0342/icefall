@@ -704,7 +704,7 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
             
-            decoding_graph = graph_compiler.compile(alignment_target)
+            alignment_graph = graph_compiler.compile(alignment_target)
             #print(nnet_output.size())
             #print(supervision_segments)
             #print(params.use_double_scores)
