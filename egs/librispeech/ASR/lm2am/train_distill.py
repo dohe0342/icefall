@@ -706,8 +706,9 @@ def compute_loss(
             
             #print(nnet_output.size())
             #print(supervision_segments)
-            print(decoding_graph)
-            print(dense_fsa_vec)
+            print('1', decoding_graph)
+            print('2', dense_fsa_vec)
+            exit()
             #print(params.use_double_scores)
             #print(token_ids)
             #print(supervisions["text"])
