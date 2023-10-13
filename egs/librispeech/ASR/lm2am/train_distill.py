@@ -779,6 +779,7 @@ def compute_loss(
 
         ctc_loss_is_finite = torch.isfinite(ctc_loss)
         att_loss_is_finite = torch.isfinite(att_loss)
+        distill_loss_is_finite = torch.isfinite(distill_loss)
         if torch.any(~ctc_loss_is_finite) or torch.any(~att_loss_is_finite):
             #logging.info(
             #    "Not all losses are finite!\n"
