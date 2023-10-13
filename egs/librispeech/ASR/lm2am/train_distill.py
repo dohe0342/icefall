@@ -563,7 +563,7 @@ def compute_loss(
 
     with torch.set_grad_enabled(is_training):
         nnet_output, encoder_memory, memory_mask = model(
-            feature, supervisions, warmup=warmup
+            feature, supervisions, warmup=warmup, texts=supervisions["text"],
         )
         
         supervision_segments, texts = encode_supervisions(
@@ -715,7 +715,6 @@ def compute_loss(
                 output_beam=params.beam_size,
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
-                texts=supervisions["text"],
             )
             exit()
 
