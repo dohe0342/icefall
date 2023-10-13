@@ -702,12 +702,12 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
             
-            print(nnet_output.size())
-            print(supervision_segments)
-            print(decoding_graph)
-            print(params.use_double_scores)
-            print(token_ids)
-            print(supervisions["text"])
+            #print(nnet_output.size())
+            #print(supervision_segments)
+            #print(decoding_graph)
+            #print(params.use_double_scores)
+            #print(token_ids)
+            #print(supervisions["text"])
 
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
@@ -716,7 +716,6 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
-            exit()
 
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
