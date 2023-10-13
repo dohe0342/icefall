@@ -23,6 +23,7 @@ from typing import List, Optional, Tuple
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from combiner import RandomCombine
 from scaling import (
     ActivationBalancer,
