@@ -151,6 +151,22 @@ class Conformer(Transformer):
         else:
             self.condition_layer = None
 
+        self.distill = distill
+        if self.distill:
+            ########### for gpt2
+            self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+            self.lm = GPT2Model.from_pretrained('gpt2')
+
+            #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
+            #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
+            #self.lm = GPT2Model.from_pretrained('/home/work/workspace/models/checkpoint-420500')
+            self.task = task
+            self.tgt_dict = task.target_dictionary
+            self.lm_linear = Linear(768, 768)
+            self.ins_norm = torch.nn.InstanceNorm1d(768)
+            ##############################################################
+
     def run_encoder(
         self,
         x: torch.Tensor,
