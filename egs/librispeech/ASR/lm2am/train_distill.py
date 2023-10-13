@@ -174,6 +174,11 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
         type=str2bool,
         default=False,
     )
+    parser.add_argument(
+        "--distill-rate",
+        type=float,
+        default=0.3,
+    )
 
 
 def get_parser() -> argparse.ArgumentParser:
