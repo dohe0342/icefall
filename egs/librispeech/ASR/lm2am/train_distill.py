@@ -816,6 +816,7 @@ def compute_loss(
                         "There are too many utterances in this batch "
                         "leading to inf or nan losses."
                     )
+            distill_loss = distill_loss.sum()
 
         ctc_loss = ctc_loss.sum()
         att_loss = att_loss.sum()
