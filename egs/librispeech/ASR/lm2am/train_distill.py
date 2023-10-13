@@ -700,6 +700,7 @@ def compute_loss(
             print(nnet_output.size())
             print(supervisions)
             print(supervision_segments)
+            print(dense_fsa_vec)
             exit()
 
             ctc_loss = k2.ctc_loss(
