@@ -267,34 +267,33 @@ class Conformer(Transformer):
             device = x.device
             tgt_list = texts 
             lm_input = self.tokenizer(tgt_list, return_tensors='pt', padding=True, return_attention_mask=True).to(device)
-            with torch.cuda.amp.autocast(enabled=True):
-                with torch.no_grad():
-                    lm_output = self.lm(**lm_input)
-                    lm_output = lm_output['last_hidden_state']
-                    if 0:
-                        lm_output = lm_output[:,1:,:]
+            with torch.no_grad():
+                lm_output = self.lm(**lm_input)
+                lm_output = lm_output['last_hidden_state']
+                if 0:
+                    lm_output = lm_output[:,1:,:]
 
-                    lm_output = F.normalize(lm_output, dim=2)
+                lm_output = F.normalize(lm_output, dim=2)
 
-                am_output = net_output['encoder_feat'].transpose(0, 1) ## T x B x C -> B x T x C
-                #am_output = F.gelu(am_output)
-                am_output = self.lm_linear(am_output)
-                #am_output = self.ins_norm(am_output)
-                am_output = F.normalize(am_output, dim=2)
+            am_output = net_output['encoder_feat'].transpose(0, 1) ## T x B x C -> B x T x C
+            #am_output = F.gelu(am_output)
+            am_output = self.lm_linear(am_output)
+            #am_output = self.ins_norm(am_output)
+            am_output = F.normalize(am_output, dim=2)
 
-                lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
-                if np.random.rand() < 0.1 and 0:
-                    softmax = F.softmax(lm_am_sim / 3, dim=-1)
-                    print(softmax.size(), softmax[0][0].size(), softmax[0][0])
-                    print(softmax[0][100])
-                    print(softmax[0][200])
-                    print(softmax[0][300])
-                    print('-'*20)
+            lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
+            if np.random.rand() < 0.1 and 0:
+                softmax = F.softmax(lm_am_sim / 3, dim=-1)
+                print(softmax.size(), softmax[0][0].size(), softmax[0][0])
+                print(softmax[0][100])
+                print(softmax[0][200])
+                print(softmax[0][300])
+                print('-'*20)
 
-                lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
-                #lm_am_sim = F.log_softmax(lm_am_sim / 3, dim=-1)
-                lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
-                lm_am_sim = lm_am_sim.transpose(0, 1).contiguous()
+            lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
+            #lm_am_sim = F.log_softmax(lm_am_sim / 3, dim=-1)
+            lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
+            lm_am_sim = lm_am_sim.transpose(0, 1).contiguous()
 
             ##############################
             x = self.ctc_output(encoder_memory)
