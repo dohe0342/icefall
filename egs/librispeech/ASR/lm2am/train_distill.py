@@ -706,6 +706,7 @@ def compute_loss(
             print(supervisions)
             print(supervision_segments)
             print(params.reduction)
+            print(params.use_double_scroes)
             exit()
 
             ctc_loss = k2.ctc_loss(
