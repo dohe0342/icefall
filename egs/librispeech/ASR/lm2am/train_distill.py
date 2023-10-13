@@ -716,7 +716,7 @@ def compute_loss(
                 output_beam=params.beam_size,
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
-                texts=
+                texts=supervisions["text"],
             )
 
         if params.att_rate > 0.0:
