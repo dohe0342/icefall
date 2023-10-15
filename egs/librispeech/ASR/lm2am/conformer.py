@@ -283,7 +283,7 @@ class Conformer(Transformer):
                 print('2', x.size())
                 print('3', x.argmax(dim=-1).size())
                 am_output = am_output[x.argmax(dim=-1) != 0]
-                print('2', am_output.size())
+                print('4', am_output.size())
             am_output = self.distill_linear(am_output)
             am_output = F.normalize(am_output, dim=2) 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
