@@ -822,6 +822,7 @@ def main() -> None:
         interctc=params.interctc,
         interctc_condition=params.condition,
         learnable_alpha=params.learnable_alpha,
+        distill=params.distill,
     )
 
     if not params.use_averaged_model:
