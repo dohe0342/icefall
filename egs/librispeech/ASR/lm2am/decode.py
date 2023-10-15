@@ -31,7 +31,7 @@ import torch.nn as nn
 from asr_datamodule import LibriSpeechAsrDataModule
 #from asr_datamodule import TedLiumAsrDataModule
 from conformer import Conformer
-from train import add_model_arguments
+from train_distill import add_model_arguments
 
 from icefall.bpe_graph_compiler import BpeCtcTrainingGraphCompiler
 from icefall.checkpoint import (
