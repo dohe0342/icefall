@@ -265,8 +265,9 @@ class Conformer(Transformer):
             layer_outputs = [self.ctc_output(x) for x in layer_outputs]
             return (x, layer_outputs), encoder_memory, memory_key_padding_mask
         elif self.distill:
+            x = self.ctc_output(encoder_memory)
             ############for distillation###########
-            device = x.device
+            device = encoder_memory.device
             tgt_list = [text.lower() for text in texts]
             lm_input = self.tokenizer(tgt_list, return_tensors='pt', padding=True, return_attention_mask=True).to(device)
             with torch.no_grad():
@@ -306,7 +307,6 @@ class Conformer(Transformer):
                 alignment_flat = alignment_flat.to(torch.cuda.IntTensor())
             '''
             #############for alignment target ###############################
-            x = self.ctc_output(encoder_memory)
             return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
         else:
             x = self.ctc_output(encoder_memory)
