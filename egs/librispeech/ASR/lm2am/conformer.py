@@ -232,7 +232,6 @@ class Conformer(Transformer):
         warmup: float = 1.0,
         texts: list = None,
     ) -> Tuple[torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
-        self.distill=False
         """
         Args:
           x:
