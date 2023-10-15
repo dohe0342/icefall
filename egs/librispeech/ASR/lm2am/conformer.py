@@ -279,9 +279,9 @@ class Conformer(Transformer):
             
             am_output = encoder_memory.transpose(0, 1)
             if 1:
-                print(am_output.size())
+                print('1', am_output.size())
                 am_output = am_output[x.argmax(dim=-1) != 0]
-                print(am_output.size())
+                print('2', am_output.size())
             am_output = self.distill_linear(am_output)
             am_output = F.normalize(am_output, dim=2) 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
