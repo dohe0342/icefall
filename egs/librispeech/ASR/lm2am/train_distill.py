@@ -710,6 +710,12 @@ def compute_loss(
             )
             
             alignment_graph = graph_compiler.compile(alignment_target)
+            
+            dense_fsa_vec_lm = k2.DenseFsaVec(
+                nnet_output,
+                supervision_segments,
+                allow_truncate=params.subsampling_factor - 1,
+            )
 
             print(supervision_segments)
             print(type(nnet_output))
