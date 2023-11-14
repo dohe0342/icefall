@@ -275,7 +275,7 @@ class Conformer(Transformer):
                 lm_output = lm_output['last_hidden_state']
                 if 0:
                     lm_output = lm_output[:,1:,:]
-                lm_output = F.normalize(lm_output, dim=2)
+                #lm_output = F.normalize(lm_output, dim=2)
             
             am_output = encoder_memory.transpose(0, 1)
             if 0:
@@ -286,7 +286,7 @@ class Conformer(Transformer):
                 am_output = am_output[x.argmax(dim=-1) != 0]
                 print('4', am_output.size())
             am_output = self.distill_linear(am_output)
-            am_output = F.normalize(am_output, dim=2) 
+            #am_output = F.normalize(am_output, dim=2) 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
