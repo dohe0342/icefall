@@ -166,7 +166,7 @@ class Conformer(Transformer):
             conv_layers = [(d_model, 5, 2)] * 3
             for conv in conv_layers:
                 d, k, s = conv
-                self.lm_decoder.append(ScaledConv1d(d, k, s))
+                self.lm_decoder.append(ScaledConv1d(d, k, s, bias=False))
                 self.lm_decoder.append(nn.Sequential(
                               TransposeLast(),
                               nn.LayerNorm(d, elementwise_affine=True),
