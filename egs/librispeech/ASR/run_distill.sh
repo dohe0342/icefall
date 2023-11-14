@@ -10,7 +10,7 @@
     --max-duration 1200 \
     --world-size ${WORLD_SIZE} \
     --start-epoch 1 \
-    --num-epochs 30 \
+    --num-epochs 60 \
     --att-rate 0.0 \
     --num-decoder-layers 0 \
 	--distill True \
