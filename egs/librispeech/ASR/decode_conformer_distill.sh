@@ -4,4 +4,5 @@ python3 ./lm2am/decode.py \
 	--epoch 13 \
 	--avg 1 \
 	--max-duration 200 \
-	--method ctc-greedy-search
+	--method ctc-greedy-search \
+	--distill True
