@@ -279,12 +279,7 @@ class Conformer(Transformer):
             
             am_output = encoder_memory.transpose(0, 1)
             if 1:
-                print('1', am_output.size())
-                print('2', x.size())
-                print('3', x.argmax(dim=-1).size())
-                print('4', x.argmax(dim=-1) != 0)
                 am_output = am_output[x.argmax(dim=-1) != 0]
-                print('4', am_output.size())
             am_output = self.distill_linear(am_output)
             am_output = F.normalize(am_output, dim=2) 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
@@ -314,7 +309,6 @@ class Conformer(Transformer):
                 alignment_flat = alignment_flat.to(torch.cuda.IntTensor())
             '''
             #############for alignment target ###############################
-            exit()
             return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
         else:
             x = self.ctc_output(encoder_memory)
