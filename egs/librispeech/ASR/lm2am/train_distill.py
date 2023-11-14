@@ -711,6 +711,7 @@ def compute_loss(
             
             alignment_graph = graph_compiler.compile(alignment_target)
             
+            print(supervision_segments)
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
                 supervision_segments,
