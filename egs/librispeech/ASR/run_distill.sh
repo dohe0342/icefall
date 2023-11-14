@@ -4,7 +4,7 @@
     --manifest-dir data/fbank \
     --exp-dir lm2am/exp \
     --full-libri 1 \
-	--use-fp16 True 
+	--use-fp16 True \
     --spec-aug-time-warp-factor 80 \
     --max-duration 600 \
     --world-size ${WORLD_SIZE} \
