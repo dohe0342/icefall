@@ -12,4 +12,5 @@
     --start-epoch 1 \
     --num-epochs 30 \
     --att-rate 0.0 \
-    --num-decoder-layers 0 
+    --num-decoder-layers 0 \
+	--master-port 12355
