@@ -706,21 +706,28 @@ def compute_loss(
                 lm_am_sim = nnet_output[1]
                 alignment_target = nnet_output[2]
                 nnet_output = nnet_output[0]
-
+            
+            a = time.time()
             dense_fsa_vec = k2.DenseFsaVec(
                 nnet_output,
                 supervision_segments,
                 allow_truncate=params.subsampling_factor - 1,
             )
-            
+            a = time.time() - a
+
+            b = time.time()
             alignment_graph = graph_compiler.compile(alignment_target)
+            b = time.time() - b
             
+            c = time.time()
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
                 supervision_segments_lm,
                 allow_truncate=31,
             )
-
+            c = time.time() - c
+        
+            d = time.time()
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
@@ -728,7 +735,9 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
-
+            d = time.time() - d
+            
+            e = time.time()
             distill_loss = k2.ctc_loss(
                 decoding_graph=alignment_graph,
                 dense_fsa_vec=dense_fsa_vec,
@@ -736,6 +745,9 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
+            e = time.time() - e
+
+            print(a,b,c,d,e)
 
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
