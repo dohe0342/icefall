@@ -1,5 +1,5 @@
 python3 ./conformer_ctc2/decode.py \
-	--exp-dir conformer_ctc2/exp \
+	--exp-dir $1 \
 	--use-averaged-model False \
 	--epoch 13 \
 	--avg 1 \
