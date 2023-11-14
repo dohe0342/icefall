@@ -168,7 +168,7 @@ class Conformer(Transformer):
                 self.lm_decoder.append(ScaledConv1d(d, k, s))
                 self.lm_decoder.append(nn.Sequential(
                               TransposeLast(),
-                              nn.LayerNorm(dim, elementwise_affine=True),
+                              nn.LayerNorm(d, elementwise_affine=True),
                               TransposeLast(),
                           ),   
                           nn.GELU(),
