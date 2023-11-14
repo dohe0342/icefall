@@ -1,4 +1,4 @@
-    WORLD_SIZE=4
+    WORLD_SIZE=1
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./lm2am/train_distill.py \
     --manifest-dir data/fbank \
