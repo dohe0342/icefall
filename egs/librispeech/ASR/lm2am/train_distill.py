@@ -715,17 +715,12 @@ def compute_loss(
             
             alignment_graph = graph_compiler.compile(alignment_target)
             
-            print(supervision_segments)
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
-                supervision_segments,
+                supervision_segments_lm,
                 allow_truncate=31,
             )
 
-            print(dense_fsa_vec_lm)
-            print(type(nnet_output))
-            exit()
-            
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
