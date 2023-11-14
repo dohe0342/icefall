@@ -1,5 +1,5 @@
-    WORLD_SIZE=8
-    export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
+    WORLD_SIZE=4
+    export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./conformer_ctc2/train.py \
     --manifest-dir data/fbank \
     --exp-dir lm2am/exp \
