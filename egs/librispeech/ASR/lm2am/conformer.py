@@ -310,6 +310,7 @@ class Conformer(Transformer):
                 alignment_flat = alignment_flat.to(torch.cuda.IntTensor())
             #############for alignment target ###############################
             return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
+        
         else:
             x = self.ctc_output(encoder_memory)
             return x, encoder_memory, memory_key_padding_mask
