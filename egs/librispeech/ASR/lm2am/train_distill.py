@@ -575,7 +575,7 @@ def compute_loss(
             supervisions, subsampling_factor=params.subsampling_factor
         )
         
-        supervision_segments_lm, texts = encode_supervisions(
+        supervision_segments_lm, _ = encode_supervisions(
             supervisions, subsampling_factor=params.subsampling_factor
         )
 
