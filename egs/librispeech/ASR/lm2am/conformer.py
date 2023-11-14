@@ -291,7 +291,6 @@ class Conformer(Transformer):
             am_output = encoder_memory.transpose(0, 1)
             for layer in self.lm_decoder:
                 am_output = layer(am_output)
-            am_output = self.lm_decoder(am_output)
             #am_output = F.normalize(am_output, dim=2) 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
 
