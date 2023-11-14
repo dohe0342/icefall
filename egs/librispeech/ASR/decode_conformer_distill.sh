@@ -1,7 +1,7 @@
 python3 ./lm2am/decode.py \
 	--exp-dir $1 \
 	--use-averaged-model False \
-	--epoch 31 \
-	--avg 1 \
+	--epoch 60 \
+	--avg 10 \
 	--max-duration 200 \
 	--method ctc-greedy-search 
