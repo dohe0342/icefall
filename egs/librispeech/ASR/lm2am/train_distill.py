@@ -747,8 +747,10 @@ def compute_loss(
                 use_double_scores=params.use_double_scores,
             )
             e = time.time() - e
-
+            
+            print('-'*20)
             print(a,b,c,d,e)
+            print('-'*20)
             exit()
 
         if not params.interctc and not params.condition and not params.distill:
