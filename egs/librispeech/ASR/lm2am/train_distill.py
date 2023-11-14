@@ -710,6 +710,8 @@ def compute_loss(
             )
             
             alignment_graph = graph_compiler.compile(alignment_target)
+
+            print(supervision_segments)
             
             print(dense_fsa_vec)
             print(alignment_graph)
