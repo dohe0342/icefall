@@ -1,7 +1,7 @@
 python3 ./conformer_ctc2/decode.py \
 	--exp-dir conformer_ctc2/exp \
-	--use-averaged-model True \
-	--epoch 30 \
-	--avg 8 \
+	--use-averaged-model False \
+	--epoch 8 \
+	--avg 1 \
 	--max-duration 200 \
 	--method ctc-greedy-search
