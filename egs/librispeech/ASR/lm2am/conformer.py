@@ -164,7 +164,7 @@ class Conformer(Transformer):
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
             #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
             #self.lm = GPT2Model.from_pretrained('/home/work/workspace/models/checkpoint-420500')
-            self.distill_linear = ScaledLinear(d_model, 768)
+            #self.distill_linear = ScaledLinear(d_model, 768)
             #self.ins_norm = torch.nn.InstanceNorm1d(768)
             ##############################################################
 
