@@ -709,6 +709,9 @@ def compute_loss(
                 allow_truncate=params.subsampling_factor - 1,
             )
             alignment_graph = graph_compiler.compile(alignment_target)
+            
+            print(alignment_graph)
+            print(dense_fsa_vec)
 
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
