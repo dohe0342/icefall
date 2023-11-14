@@ -5,4 +5,5 @@ python3 ./lm2am/decode.py \
 	--avg 10 \
 	--max-duration 200 \
 	--num-decoder-layers 0 \
+	--distill True \
 	--method ctc-greedy-search 
