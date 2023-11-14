@@ -171,7 +171,8 @@ class Conformer(Transformer):
                               nn.LayerNorm(d, elementwise_affine=True),
                               TransposeLast(),
                           ),   
-                          nn.GELU(),
+                          nn.GELU()
+                )
 
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
             #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
