@@ -161,6 +161,8 @@ class Conformer(Transformer):
             self.tokenizer.pad_token = self.tokenizer.eos_token
             self.lm = GPT2Model.from_pretrained('gpt2')
 
+            self.lm_decoder = nn.ModuleList()
+
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
             #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
             #self.lm = GPT2Model.from_pretrained('/home/work/workspace/models/checkpoint-420500')
