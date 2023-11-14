@@ -712,6 +712,7 @@ def compute_loss(
             alignment_graph = graph_compiler.compile(alignment_target)
 
             print(supervision_segments)
+            print(type(nnet_output))
             
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
