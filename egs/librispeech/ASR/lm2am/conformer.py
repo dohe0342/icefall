@@ -321,7 +321,6 @@ class Conformer(Transformer):
             return x, encoder_memory, memory_key_padding_mask
 
 
-
 class ConformerEncoderLayer(nn.Module):
     """
     ConformerEncoderLayer is made up of self-attn, feedforward and convolution networks.
