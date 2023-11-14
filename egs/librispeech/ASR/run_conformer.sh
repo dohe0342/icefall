@@ -2,7 +2,7 @@
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./conformer_ctc2/train.py \
     --manifest-dir data/fbank \
-    --exp-dir lm2am/$1 \
+    --exp-dir conformer_ctc2/$1 \
     --full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
