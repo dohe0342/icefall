@@ -713,10 +713,6 @@ def compute_loss(
 
             print(supervision_segments)
             
-            print(dense_fsa_vec)
-            print(alignment_graph)
-            exit()
-
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
