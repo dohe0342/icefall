@@ -904,6 +904,7 @@ def main() -> None:
 
     model.to(device)
     model.eval()
+    model.distill = False
     num_param = sum([p.numel() for p in model.parameters()])
     logging.info(f"Number of model parameters: {num_param}")
 
