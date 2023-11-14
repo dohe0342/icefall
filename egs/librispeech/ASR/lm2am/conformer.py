@@ -171,8 +171,8 @@ class Conformer(Transformer):
                               TransposeLast(),
                               nn.LayerNorm(d, elementwise_affine=True),
                               TransposeLast(),
-                          ),   
-                          nn.GELU()
+                              )) 
+                self.lm_decoder.append(nn.GELU())
                 )
             self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
 
