@@ -297,10 +297,6 @@ class Conformer(Transformer):
             #############for alignment target ###############################
             alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
             alignment_target = [[int(j+1) for j in range(alignment_lengths[i])] for i in range(len(alignment_lengths))]
-            '''
-            if 0:
-                alignment_lengths -= 1
-
             alignment_flat = torch.linspace(
                                                 1,
                                                 alignment_lengths[0],
@@ -312,7 +308,6 @@ class Conformer(Transformer):
                 temp_target = torch.linspace(1, i, steps=i).to(device)
                 alignment_flat = torch.cat([alignment_flat, temp_target])
                 alignment_flat = alignment_flat.to(torch.cuda.IntTensor())
-            '''
             #############for alignment target ###############################
             return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
         else:
