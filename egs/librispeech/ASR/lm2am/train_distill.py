@@ -717,7 +717,7 @@ def compute_loss(
                 allow_truncate=31,
             )
 
-            print(supervision_segments)
+            print(dense_fsa_vec_lm)
             print(type(nnet_output))
             exit()
             
