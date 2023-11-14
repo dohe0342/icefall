@@ -303,8 +303,7 @@ class Conformer(Transformer):
                                                 alignment_lengths[0],
                                                 steps=alignment_lengths[0]
                                         ).to(device)
-            print('2', alignment_flat)
-            exit()
+            
             for i in alignment_lengths[1:]:
                 temp_target = torch.linspace(1, i, steps=i).to(device)
                 alignment_flat = torch.cat([alignment_flat, temp_target])
