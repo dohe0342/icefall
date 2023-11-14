@@ -40,6 +40,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 
 
 import argparse
+import time
 import copy
 import logging
 from pathlib import Path
@@ -748,6 +749,7 @@ def compute_loss(
             e = time.time() - e
 
             print(a,b,c,d,e)
+            exit()
 
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
