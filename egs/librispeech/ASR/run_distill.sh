@@ -12,4 +12,5 @@
     --att-rate 0.0 \
     --num-decoder-layers 0 \
 	--distill True \
-	--distill-rate 0.1
+	--distill-rate 0.1 \
+	--unused-params True
