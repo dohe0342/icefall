@@ -173,7 +173,6 @@ class Conformer(Transformer):
                               TransposeLast(),
                               )) 
                 self.lm_decoder.append(nn.GELU())
-                )
             self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
 
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
