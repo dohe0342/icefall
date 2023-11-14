@@ -289,6 +289,7 @@ class Conformer(Transformer):
                 lm_output = lm_output['last_hidden_state']
             
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
+            print(am_output.size())
             for layer in self.lm_decoder:
                 am_output = layer(am_output)
             #am_output = F.normalize(am_output, dim=2) 
