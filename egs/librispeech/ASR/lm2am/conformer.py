@@ -164,8 +164,14 @@ class Conformer(Transformer):
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 3
             for conv in conv_layers:
-                
-                self.lm_decoder.append(
+                d, k, s = conv
+                self.lm_decoder.append(ScaledConv1d(d, k, s))
+                self.lm_decoder.append(nn.Sequential(
+                              TransposeLast(),
+                              nn.LayerNorm(dim, elementwise_affine=True),
+                              TransposeLast(),
+                          ),   
+                          nn.GELU(),
 
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
             #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
