@@ -4,4 +4,5 @@ python3 ./lm2am/decode.py \
 	--epoch 60 \
 	--avg 10 \
 	--max-duration 200 \
+	--num-decoder-layers 0 \
 	--method ctc-greedy-search 
