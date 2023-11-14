@@ -1,4 +1,4 @@
-python3 ./conformer_ctc2/decode.py \
+python3 ./lm2am/decode.py \
 	--exp-dir $1 \
 	--use-averaged-model False \
 	--epoch 13 \
