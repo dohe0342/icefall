@@ -9,8 +9,8 @@
     --spec-aug-time-warp-factor 80 \
     --max-duration 1200 \
     --world-size ${WORLD_SIZE} \
-    --start-epoch 31 \
-    --num-epochs 40 \
+    --start-epoch 61 \
+    --num-epochs 70 \
     --att-rate 0.0 \
     --num-decoder-layers 0 \
 	--master-port 12355
