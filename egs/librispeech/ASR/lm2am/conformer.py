@@ -580,7 +580,7 @@ class ConformerEncoder(nn.Module):
                 ctc_out = ctc_output(output, log_prob=False)
                 output = output + condition_layer(ctc_out).transpose(0,1)
 
-        #output = self.combiner(outputs)
+        output = self.combiner(outputs)
         return output, layer_outputs
 
 
