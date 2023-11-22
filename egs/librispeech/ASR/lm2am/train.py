@@ -330,6 +330,12 @@ def get_parser() -> argparse.ArgumentParser:
         type=str2bool,
         default=False,
     )
+    
+    parser.add_argument(
+        "--ted2",
+        type=str2bool,
+        default=False,
+    )
 
     add_model_arguments(parser)
 
