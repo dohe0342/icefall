@@ -720,14 +720,15 @@ def compute_loss(
                 supervision_segments,
                 allow_truncate=params.subsampling_factor - 1,
             )
-
-            alignment_graph = graph_compiler.compile(alignment_target)
             
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
                 supervision_segments_lm,
                 allow_truncate=33,
             )
+
+            alignment_graph = graph_compiler.compile(alignment_target)
+            
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
