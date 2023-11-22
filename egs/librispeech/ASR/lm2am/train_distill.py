@@ -54,6 +54,7 @@ import torch
 import torch.multiprocessing as mp
 #from asr_datamodule import TedLiumAsrDataModule
 from asr_datamodule import LibriSpeechAsrDataModule
+from asr_datamodule_ted2 import TedAsrDataModule
 from conformer import Conformer
 from lhotse.dataset.sampling.base import CutSampler
 from lhotse.utils import fix_random_seed
@@ -336,6 +337,12 @@ def get_parser() -> argparse.ArgumentParser:
     
     parser.add_argument(
         "--unused-params",
+        type=str2bool,
+        default=False,
+    )
+    
+    parser.add_argument(
+        "--ted2",
         type=str2bool,
         default=False,
     )
