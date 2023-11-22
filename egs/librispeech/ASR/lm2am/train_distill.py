@@ -726,7 +726,7 @@ def compute_loss(
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
                 supervision_segments_lm,
-                allow_truncate=31,
+                allow_truncate=17,
             )
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
