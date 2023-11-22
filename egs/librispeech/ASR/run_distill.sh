@@ -4,7 +4,7 @@
 	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 	--ted2 True \
-	--master-port 12355 \
+	--master-port 12356 \
     --exp-dir lm2am/$1 \
     --full-libri 0 \
 	--use-fp16 True \
