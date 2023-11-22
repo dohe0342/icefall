@@ -1112,7 +1112,7 @@ def run(rank, world_size, args):
     '''
 
     if params.ted2:
-        tedlium = TedLiumAsrDataModule(args)
+        tedlium = TedAsrDataModule(args)
         train_cuts = tedlium.train_cuts()
 
         if params.start_batch > 0 and checkpoints and "sampler" in checkpoints:
