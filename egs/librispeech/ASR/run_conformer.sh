@@ -30,7 +30,7 @@ WORLD_SIZE=4
     --spec-aug-time-warp-factor 80 \
     --max-duration 1200 \
     --world-size ${WORLD_SIZE} \
-    --start-epoch 1 \
+    --start-epoch 14 \
     --num-epochs 40 \
     --att-rate 0.0 \
     --num-decoder-layers 0 \
