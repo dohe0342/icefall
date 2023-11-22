@@ -206,6 +206,9 @@ def encode_supervisions(
     '''
     start_frame = supervisions["start_frame"]
     num_frames = supervisions["num_frames"]
+
+    print(start_frame, num_frames)
+
     supervision_segments = torch.stack(
         (
             supervisions["sequence_idx"],
