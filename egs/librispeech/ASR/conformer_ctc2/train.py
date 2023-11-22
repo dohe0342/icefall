@@ -1179,7 +1179,6 @@ def run(rank, world_size, args):
         sampler_state_dict = checkpoints["sampler"]
     else:
         sampler_state_dict = None 
-
     
     if (
         params.start_epoch <= 1
