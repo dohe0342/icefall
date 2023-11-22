@@ -192,7 +192,6 @@ def encode_supervisions(
     returned tensor and list of strings are guaranteed to be consistent with
     each other.
     """
-    '''
     try: start_frame = supervisions["start_frame"]
     except: start_frame = torch.IntTensor([0 for i in range(len(supervisions["cut"]))])
 
@@ -203,9 +202,6 @@ def encode_supervisions(
             try: num_frames.append(supervision.tracks[0].cut.recording.num_samples)
             except: num_frames.append(supervision.recording.num_samples)
         num_frames = torch.IntTensor(num_frames)
-    '''
-    start_frame = supervisions["start_frame"]
-    num_frames = supervisions["num_frames"]
 
     print(start_frame, num_frames)
 
