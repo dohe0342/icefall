@@ -338,7 +338,6 @@ def get_parser() -> argparse.ArgumentParser:
         default=False,
     )
 
-
     add_model_arguments(parser)
 
     return parser
