@@ -53,6 +53,7 @@ import torch
 import torch.multiprocessing as mp
 #from asr_datamodule import TedLiumAsrDataModule
 from asr_datamodule import LibriSpeechAsrDataModule
+from asr_datamodule_ted2 import TedLiumAsrDataModule
 from conformer import Conformer
 from lhotse.dataset.sampling.base import CutSampler
 from lhotse.utils import fix_random_seed
