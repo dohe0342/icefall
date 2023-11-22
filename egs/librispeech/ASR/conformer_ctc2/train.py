@@ -1110,12 +1110,32 @@ def run(rank, world_size, args):
     valid_cuts = tedlium.dev_cuts()
     valid_dl = tedlium.valid_dataloaders(valid_cuts)
     '''
-    librispeech = LibriSpeechAsrDataModule(args)
 
-    if params.full_libri:
-        train_cuts = librispeech.train_all_shuf_cuts()
+    if params.ted2:
+        tedlium = TedLiumAsrDataModule(args)
+        train_cuts = tedlium.train_cuts()
+
+        if params.start_batch > 0 and checkpoints and "sampler" in checkpoints:
+            # We only load the sampler's state dict when it loads a checkpoint
+            # saved in the middle of an epoch
+            sampler_state_dict = checkpoints["sampler"]
+        else:
+            sampler_state_dict = None
+
+        train_dl = tedlium.train_dataloaders(
+            train_cuts, sampler_state_dict=sampler_state_dict
+        )
+
+        valid_cuts = tedlium.dev_cuts()
+        valid_dl = tedlium.valid_dataloaders(valid_cuts)
+
     else:
-        train_cuts = librispeech.train_clean_100_cuts()
+        librispeech = LibriSpeechAsrDataModule(args)
+
+        if params.full_libri:
+            train_cuts = librispeech.train_all_shuf_cuts()
+        else:
+            train_cuts = librispeech.train_clean_100_cuts()
 
     def remove_short_and_long_utt(c: Cut):
         # Keep only utterances with duration between 1 second and 20 seconds
