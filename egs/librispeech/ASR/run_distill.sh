@@ -1,7 +1,9 @@
     WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
     ./lm2am/train_distill.py \
-    --manifest-dir data/fbank \
+	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+	--ted2 True \
 	--master-port 12355 \
     --exp-dir lm2am/$1 \
     --full-libri 0 \
