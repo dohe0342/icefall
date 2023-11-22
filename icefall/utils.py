@@ -203,8 +203,6 @@ def encode_supervisions(
             except: num_frames.append(supervision.recording.num_samples)
         num_frames = torch.IntTensor(num_frames)
 
-    print(start_frame, num_frames)
-
     supervision_segments = torch.stack(
         (
             supervisions["sequence_idx"],
