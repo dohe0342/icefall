@@ -1230,6 +1230,8 @@ def run(rank, world_size, args):
     else:
         librispeech = LibriSpeechAsrDataModule(args)
 
+        sampler_state_dict = None
+
         if params.full_libri:
             train_cuts = librispeech.train_all_shuf_cuts()
         else:
