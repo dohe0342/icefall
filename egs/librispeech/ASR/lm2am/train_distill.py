@@ -584,7 +584,7 @@ def compute_loss(
         )
         
         supervision_segments_lm, _ = encode_supervisions(
-            supervisions, subsampling_factor=16
+            supervisions, subsampling_factor=4
         )
 
         #token_ids = convert_texts_into_ids(texts, graph_compiler.sp)
@@ -724,7 +724,7 @@ def compute_loss(
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
                 supervision_segments_lm,
-                allow_truncate=17,
+                allow_truncate=5,
             )
 
             alignment_graph = graph_compiler.compile(alignment_target)
