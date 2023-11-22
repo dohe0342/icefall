@@ -1110,6 +1110,29 @@ def run(rank, world_size, args):
     valid_cuts = tedlium.dev_cuts()
     valid_dl = tedlium.valid_dataloaders(valid_cuts)
     '''
+    
+    def remove_short_and_long_utt(c: Cut):
+        # Keep only utterances with duration between 1 second and 20 seconds
+        #    
+        # Caution: There is a reason to select 20.0 here. Please see
+        # ../local/display_manifest_statistics.py
+        #    
+        # You should use ../local/display_manifest_statistics.py to get
+        # an utterance duration distribution for your dataset to select
+        # the threshold
+        return 1.0 <= c.duration <= 30.0 
+
+    def remove_invalid_utt_ctc(c: Cut):
+        # Caution: We assume the subsampling factor is 4!
+        # num_tokens = len(sp.encode(c.supervisions[0].text, out_type=int))
+        num_tokens = len(graph_compiler.texts_to_ids(c.supervisions[0].text))
+        min_output_input_ratio = 0.0005
+        max_output_input_ratio = 0.1
+        return (
+            min_output_input_ratio
+            < num_tokens / float(c.features.num_frames)
+            < max_output_input_ratio
+        )    
 
     if params.ted2:
         tedlium = TedAsrDataModule(args)
@@ -1146,29 +1169,7 @@ def run(rank, world_size, args):
         valid_dl = librispeech.valid_dataloaders(valid_cuts)
 
 
-    def remove_short_and_long_utt(c: Cut):
-        # Keep only utterances with duration between 1 second and 20 seconds
-        #    
-        # Caution: There is a reason to select 20.0 here. Please see
-        # ../local/display_manifest_statistics.py
-        #    
-        # You should use ../local/display_manifest_statistics.py to get
-        # an utterance duration distribution for your dataset to select
-        # the threshold
-        return 1.0 <= c.duration <= 30.0 
-
-    def remove_invalid_utt_ctc(c: Cut):
-        # Caution: We assume the subsampling factor is 4!
-        # num_tokens = len(sp.encode(c.supervisions[0].text, out_type=int))
-        num_tokens = len(graph_compiler.texts_to_ids(c.supervisions[0].text))
-        min_output_input_ratio = 0.0005
-        max_output_input_ratio = 0.1
-        return (
-            min_output_input_ratio
-            < num_tokens / float(c.features.num_frames)
-            < max_output_input_ratio
-        )    
-
+    
     train_cuts = train_cuts.filter(remove_short_and_long_utt)
     train_cuts = train_cuts.filter(remove_invalid_utt_ctc)
 
