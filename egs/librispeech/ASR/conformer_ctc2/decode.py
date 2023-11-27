@@ -929,7 +929,8 @@ def main() -> None:
     '''
     args.return_cuts = True
     if params.ted2:
-        tedlium = TedLiumAsrDataModule(args)
+        #tedlium = TedLiumAsrDataModule(args)
+        tedlium = TedAsrDataModule(args)
 
         valid_cuts = tedlium.dev_cuts()
         test_cuts = tedlium.test_cuts()
