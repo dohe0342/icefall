@@ -186,6 +186,11 @@ def get_parser() -> argparse.ArgumentParser:
         default="conformer_ctc2/exp/results",
         help="Directory to store results.",
     )
+    parser.add_argument(
+        "--ted2",
+        type=str2bool,
+        default=False,
+    )
 
     add_model_arguments(parser)
 
