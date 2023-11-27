@@ -2,6 +2,8 @@
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
     ./lm2am/train_distill.py \
 	--ted2 True \
+	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 	--master-port 12356 \
     --exp-dir lm2am/$1 \
     --full-libri 0 \
