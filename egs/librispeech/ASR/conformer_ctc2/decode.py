@@ -924,6 +924,17 @@ def main() -> None:
     '''
     args.return_cuts = True
     if params.ted2:
+        tedlium = TedLiumAsrDataModule(args)
+
+        valid_cuts = tedlium.dev_cuts()
+        test_cuts = tedlium.test_cuts()
+
+        valid_dl = tedlium.valid_dataloaders(valid_cuts)
+        test_dl = tedlium.test_dataloaders(test_cuts)
+
+        test_sets = ["dev", "test"]
+        test_dls = [valid_dl, test_dl]
+
     else:
         librispeech = LibriSpeechAsrDataModule(args)
         
