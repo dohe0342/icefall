@@ -29,7 +29,7 @@ import sentencepiece as spm
 import torch
 import torch.nn as nn
 from asr_datamodule import LibriSpeechAsrDataModule
-from asr_datamodule_ted2 import TedLiumAsrDataModule
+from asr_datamodule_ted2 import TedAsrDataModule
 from conformer import Conformer
 from train import add_model_arguments
 
