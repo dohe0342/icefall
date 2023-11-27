@@ -1,5 +1,5 @@
     WORLD_SIZE=4
-    export CUDA_VISIBLE_DEVICES="4,5,6,7"
+    export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./lm2am/train_distill.py \
 	--ted2 True \
 	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
