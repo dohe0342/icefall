@@ -923,20 +923,22 @@ def main() -> None:
     #test_dls = [valid_dl]
     '''
     args.return_cuts = True
-    librispeech = LibriSpeechAsrDataModule(args)
-    
-    dev_clean_cuts = librispeech.dev_clean_cuts()
-    dev_other_cuts = librispeech.dev_other_cuts()
-    test_clean_cuts = librispeech.test_clean_cuts()
-    test_other_cuts = librispeech.test_other_cuts()
-    
-    dev_clean_dl = librispeech.valid_dataloaders(dev_clean_cuts)
-    dev_other_dl = librispeech.valid_dataloaders(dev_other_cuts)
-    test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
-    test_other_dl = librispeech.test_dataloaders(test_other_cuts)
+    if params.ted2:
+    else:
+        librispeech = LibriSpeechAsrDataModule(args)
+        
+        dev_clean_cuts = librispeech.dev_clean_cuts()
+        dev_other_cuts = librispeech.dev_other_cuts()
+        test_clean_cuts = librispeech.test_clean_cuts()
+        test_other_cuts = librispeech.test_other_cuts()
+        
+        dev_clean_dl = librispeech.valid_dataloaders(dev_clean_cuts)
+        dev_other_dl = librispeech.valid_dataloaders(dev_other_cuts)
+        test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
+        test_other_dl = librispeech.test_dataloaders(test_other_cuts)
 
-    test_sets = ["dev-clean", "dev-other", "test-clean", "test-other"]
-    test_dls = [dev_clean_dl, dev_other_dl, test_clean_dl, test_other_dl]
+        test_sets = ["dev-clean", "dev-other", "test-clean", "test-other"]
+        test_dls = [dev_clean_dl, dev_other_dl, test_clean_dl, test_other_dl]
     '''
     test_clean_cuts = librispeech.test_clean_cuts()
     
