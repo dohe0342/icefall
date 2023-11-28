@@ -2,7 +2,7 @@
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./distill_l2s/train_distill.py \
 	--ted2 False \
-	--master-port 12356 \
+	--master-port 12353 \
     --exp-dir distill_l2s/$1 \
     --full-libri 0 \
 	--use-fp16 True \
@@ -15,7 +15,7 @@
     --att-rate 0.0 \
     --num-decoder-layers 0 \
 	--distill True \
-	--distill-rate 0.25 \
+	--distill-rate 0.05 \
 	--unused-params True
 	
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
