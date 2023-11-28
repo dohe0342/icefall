@@ -176,7 +176,7 @@ class Conformer(Transformer):
                 self.lm_decoder.append(nn.GELU())
             self.lm_decoder.append(nn.Linear(d, 768, bias=False))
             '''
-            self.lm_decoder = ScaledLinear(d, 768, bias=False)
+            self.lm_decoder = ScaledLinear(d_model, 768, bias=False)
             ##############################################################
 
     def run_encoder(
