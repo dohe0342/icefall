@@ -312,8 +312,6 @@ class Conformer(Transformer):
             lm_output = lm_output.contiguous()
 
             distill_loss = F.mse_loss(am_output_shirnk, lm_output, reduction='none')
-            distill_loss = distill_loss[am_output_pad_mask]
-            distill_loss = torch.mean(distill_loss)
 
             ##############################
 
