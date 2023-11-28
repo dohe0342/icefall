@@ -1,10 +1,10 @@
     WORLD_SIZE=4
-    export CUDA_VISIBLE_DEVICES="0,1,2,3"
+    export CUDA_VISIBLE_DEVICES="4,5,6,7"
     ./distill_l2s/train_distill.py \
 	--ted2 False \
-	--master-port 12356 \
+	--master-port 12355 \
     --exp-dir distill_l2s/$1 \
-    --full-libri 0 \
+    --full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
     --spec-aug-time-warp-factor 80 \
