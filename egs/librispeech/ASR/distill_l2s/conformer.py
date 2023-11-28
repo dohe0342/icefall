@@ -296,7 +296,7 @@ class Conformer(Transformer):
             am_output_shrink = []
             for b, lprob in enumerate(x_cp):
                 lprob_max = lprob.max(-1)
-                non_bnk = am_output[b][lprob_max[1] != 0]
+                non_bnk = am_output[b][lprob_max[1] != 499]
                 am_output_shrink.append(non_bnk)
             am_output_shrink = nn.utils.rnn.pad_sequence(am_output_shrink, batch_first=True)
             am_output_pad_mask = ~(am_output_shrink == 0)
