@@ -288,8 +288,6 @@ class Conformer(Transformer):
             am_output = encoder_memory.transpose(0, 1)
             am_output = self.lm_decoder(am_output)
             
-            print('0', am_output.size())
-            print('1', x.size())
             ###shrink
             #x_tp = x.transpose(0, 1)
             x_cp = x.clone()
@@ -313,9 +311,6 @@ class Conformer(Transformer):
             am_output_shrink = am_output_shrink.contiguous()
             lm_output = lm_output.contiguous()
 
-            print('2', am_output_shrink.size())
-            print('3', lm_output.size())
-            exit()
             ##############################
 
             return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
