@@ -291,9 +291,10 @@ class Conformer(Transformer):
             print('0', am_output.size())
             print('1', x.size())
             ###shrink
-            x_tp = x.transpose(0, 1)
+            #x_tp = x.transpose(0, 1)
+            x_cp = x.copy()
             am_output_shrink = []
-            for b, lprob in enumerate(x_tp):
+            for b, lprob in enumerate(x_cp):
                 lprob_max = lprob.max(-1)
                 non_bnk = am_output[b][lprob_max[1] != 0]
                 am_output_shrink.append(non_bnk)
