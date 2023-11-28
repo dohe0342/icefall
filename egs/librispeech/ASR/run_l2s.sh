@@ -15,7 +15,7 @@
     --att-rate 0.0 \
     --num-decoder-layers 0 \
 	--distill True \
-	--distill-rate 0.2 \
+	--distill-rate 0.25 \
 	--unused-params True
 	#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 	#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
