@@ -1,8 +1,10 @@
     WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
     ./distill_l2s/train_distill.py \
-	--ted2 False \
+	--ted2 True \
 	--master-port 12355 \
+	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
     --exp-dir distill_l2s/$1 \
     --full-libri 1 \
 	--use-fp16 True \
@@ -18,5 +20,4 @@
 	--distill-rate 0.05 \
 	--unused-params True
 	
-#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
-#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+
