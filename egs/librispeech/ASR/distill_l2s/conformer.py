@@ -288,6 +288,7 @@ class Conformer(Transformer):
             am_output = encoder_memory.transpose(0, 1)
             am_output = self.lm_decoder(am_output)
             
+            print('0', am_output.size())
             print('1', x.size())
             ###shrink
             x_tp = x.transpose(0, 1)
