@@ -301,6 +301,8 @@ class Conformer(Transformer):
 
             ###interpolation
             try:
+                print(lm_output.size())
+                print(am_output_shrink.size())
                 lm_output = F.interpolate(
                         input=lm_output.transpose(1, 2),
                         size=am_output_shrink.size(1),
