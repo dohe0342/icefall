@@ -317,7 +317,7 @@ class Conformer(Transformer):
 
             ##############################
 
-            return (x, distill_loss), encoder_memory, memory_key_padding_mask
+            return (x, distill_loss, am_output_pad_mask), encoder_memory, memory_key_padding_mask
         
         else:
             x = self.ctc_output(encoder_memory)
