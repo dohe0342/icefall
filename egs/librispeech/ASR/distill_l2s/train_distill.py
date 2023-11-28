@@ -707,8 +707,8 @@ def compute_loss(
         
         if params.distill:
             if type(nnet_output) == tuple:
-                lm_am_sim = nnet_output[1]
-                alignment_target = nnet_output[2]
+                distill_loss = nnet_output[1]
+                distill_loss_pad_mask = nnet_output[2]
                 nnet_output = nnet_output[0]
             
             dense_fsa_vec = k2.DenseFsaVec(
