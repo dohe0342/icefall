@@ -1,5 +1,5 @@
     WORLD_SIZE=4
-    export CUDA_VISIBLE_DEVICES="0,1,2,3"
+    export CUDA_VISIBLE_DEVICES="4,5,6,7"
     ./distill_l2s/train_distill.py \
 	--ted2 False \
 	--master-port 12356 \
