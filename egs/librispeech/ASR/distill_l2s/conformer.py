@@ -311,9 +311,13 @@ class Conformer(Transformer):
             am_output_shrink = am_output_shrink.contiguous()
             lm_output = lm_output.contiguous()
 
+            distill_loss = F.mse_loss(am_output_shirnk, lm_output, reduction='none')
+            distill_loss = distill_loss[am_output_pad_mask]
+            distill_loss = torch.mean(distill_loss)
+
             ##############################
 
-            return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
+            return (x, distill_loss), encoder_memory, memory_key_padding_mask
         
         else:
             x = self.ctc_output(encoder_memory)
