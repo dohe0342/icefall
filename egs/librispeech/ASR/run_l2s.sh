@@ -1,6 +1,6 @@
     WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
-    ./lm2am/train_distill.py \
+    ./distill_l2s/train_distill.py \
 	--ted2 False \
 	--master-port 12356 \
     --exp-dir lm2am/$1 \
