@@ -2,7 +2,7 @@
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
     ./distill_l2s/train_distill.py \
 	--ted2 False \
-	--master-port 12353 \
+	--master-port 12355 \
     --exp-dir distill_l2s/$1 \
     --full-libri 0 \
 	--use-fp16 True \
