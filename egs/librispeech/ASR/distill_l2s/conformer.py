@@ -311,7 +311,7 @@ class Conformer(Transformer):
             am_output_shrink = am_output_shrink.contiguous()
             lm_output = lm_output.contiguous()
 
-            distill_loss = F.mse_loss(am_output_shirnk, lm_output, reduction='none')
+            distill_loss = F.mse_loss(am_output_shrink, lm_output, reduction='none')
 
             ##############################
 
