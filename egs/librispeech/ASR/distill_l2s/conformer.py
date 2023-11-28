@@ -292,7 +292,7 @@ class Conformer(Transformer):
             print('1', x.size())
             ###shrink
             #x_tp = x.transpose(0, 1)
-            x_cp = x.copy()
+            x_cp = x.clone()
             am_output_shrink = []
             for b, lprob in enumerate(x_cp):
                 lprob_max = lprob.max(-1)
