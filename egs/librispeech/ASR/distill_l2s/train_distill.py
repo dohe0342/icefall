@@ -724,6 +724,8 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
+
+            distill_loss = distill_loss[distill_loss_pad_mask]
             
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
