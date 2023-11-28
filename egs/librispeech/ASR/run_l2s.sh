@@ -4,7 +4,7 @@
 	--ted2 False \
 	--master-port 12355 \
     --exp-dir distill_l2s/$1 \
-    --full-libri 0 \
+    --full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
     --spec-aug-time-warp-factor 80 \
