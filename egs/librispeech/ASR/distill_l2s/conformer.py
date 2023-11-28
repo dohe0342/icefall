@@ -299,7 +299,7 @@ class Conformer(Transformer):
                 non_bnk = am_output[b][lprob_max[1] != 499]
                 am_output_shrink.append(non_bnk)
             am_output_shrink = nn.utils.rnn.pad_sequence(am_output_shrink, batch_first=True)
-            am_output_pad_mask = ~(am_output_shrink == 0)
+            am_output_pad_mask = ~(am_output_shrink == 499)
 
             ###interpolation
             try:
