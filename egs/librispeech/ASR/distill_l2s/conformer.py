@@ -310,7 +310,7 @@ class Conformer(Transformer):
 
                 distill_loss = F.mse_loss(am_output_shrink, lm_output, reduction='none')
             except:
-                distill_loss = torch.zeros(lm_output.size())
+                distill_loss = torch.zeros(lm_output.size()).to(lm_output.device)
 
             ##############################
 
