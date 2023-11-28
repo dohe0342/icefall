@@ -809,7 +809,7 @@ def compute_loss(
                         "leading to inf or nan losses."
                     )
 
-            distill_loss = distill_loss.mean()
+            distill_loss = distill_loss.sum()
 
         ctc_loss = ctc_loss.sum()
         att_loss = att_loss.sum()
