@@ -161,7 +161,8 @@ class Conformer(Transformer):
             self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
             self.tokenizer.pad_token = self.tokenizer.eos_token
             self.lm = GPT2Model.from_pretrained('gpt2')
-
+            
+            '''
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 3
             for conv in conv_layers:
@@ -173,14 +174,9 @@ class Conformer(Transformer):
                               TransposeLast(),
                               )) 
                 self.lm_decoder.append(nn.GELU())
-            #self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
             self.lm_decoder.append(nn.Linear(d, 768, bias=False))
-
-            #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
-            #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
-            #self.lm = GPT2Model.from_pretrained('/home/work/workspace/models/checkpoint-420500')
-            #self.distill_linear = ScaledLinear(d_model, 768)
-            #self.ins_norm = torch.nn.InstanceNorm1d(768)
+            '''
+            self.lm_decoder = ScaledLinear(d, 768, bias=False)
             ##############################################################
 
     def run_encoder(
@@ -290,33 +286,36 @@ class Conformer(Transformer):
                 lm_output = lm_output['last_hidden_state']
             
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
-            for layer in self.lm_decoder[:-1]:
-                am_output = layer(am_output)
-            am_output = am_output.transpose(1, 2)
-            am_output = self.lm_decoder[-1](am_output)
-            #am_output = F.normalize(am_output, dim=2) 
-            lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
+            am_output = self.lm_decoder(am_output)
+            
+            print('1', x.size())
+            ###shrink
+            x_tp = x.transpose(0, 1)
+            am_output_shrink = []
+            for b, lprob in enumerate(x_tp):
+                lprob_max = lprob.max(-1)
+                non_bnk = am_output[b][lprob_max[1] != 0]
+                am_output_shrink.append(non_bnk)
+            am_output_shrink = nn.utils.rnn.pad_sequence(am_output_shrink, batch_first=True)
+            am_output_pad_mask = ~(am_output_shrink == 0)
 
-            lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
-            lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
-            lm_am_sim = lm_am_sim.contiguous()
+            ###interpolation
+            try:
+                lm_output = F.interpolate(
+                        input=lm_output.transpose(1, 2),
+                        size=am_output_shrink.size(1),
+                    ).transpose(1, 2)
+            except:
+                pass
+            
+            am_output_shrink = am_output_shrink.contiguous()
+            lm_output = lm_output.contiguous()
+
+            print('2', am_output_shrink.size())
+            print('3', lm_output.size())
+            exit()
             ##############################
 
-            #############for alignment target ###############################
-            alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
-            alignment_target = [[int(j+1) for j in range(alignment_lengths[i])] for i in range(len(alignment_lengths))]
-            
-            alignment_flat = torch.linspace(
-                                                1,
-                                                alignment_lengths[0],
-                                                steps=alignment_lengths[0]
-                                        ).to(device)
-            
-            for i in alignment_lengths[1:]:
-                temp_target = torch.linspace(1, i, steps=i).to(device)
-                alignment_flat = torch.cat([alignment_flat, temp_target])
-                alignment_flat = alignment_flat.to(torch.cuda.IntTensor())
-            #############for alignment target ###############################
             return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
         
         else:
