@@ -3,7 +3,7 @@
     ./distill_l2s/train_distill.py \
 	--ted2 False \
 	--master-port 12356 \
-    --exp-dir lm2am/$1 \
+    --exp-dir distill_l2s/$1 \
     --full-libri 0 \
 	--use-fp16 True \
 	--num-workers 9 \
