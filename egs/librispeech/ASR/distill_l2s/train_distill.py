@@ -797,7 +797,7 @@ def compute_loss(
                 #    f"ctc_loss: {ctc_loss}\n"
                 #    f"att_loss: {att_loss}"
                 #)
-                display_and_save_batch(batch, params=params, sp=graph_compiler.sp)
+                #display_and_save_batch(batch, params=params, sp=graph_compiler.sp)
                 distill_loss = distill_loss[distill_loss_is_finite]
 
                 # If the batch contains more than 10 utterances AND
