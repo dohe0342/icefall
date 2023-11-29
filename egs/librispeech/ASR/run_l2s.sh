@@ -6,7 +6,7 @@
 	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
     --exp-dir distill_l2s/$1 \
-    --full-libri 1 \
+    --full-libri 0 \
 	--use-fp16 True \
 	--num-workers 9 \
     --spec-aug-time-warp-factor 80 \
