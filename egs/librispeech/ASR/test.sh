@@ -29,7 +29,7 @@ do
 		--spk-id $spk_id \
 		--manifest-dir data/fbank \
 		--bpe-model data/lang_bpe_500/bpe.model \
-		--res-name greedy
+		--res-name greedy > $spk_id.txt
 		#--res-name bitfit_q_fc1_check$i
 		#--res-name fullft_check$i
 	done
