@@ -1,5 +1,5 @@
-dl_dir=/DB/LibriSpeech
-#dl_dir=/home/work/workspace/LibriSpeech/vox_v3
+#dl_dir=/DB/LibriSpeech
+dl_dir=/home/work/workspace/LibriSpeech
 for dest in "test-clean" "test-other"; do
 	for spk in $dl_dir/$dest/*; do
 		spk_id=${spk#*$dest\/}
