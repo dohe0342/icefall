@@ -564,7 +564,9 @@ def decode_dataset(
             for cut_id, hyp_words, ref_text in zip(cut_ids, hyps, texts):
                 ref_words = ref_text.split()
                 this_batch.append((cut_id, ref_words, hyp_words))
+                print(f"{cut_id}_ref : {' '.join(ref_words)}")
                 print(f"{cut_id}_hyp : {' '.join(hyp_words)}")
+                print("")
             
             results[name].extend(this_batch)
         num_cuts += len(texts)
