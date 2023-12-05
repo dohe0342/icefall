@@ -564,9 +564,9 @@ def decode_dataset(
             for cut_id, hyp_words, ref_text in zip(cut_ids, hyps, texts):
                 ref_words = ref_text.split()
                 this_batch.append((cut_id, ref_words, hyp_words))
-
+                print(f"{cut_id}_hyp : {' '.join(hyp_words)}")
+            
             results[name].extend(this_batch)
-
         num_cuts += len(texts)
 
         if batch_idx % log_interval == 0:
@@ -588,8 +588,7 @@ def save_results(
             params.res_dir / f"recogs-{test_set_name}-{key}-{params.suffix}.txt"
         )
         results = sorted(results)
-        for cut_id, hyp_words, ref_text in results:
-            print(f"{cut_id}_hyp : {' '.join(hyp_words)}")
+        
 
         store_transcripts(filename=recog_path, texts=results)
         logging.info(f"The transcripts are stored in {recog_path}")
