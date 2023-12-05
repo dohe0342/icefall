@@ -564,6 +564,7 @@ def decode_dataset(
             for cut_id, hyp_words, ref_text in zip(cut_ids, hyps, texts):
                 ref_words = ref_text.split()
                 this_batch.append((cut_id, ref_words, hyp_words))
+                print(cut_id, ref_words, hyp_words)
 
             results[name].extend(this_batch)
 
@@ -866,7 +867,6 @@ def main():
         test_dl = [test_clean_dl]
 
     for test_set, test_dl in zip(test_sets, test_dl):
-        print('fuck')
         results_dict = decode_dataset(
             dl=test_dl,
             params=params,
