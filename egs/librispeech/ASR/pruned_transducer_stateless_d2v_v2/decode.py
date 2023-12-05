@@ -564,7 +564,6 @@ def decode_dataset(
             for cut_id, hyp_words, ref_text in zip(cut_ids, hyps, texts):
                 ref_words = ref_text.split()
                 this_batch.append((cut_id, ref_words, hyp_words))
-                print(f"{cut_id}_hyp : {' '.join(hyp_words)}")
 
             results[name].extend(this_batch)
 
@@ -583,6 +582,10 @@ def save_results(
     results_dict: Dict[str, List[Tuple[str, List[str], List[str]]]],
 ):
     test_set_wers = dict()
+    results = sorted(results)
+    for cut_id, hyp_words, ref_text in restuls:
+        print(f"{cut_id}_hyp : {' '.join(hyp_words)}")
+
     for key, results in results_dict.items():
         recog_path = (
             params.res_dir / f"recogs-{test_set_name}-{key}-{params.suffix}.txt"
