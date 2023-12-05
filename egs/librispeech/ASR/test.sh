@@ -27,7 +27,6 @@ do
 		--avg 1 \
 		--use-averaged-model True \
 		--spk-id $spk_id \
-		--prompt False \
 		--manifest-dir data/fbank \
 		--bpe-model data/lang_bpe_500/bpe.model \
 		--res-name greedy
@@ -36,6 +35,7 @@ do
 	done
 done
 
+#--prompt False \
 #--prompt True \
 #--exp-dir ./pruned_transducer_stateless_d2v_v2/"$spk_id"_adapter_10m \
 #--model-name epoch-$i.pt \
