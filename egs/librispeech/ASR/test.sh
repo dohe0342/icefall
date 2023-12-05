@@ -28,8 +28,8 @@ do
 		--use-averaged-model True \
 		--spk-id $spk_id \
 		--prompt False \
-		--manifest-dir /DB/data/fbank \
-		--bpe-model /DB/data/lang_bpe_500/bpe.model \
+		--manifest-dir data/fbank \
+		--bpe-model data/lang_bpe_500/bpe.model \
 		--res-name greedy
 		#--res-name bitfit_q_fc1_check$i
 		#--res-name fullft_check$i
