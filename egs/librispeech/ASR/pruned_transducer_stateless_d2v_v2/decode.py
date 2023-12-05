@@ -866,6 +866,7 @@ def main():
         test_dl = [test_clean_dl]
 
     for test_set, test_dl in zip(test_sets, test_dl):
+        print('fuck')
         results_dict = decode_dataset(
             dl=test_dl,
             params=params,
