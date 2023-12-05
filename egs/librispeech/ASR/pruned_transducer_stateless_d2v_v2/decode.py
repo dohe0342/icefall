@@ -588,7 +588,7 @@ def save_results(
             params.res_dir / f"recogs-{test_set_name}-{key}-{params.suffix}.txt"
         )
         results = sorted(results)
-        for cut_id, hyp_words, ref_text in restuls:
+        for cut_id, hyp_words, ref_text in results:
             print(f"{cut_id}_hyp : {' '.join(hyp_words)}")
 
         store_transcripts(filename=recog_path, texts=results)
