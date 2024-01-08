@@ -306,7 +306,8 @@ class Conformer(Transformer):
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
             lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
             lm_am_sim = lm_am_sim.contiguous()
-
+            
+            '''
             if  == 0:
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
                 for b in range(lm_am_sim_cp.size(0)):
@@ -317,7 +318,7 @@ class Conformer(Transformer):
                         except: pass
                     plt.savefig(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}/alingment{b}.png')
                     plt.close()
-
+            '''
             #print(lm_am_sim.size())
             #print('0'*20)
 
