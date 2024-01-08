@@ -730,12 +730,8 @@ def compute_loss(
                 allow_truncate=15,
             )
 
-            print('1')
-
             alignment_graph = graph_compiler.compile(alignment_target)
 
-            print('2')
-            
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
                 dense_fsa_vec=dense_fsa_vec,
@@ -744,8 +740,6 @@ def compute_loss(
                 use_double_scores=params.use_double_scores,
             )
             
-            print('3')
-            
             distill_loss = k2.ctc_loss(
                 decoding_graph=alignment_graph,
                 dense_fsa_vec=dense_fsa_vec_lm,
@@ -753,8 +747,6 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
-
-            print('4')
 
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
