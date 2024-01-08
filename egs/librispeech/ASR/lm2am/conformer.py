@@ -158,9 +158,9 @@ class Conformer(Transformer):
         self.distill = distill
         if self.distill:
             ########### for gpt2
-            self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
+            self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
             self.tokenizer.pad_token = self.tokenizer.eos_token
-            self.lm = GPT2Model.from_pretrained('gpt2-medium')
+            self.lm = GPT2Model.from_pretrained('gpt2-large')
 
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 2
@@ -306,6 +306,17 @@ class Conformer(Transformer):
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
             lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
             lm_am_sim = lm_am_sim.contiguous()
+
+            if  == 0:
+                lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
+                for b in range(lm_am_sim_cp.size(0)):
+                    plt.matshow(lm_am_sim_cp[b].T.cpu().numpy())
+                    plt.colorbar()
+                    if not os.path.exists(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}'):
+                        try: os.makedirs(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}')
+                        except: pass
+                    plt.savefig(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}/alingment{b}.png')
+                    plt.close()
 
             #print(lm_am_sim.size())
             #print('0'*20)
