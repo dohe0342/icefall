@@ -6,7 +6,7 @@
 	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 	--master-port 12356 \
     --exp-dir lm2am/$1 \
-    --full-libri 0 \
+    --full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
     --spec-aug-time-warp-factor 80 \
