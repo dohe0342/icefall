@@ -288,7 +288,7 @@ class Conformer(Transformer):
             with torch.no_grad():
                 lm_output = self.lm(**lm_input)
                 lm_output = lm_output['last_hidden_state']
-                lm_output = F.normalize(lm_output, dim=-1)
+                lm_output = F.normalize(lm_output, dim=2)
             
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
             for layer in self.lm_decoder[:-1]:
