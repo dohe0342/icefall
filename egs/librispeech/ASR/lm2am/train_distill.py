@@ -584,7 +584,7 @@ def compute_loss(
         )
         
         supervision_segments_lm, _ = encode_supervisions(
-            supervisions, subsampling_factor=16
+            supervisions, subsampling_factor=32
         )
 
         #print(supervision_segments_lm)
