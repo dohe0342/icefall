@@ -297,6 +297,10 @@ class Conformer(Transformer):
             am_output = self.lm_decoder[-1](am_output)
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
+            print('0'*20)
+            print(lm_am_sim.size())
+            print('0'*20)
+            exit()
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
             lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
