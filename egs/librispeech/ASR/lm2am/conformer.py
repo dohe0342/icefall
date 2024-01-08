@@ -163,7 +163,7 @@ class Conformer(Transformer):
             self.lm = GPT2Model.from_pretrained('gpt2-medium')
 
             self.lm_decoder = nn.ModuleList()
-            conv_layers = [(d_model, 5, 2)] * 2
+            conv_layers = [(d_model, 5, 2)] * 3
             for conv in conv_layers:
                 d, k, s = conv
                 self.lm_decoder.append(ScaledConv1d(d, d, k, s, bias=False))
