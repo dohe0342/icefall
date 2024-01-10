@@ -15,7 +15,8 @@
     --num-decoder-layers 0 \
 	--distill True \
 	--distill-rate 0.1 \
-	--unused-params True
+	--unused-params True \
+	--lm-name mistralai/Mistral-7B-v0.1
 	#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 	#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 #--ted2 True \
