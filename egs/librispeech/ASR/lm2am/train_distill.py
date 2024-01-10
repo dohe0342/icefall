@@ -1261,6 +1261,7 @@ def run(rank, world_size, args):
         params.start_epoch <= 1
         and params.start_batch <= 0
         and not params.print_diagnostics
+        and 0
     ):
         scan_pessimistic_batches_for_oom(
             model=model,
