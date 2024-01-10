@@ -3,7 +3,6 @@
     ./lm2am/train_distill.py \
 	--master-port 12355 \
     --exp-dir lm2am/$1 \
-	--start-epoch 26 \
     --full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
