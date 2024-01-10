@@ -4,6 +4,7 @@
 	--master-port 12355 \
     --exp-dir lm2am/$1 \
     --full-libri 1 \
+	--start-epoch 26 \
 	--use-fp16 True \
 	--num-workers 9 \
     --spec-aug-time-warp-factor 80 \
