@@ -1154,11 +1154,9 @@ def run(rank, world_size, args):
         model_avg = copy.deepcopy(model)
 
     assert params.start_epoch > 0, params.start_epoch
-    print('8'*20)
     checkpoints = load_checkpoint_if_available(
         params=params, model=model, model_avg=model_avg
     )
-    print('8'*20)
 
     model.to(device)
     if world_size > 1:
