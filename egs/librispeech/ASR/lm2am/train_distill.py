@@ -1381,6 +1381,9 @@ def main():
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
+    print(parser)
+    exit()
+
     world_size = args.world_size
     assert world_size >= 1
     if world_size > 1:
