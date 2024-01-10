@@ -172,7 +172,7 @@ class Conformer(Transformer):
                 self.lm = GPT2Model.from_pretrained(lm_name)
             
             if 'mistral' in lm_name:
-                self.tokenizer = MistralModel.from_pretrained(lm_name)
+                self.tokenizer = AutoTokenizer.from_pretrained(lm_name)
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 self.lm = MistralModel.from_pretrained(lm_name)
 
