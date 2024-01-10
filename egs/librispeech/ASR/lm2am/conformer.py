@@ -169,7 +169,6 @@ class Conformer(Transformer):
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 self.lm = MistralModel.from_pretrained(lm_name)
 
-
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 2
             for conv in conv_layers:
