@@ -164,7 +164,7 @@ class Conformer(Transformer):
             
             self.tokenizer = MistralModel.from_pretrained('gpt2-large')
             self.tokenizer.pad_token = self.tokenizer.eos_token
-            self.lm = GPT2Model.from_pretrained('gpt2-large')
+            self.lm = MistralModel.from_pretrained('gpt2-large')
 
 
             self.lm_decoder = nn.ModuleList()
