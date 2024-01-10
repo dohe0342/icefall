@@ -455,6 +455,10 @@ def load_checkpoint_if_available(
     Returns:
       Return a dict containing previously saved training info.
     """
+    print('*'*20)
+    print(params)
+    print('*'*20)
+
     if params.start_batch > 0:
         filename = params.exp_dir / f"checkpoint-{params.start_batch}.pt"
     elif params.start_epoch > 1:
