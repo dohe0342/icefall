@@ -1381,7 +1381,7 @@ def main():
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
-    print(parser)
+    print(args)
     exit()
 
     world_size = args.world_size
