@@ -159,9 +159,10 @@ class Conformer(Transformer):
         self.distill = distill
         if self.distill:
             ########### for gpt2
-            #self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
-            #self.tokenizer.pad_token = self.tokenizer.eos_token
-            #self.lm = GPT2Model.from_pretrained('gpt2-large')
+            if 'gpt2' in lm_name:
+                self.tokenizer = GPT2Tokenizer.from_pretrained(lm_name)
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+                self.lm = GPT2Model.from_pretrained(lm_name)
             
             self.tokenizer = MistralModel.from_pretrained('')
             self.tokenizer.pad_token = self.tokenizer.eos_token
