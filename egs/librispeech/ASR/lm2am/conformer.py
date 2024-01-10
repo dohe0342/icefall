@@ -59,6 +59,7 @@ class Conformer(Transformer):
         interctc_condition: bool = False,
         learnable_alpha: bool = True,
         distill:bool = False,
+        lm_name:str = 'None', 
     ) -> None:
         """
         Args:
@@ -162,7 +163,7 @@ class Conformer(Transformer):
             #self.tokenizer.pad_token = self.tokenizer.eos_token
             #self.lm = GPT2Model.from_pretrained('gpt2-large')
             
-            self.tokenizer = MistralModel.from_pretrained('gpt2-large')
+            self.tokenizer = MistralModel.from_pretrained('')
             self.tokenizer.pad_token = self.tokenizer.eos_token
             self.lm = MistralModel.from_pretrained('gpt2-large')
 
