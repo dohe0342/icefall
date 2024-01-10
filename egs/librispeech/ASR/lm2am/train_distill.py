@@ -181,6 +181,11 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
         type=float,
         default=0.3,
     )
+    parser.add_argument(
+        "--lm-name",
+        type=str,
+        default='none',
+    )
 
 
 def get_parser() -> argparse.ArgumentParser:
