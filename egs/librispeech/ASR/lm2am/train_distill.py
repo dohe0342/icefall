@@ -224,7 +224,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--start-epoch",
         type=int,
-        default=1,
+        default=26,
         help="""Resume training from this epoch. It should be positive.
         If larger than 1, it will load checkpoint from
         exp-dir/epoch-{start_epoch-1}.pt
