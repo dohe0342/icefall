@@ -459,6 +459,9 @@ def load_checkpoint_if_available(
         filename = params.exp_dir / f"checkpoint-{params.start_batch}.pt"
     elif params.start_epoch > 1:
         filename = params.exp_dir / f"epoch-{params.start_epoch-1}.pt"
+        print('*'*20)
+        print('fuck!!!!!!!!!!!!!!!!!!!!1')
+        print('*'*20)
     else:
         return None
 
