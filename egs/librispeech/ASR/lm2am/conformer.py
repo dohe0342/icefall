@@ -176,6 +176,12 @@ class Conformer(Transformer):
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 self.lm = MistralModel.from_pretrained(lm_name, torch_dtype=torch.float16)
 
+            if 'phi-2' in lm_name:
+                from transformers import PhiModel
+                self.tokenizer = AutoTokenizer.from_pretrained("microsoft/phi-2", trust_remote_code=True)
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+                self.lm = PhiModel.from_pretrained("microsoft/phi-2", torch_dtype="auto", trust_remote_code=True)
+
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 2
             for conv in conv_layers:
@@ -189,11 +195,11 @@ class Conformer(Transformer):
                 self.lm_decoder.append(nn.GELU())
             #self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
             #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
-            try: 
+            if 'gpt2' in lm_name:
                 self.lm_decoder.append(nn.Linear(self.lm.embed_dim, d_model, bias=False))
                 #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
-            except: 
-                self.lm_decoder.append(nn.Linear(4096, d_model, bias=False))
+            else:
+                self.lm_decoder.append(nn.Linear(self.lm.config.hidden_size, d_model, bias=False))
 
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
             #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")

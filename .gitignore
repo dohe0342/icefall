@@ -33,3 +33,7 @@ node_modules
 
 *.param
 *.bin
+
+# ignore data folder
+db/
+data/
