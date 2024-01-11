@@ -1159,17 +1159,12 @@ def run(rank, world_size, args):
         params=params, model=model, model_avg=model_avg
     )
     
-    print('1'*20)
     model.to(device)
-    print('2'*20)
     if world_size > 1:
         logging.info("Using DDP")
         model = DDP(model, device_ids=[rank], find_unused_parameters=params.unused_params)
-    print('3'*20)
     
-    print('*'*20)
     print(len([p for n, p in model.named_parameters() if 'lm.' not in n]))
-    print('*'*20)
     
     optimizer = optim.Eve([p for n, p in model.named_parameters() if 'lm.' not in n], lr=params.initial_lr)
     scheduler = optim.Eden(optimizer, params.lr_batches, params.lr_epochs)
