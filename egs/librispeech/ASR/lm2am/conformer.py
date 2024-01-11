@@ -190,8 +190,9 @@ class Conformer(Transformer):
             #self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
             #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
             print('*'*20)
-            print(d_model, self.lm.embed_dim)
+            print(lm_name, d_model, self.lm.embed_dim)
             print('*'*20)
+            
             try: 
                 #self.lm_decoder.append(nn.Linear(self.lm.embed_dim, d_model, bias=False))
                 self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
