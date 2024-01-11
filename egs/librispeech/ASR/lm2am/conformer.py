@@ -189,7 +189,9 @@ class Conformer(Transformer):
                 self.lm_decoder.append(nn.GELU())
             #self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
             #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
-            try: self.lm_decoder.append(nn.Linear(self.lm.embed_dim, d_model, bias=False))
+            try: 
+                #self.lm_decoder.append(nn.Linear(self.lm.embed_dim, d_model, bias=False))
+                self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
             except: self.lm_decoder.append(nn.Linear(4096, d_model, bias=False))
 
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
