@@ -1168,7 +1168,7 @@ def run(rank, world_size, args):
     print('3'*20)
     
     print('*'*20)
-    print(len([p for n, p in model.named_paramters() if 'lm.' not in n]))
+    print(len([p for n, p in model.module.named_paramters() if 'lm.' not in n]))
     print('*'*20)
     
     optimizer = optim.Eve([p for n, p in model.named_paramters() if 'lm.' not in n], lr=params.initial_lr)
