@@ -174,7 +174,7 @@ class Conformer(Transformer):
             if 'mistral' in lm_name:
                 self.tokenizer = AutoTokenizer.from_pretrained(lm_name)
                 self.tokenizer.pad_token = self.tokenizer.eos_token
-                self.lm = MistralModel.from_pretrained(lm_name)
+                self.lm = MistralModel.from_pretrained(lm_name, torch_dtype=torch.float16)
 
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 2
