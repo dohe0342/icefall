@@ -1162,12 +1162,10 @@ def run(rank, world_size, args):
     print('1'*20)
     model.to(device)
     print('2'*20)
-    model.to(device)
-    print('3'*20)
-    model.to(device)
     if world_size > 1:
         logging.info("Using DDP")
         model = DDP(model, device_ids=[rank], find_unused_parameters=params.unused_params)
+    print('3'*20)
     
     print('*'*20)
     print(len([p for n, p in model.named_paramters() if 'lm.' not in n]))
