@@ -6,4 +6,5 @@ python3 ./lm2am/decode.py \
 	--max-duration 200 \
 	--num-decoder-layers 0 \
 	--distill True \
-	--method ctc-greedy-search 
+	--method ctc-greedy-search \
+	--lm-name gpt2
