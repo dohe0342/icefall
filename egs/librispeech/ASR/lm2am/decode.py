@@ -808,11 +808,6 @@ def main() -> None:
     else:
         G = None
     
-    print('*'*20)
-    print(params.lm_name)
-    print('*'*20)
-    exit()
-
     model = Conformer(
         num_features=params.feature_dim,
         num_classes=num_classes,
