@@ -1158,7 +1158,10 @@ def run(rank, world_size, args):
     checkpoints = load_checkpoint_if_available(
         params=params, model=model, model_avg=model_avg
     )
-
+    
+    print('1'*20)
+    model.to(device)
+    print('2'*20)
     model.to(device)
     if world_size > 1:
         logging.info("Using DDP")
