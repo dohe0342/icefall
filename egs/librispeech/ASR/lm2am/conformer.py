@@ -166,9 +166,6 @@ class Conformer(Transformer):
         self.distill = distill
         if self.distill:
             ########### for gpt2
-            print('8'*20)
-            print(lm_name)
-            print('8'*20)
             if 'gpt2' in lm_name:
                 self.tokenizer = GPT2Tokenizer.from_pretrained(lm_name)
                 self.tokenizer.pad_token = self.tokenizer.eos_token
