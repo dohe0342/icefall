@@ -807,7 +807,10 @@ def main() -> None:
         G.lm_scores = G.scores.clone()
     else:
         G = None
-
+    
+    print('*'*20)
+    print(params.lm_name)
+    print('*'*20)
     model = Conformer(
         num_features=params.feature_dim,
         num_classes=num_classes,
