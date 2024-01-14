@@ -17,10 +17,10 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 	--distill-rate 0.1 \
 	--unused-params True \
 	--lm-name gpt2-xl
-	#--lm-name mistralai/Mistral-7B-v0.1
-	#--lm-name gpt2
-	#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
-	#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+#--lm-name mistralai/Mistral-7B-v0.1
+#--lm-name gpt2
+#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 #--ted2 True \
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 #--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
