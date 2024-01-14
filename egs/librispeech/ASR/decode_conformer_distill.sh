@@ -8,4 +8,3 @@ python3 ./lm2am/decode.py \
 	--distill True \
 	--method ctc-greedy-search \
 	--lm-name gpt2-xl
-
