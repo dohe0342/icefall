@@ -4,7 +4,6 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 	--master-port 12356 \
 	--exp-dir lm2am/$1 \
 	--full-libri 1 \
-	--ted2 True \
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
@@ -17,7 +16,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 	--distill True \
 	--distill-rate 0.1 \
 	--unused-params True \
-	--lm-name gpt2
+	--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
 #--lm-name gpt2
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
