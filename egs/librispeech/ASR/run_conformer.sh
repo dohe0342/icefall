@@ -20,8 +20,6 @@ END
 WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./conformer_ctc2/train.py \
-    --manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
-    --lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
     --exp-dir conformer_ctc2/$1 \
     --full-libri 1 \
     --use-fp16 True \
@@ -34,3 +32,6 @@ WORLD_SIZE=4
     --att-rate 0.0 \
     --num-decoder-layers 0 \
     --master-port 12355
+#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+
