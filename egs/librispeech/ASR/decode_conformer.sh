@@ -3,6 +3,6 @@ python3 ./conformer_ctc2/decode.py \
 	--use-averaged-model True \
 	--epoch $2 \
 	--avg 10 \
-	--max-duration 100 \
+	--max-duration 200 \
 	--num-decoder-layers 0 \
 	--method ctc-greedy-search
