@@ -1,4 +1,7 @@
 python3 ./conformer_ctc2/decode.py \
+	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+	--ted2 True \
 	--exp-dir $1 \
 	--use-averaged-model True \
 	--epoch $2 \
