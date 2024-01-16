@@ -16,7 +16,8 @@ export CUDA_VISIBLE_DEVICES="4,5,6,7"
 	--distill True \
 	--distill-rate 0.1 \
 	--unused-params True \
-	--lm-name gpt2-medium
+	--lm-name bert-base-uncased
+	#--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
 #--lm-name gpt2
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
