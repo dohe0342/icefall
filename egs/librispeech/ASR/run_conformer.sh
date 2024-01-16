@@ -19,8 +19,8 @@ END
 
 WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
-    ./conformer_ctc2/train.py \
-    --exp-dir conformer_ctc2/$1 \
+    ./conformer_ctc2_origin/train.py \
+    --exp-dir conformer_ctc2_origin/$1 \
     --full-libri 1 \
     --use-fp16 True \
     --num-workers 9 \
