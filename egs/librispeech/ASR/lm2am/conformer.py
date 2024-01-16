@@ -169,7 +169,7 @@ class Conformer(Transformer):
             if 'bert' in lm_name:
                 self.tokenizer = BertTokenizer.from_pretrained(lm_name)
                 print('-'*20)
-                self.tokenizer.pad_token = self.tokenizer.eos_token
+                #self.tokenizer.pad_token = self.tokenizer.eos_token
                 print('-'*20)
                 self.lm = BertModel.from_pretrained(lm_name)
 
