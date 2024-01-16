@@ -22,9 +22,8 @@ WORLD_SIZE=4
     ./conformer_ctc2/train.py \
     --manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
     --lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
-	--ted2 True \
     --exp-dir conformer_ctc2/$1 \
-    --full-libri 0 \
+    --full-libri 1 \
     --use-fp16 True \
     --num-workers 9 \
     --spec-aug-time-warp-factor 80 \
