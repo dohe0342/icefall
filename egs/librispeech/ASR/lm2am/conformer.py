@@ -166,6 +166,11 @@ class Conformer(Transformer):
         self.distill = distill
         if self.distill:
             ########### for gpt2
+            if 'bert' in lm_name:
+                self.tokenizer = BertTokenizer.from_pretrained(lm_name)
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+                self.lm = BertModel.from_pretrained(lm_name)
+
             if 'gpt2' in lm_name:
                 self.tokenizer = GPT2Tokenizer.from_pretrained(lm_name)
                 self.tokenizer.pad_token = self.tokenizer.eos_token
