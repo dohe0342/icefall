@@ -168,7 +168,9 @@ class Conformer(Transformer):
             ########### for gpt2
             if 'bert' in lm_name:
                 self.tokenizer = BertTokenizer.from_pretrained(lm_name)
+                print('-'*20)
                 self.tokenizer.pad_token = self.tokenizer.eos_token
+                print('-'*20)
                 self.lm = BertModel.from_pretrained(lm_name)
 
             if 'gpt2' in lm_name:
