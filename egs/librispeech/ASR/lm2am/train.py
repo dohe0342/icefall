@@ -92,6 +92,12 @@ LRSchedulerType = Union[torch.optim.lr_scheduler._LRScheduler, optim.LRScheduler
 
 def add_model_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
+        "--quant",
+        type=str2bool,
+        default=True,
+    )
+
+    parser.add_argument(
         "--num-encoder-layers",
         type=int,
         default=18,
