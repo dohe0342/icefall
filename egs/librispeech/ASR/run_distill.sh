@@ -10,7 +10,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 	--max-duration 1200 \
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
-	--num-epochs 70 \
+	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
 	--distill True \
