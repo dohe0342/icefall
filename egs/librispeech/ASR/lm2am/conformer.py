@@ -43,7 +43,10 @@ from transformers import (
     AutoTokenizer, 
     MistralModel,
 )
-from fairseq.modules import TransposeLast
+from fairseq.modules import (
+    TransposeLast,
+    GumbelVectorQuantizer,
+)
 
 
 class Conformer(Transformer):
