@@ -67,7 +67,7 @@ class Conformer(Transformer):
         learnable_alpha: bool = True,
         distill:bool = False,
         lm_name:str = 'None', 
-        quant: bool = True,
+        quant: bool = False,
     ) -> None:
         """
         Args:
