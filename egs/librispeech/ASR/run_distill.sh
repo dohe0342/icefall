@@ -16,7 +16,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 	--distill True \
 	--distill-rate 0.1 \
 	--unused-params True \
-	--lm-name bert-base-uncased
+	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
