@@ -129,6 +129,11 @@ class Conformer(Transformer):
 
         self.encoder_pos = RelPositionalEncoding(d_model, dropout)
 
+        if quant:
+            self.quant = GumbelVectorQuantizer(d_model, int(d_model/4), (1,1,1), 4, Flase, d_model, True,)
+        else:
+            self.quant = None
+
         encoder_layer = ConformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
