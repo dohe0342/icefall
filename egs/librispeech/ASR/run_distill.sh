@@ -1,9 +1,9 @@
 WORLD_SIZE=4
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
 ./lm2am/train_distill.py \
 	--master-port 12356 \
 	--exp-dir lm2am/$1 \
-	--full-libri 0 \
+	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
