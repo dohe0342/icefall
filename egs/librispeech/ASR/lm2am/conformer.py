@@ -339,7 +339,7 @@ class Conformer(Transformer):
             am_output = F.normalize(am_output, dim=2)
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
-            lm_am_sim = 50*lm_am_sim
+            lm_am_sim = 100*lm_am_sim
             #print('0'*20)
             #print(am_output.size())
             #print(lm_output.size())
