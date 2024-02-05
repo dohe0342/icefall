@@ -1,4 +1,4 @@
-python3 ./conformer_ctc2/decode.py \
+python3 ./conformer_ctc2_origin/decode.py \
 	--exp-dir $1 \
 	--use-averaged-model True \
 	--epoch $2 \
