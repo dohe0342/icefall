@@ -1135,11 +1135,11 @@ def run(rank, world_size, args):
         )    
     
     if params.start_batch > 0 and checkpoints and "sampler" in checkpoints:
-            # We only load the sampler's state dict when it loads a checkpoint
-            # saved in the middle of an epoch
-            sampler_state_dict = checkpoints["sampler"]
-        else:
-            sampler_state_dict = None
+        # We only load the sampler's state dict when it loads a checkpoint
+        # saved in the middle of an epoch
+        sampler_state_dict = checkpoints["sampler"]
+    else:
+        sampler_state_dict = None
 
     if params.ted2:
         tedlium = TedAsrDataModule(args)
