@@ -1133,18 +1133,18 @@ def run(rank, world_size, args):
             < num_tokens / float(c.features.num_frames)
             < max_output_input_ratio
         )    
-
-    if params.ted2:
-        tedlium = TedAsrDataModule(args)
-        train_cuts = tedlium.train_cuts()
-
-        if params.start_batch > 0 and checkpoints and "sampler" in checkpoints:
+    
+    if params.start_batch > 0 and checkpoints and "sampler" in checkpoints:
             # We only load the sampler's state dict when it loads a checkpoint
             # saved in the middle of an epoch
             sampler_state_dict = checkpoints["sampler"]
         else:
             sampler_state_dict = None
 
+    if params.ted2:
+        tedlium = TedAsrDataModule(args)
+        train_cuts = tedlium.train_cuts()
+        
         train_dl = tedlium.train_dataloaders(
             train_cuts, sampler_state_dict=sampler_state_dict
         )
