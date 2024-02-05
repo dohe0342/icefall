@@ -824,6 +824,7 @@ def main() -> None:
         learnable_alpha=params.learnable_alpha,
         distill=params.distill,
         lm_name=params.lm_name,
+        quant=params.quant,
     )
 
     if not params.use_averaged_model:
