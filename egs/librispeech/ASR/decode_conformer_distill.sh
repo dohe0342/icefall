@@ -3,7 +3,7 @@ python3 ./lm2am/decode.py \
 	--use-averaged-model True \
 	--epoch $2 \
 	--avg 10 \
-	--max-duration 600 \
+	--max-duration 1200 \
 	--num-decoder-layers 0 \
 	--distill True \
 	--method ctc-greedy-search \
