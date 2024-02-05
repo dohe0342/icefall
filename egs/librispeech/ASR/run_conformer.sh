@@ -20,7 +20,7 @@ END
 WORLD_SIZE=4
     export CUDA_VISIBLE_DEVICES="0,1,2,3"
     ./conformer_ctc2/train.py \
-    --master-port 12355 \
+    --master-port 12356 \
     --exp-dir conformer_ctc2/$1 \
     --full-libri 1 \
     --use-fp16 True \
