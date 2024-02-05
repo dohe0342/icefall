@@ -1152,7 +1152,7 @@ def run(rank, world_size, args):
     )
     logging.info(model)
 
-    num_param = sum([p.numel() for p in model.parameters()])
+    num_param = sum([p.numel() for n, p in model.named_parameters() if 'lm' not in n])
     logging.info(f"Number of model parameters: {num_param}")
 
     assert params.save_every_n >= params.average_period
