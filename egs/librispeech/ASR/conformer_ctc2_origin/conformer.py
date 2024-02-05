@@ -58,7 +58,7 @@ class Conformer(Transformer):
         subsampling_factor: int = 4,
         d_model: int = 256,
         nhead: int = 4,
-        dim_feedforward: int = 2048,
+        dim_feedforward: int = 1024,
         num_encoder_layers: int = 12,
         num_decoder_layers: int = 6,
         dropout: float = 0.1,
