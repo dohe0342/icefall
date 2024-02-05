@@ -140,7 +140,7 @@ def get_parser():
     parser.add_argument(
         "--num-decoder-layers",
         type=int,
-        default=6,
+        default=0,
         help="""Number of decoder layer of transformer decoder.
         Setting this to 0 will not create the decoder at all (pure CTC model)
         """,
