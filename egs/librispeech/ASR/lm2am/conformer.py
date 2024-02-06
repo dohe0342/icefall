@@ -353,7 +353,6 @@ class Conformer(Transformer):
                     am_output = layer(am_output)
                 am_output = am_output.transpose(1, 2)
                 print(am_output.size())
-
             
             if self.quant is not None:
                 am_output = self.quant(am_output)
