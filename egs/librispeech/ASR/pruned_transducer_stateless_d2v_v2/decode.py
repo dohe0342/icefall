@@ -801,6 +801,7 @@ def main():
                         filename_end=filename_end,
                         device=device,
                     )
+                    strict=False
                 )
 
     model.to(device)
