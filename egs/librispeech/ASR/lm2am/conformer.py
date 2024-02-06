@@ -348,7 +348,7 @@ class Conformer(Transformer):
                 lm_output = self.lm_decoder[-1](lm_output)
 
             else:
-                for layer in self.lm_decoder[:-1]:
+                for layer in self.lm_decoder:
                     am_output = layer(am_output)
                 am_output = am_output.transpose(1, 2)
                 #am_output = self.lm_decoder[-1](am_output)
