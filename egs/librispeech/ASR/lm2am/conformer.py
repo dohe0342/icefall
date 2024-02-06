@@ -131,7 +131,7 @@ class Conformer(Transformer):
 
         if quant:
             self.quant = GumbelVectorQuantizer(dim=d_model, 
-                                               num_vars=320, 
+                                               num_vars=80, 
                                                temp=(2, 0.5, 0.999995), 
                                                groups=4, 
                                                combine_groups=False, 
@@ -339,12 +339,21 @@ class Conformer(Transformer):
                 lm_output = F.normalize(lm_output, dim=2)
             
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
-            for layer in self.lm_decoder[:-1]:
-                am_output = layer(am_output)
-            am_output = am_output.transpose(1, 2)
-            #am_output = self.lm_decoder[-1](am_output)
+
             if self.quant is None:
+                for layer in self.lm_decoder[:-1]:
+                    am_output = layer(am_output)
+                am_output = am_output.transpose(1, 2)
+                #am_output = self.lm_decoder[-1](am_output)
                 lm_output = self.lm_decoder[-1](lm_output)
+
+            else:
+                for layer in self.lm_decoder[:-1]:
+                    am_output = layer(am_output)
+                am_output = am_output.transpose(1, 2)
+                #am_output = self.lm_decoder[-1](am_output)
+                lm_output = self.lm_decoder[-1](lm_output)
+
             
             am_output = F.normalize(am_output, dim=2)
             if self.quant is not None:
