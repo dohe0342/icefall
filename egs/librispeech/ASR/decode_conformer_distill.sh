@@ -1,6 +1,6 @@
 python3 ./lm2am/decode.py \
 	--exp-dir $1 \
-	--use-averaged-model False \
+	--use-averaged-model false \
 	--epoch $2 \
 	--avg 1 \
 	--max-duration 400 \
