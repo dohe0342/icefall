@@ -221,6 +221,9 @@ class Conformer(Transformer):
             else:
                 self.lm_decoder.append(nn.Linear(self.lm.config.hidden_size, d_model, bias=False))
 
+            if quant:
+                del self.lm_decoder[-1]
+
             #self.tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking')
             #self.lm = BertModel.from_pretrained("bert-large-uncased-whole-word-masking")
             #self.lm = GPT2Model.from_pretrained('/home/work/workspace/models/checkpoint-420500')
