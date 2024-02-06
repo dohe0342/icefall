@@ -130,6 +130,7 @@ class Conformer(Transformer):
         self.encoder_pos = RelPositionalEncoding(d_model, dropout)
 
         if quant:
+            '''
             self.quant = GumbelVectorQuantizer(dim=d_model, 
                                                num_vars=120, 
                                                temp=(2, 0.5, 0.999995), 
@@ -137,6 +138,15 @@ class Conformer(Transformer):
                                                combine_groups=False, 
                                                vq_dim=768, 
                                                time_first=True,)
+            '''
+            self.quant = GumbelVectorQuantizer(dim=d_model, 
+                                               num_vars=d_model/4, 
+                                               temp=(2, 0.5, 0.999995), 
+                                               groups=4, 
+                                               combine_groups=False, 
+                                               vq_dim=d_model, 
+                                               time_first=True,)
+
         else:
             self.quant = None
 
