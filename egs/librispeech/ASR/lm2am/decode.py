@@ -901,7 +901,7 @@ def main() -> None:
                     filename_start=filename_start,
                     filename_end=filename_end,
                     device=device,
-                )
+                ),
             strict=False,
             )
 
