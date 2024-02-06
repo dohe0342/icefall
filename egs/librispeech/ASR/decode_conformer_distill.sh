@@ -8,4 +8,5 @@ python3 ./lm2am/decode.py \
 	--distill True \
 	--method ctc-greedy-search \
 	--quant True \
+	--kernel-size 31 \
 	--lm-name gpt2
