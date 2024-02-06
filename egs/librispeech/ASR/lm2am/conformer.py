@@ -351,6 +351,7 @@ class Conformer(Transformer):
                 for layer in self.lm_decoder:
                     am_output = layer(am_output)
                 am_output = am_output.transpose(1, 2)
+                print(am_output.size())
 
             
             am_output = F.normalize(am_output, dim=2)
