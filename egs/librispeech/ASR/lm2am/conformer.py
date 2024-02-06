@@ -131,7 +131,7 @@ class Conformer(Transformer):
 
         if quant:
             self.quant = GumbelVectorQuantizer(dim=d_model, 
-                                               num_vars=320, 
+                                               num_vars=160, 
                                                temp=(2, 0.5, 0.999995), 
                                                groups=8, 
                                                combine_groups=False, 
