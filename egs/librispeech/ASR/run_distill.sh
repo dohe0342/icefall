@@ -14,7 +14,7 @@ export CUDA_VISIBLE_DEVICES="4,5,6,7"
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
 	--distill True \
-	--distill-rate 0.2 \
+	--distill-rate 0.1 \
 	--unused-params True \
 	--quant True \
 	--kernel-size 31 \
