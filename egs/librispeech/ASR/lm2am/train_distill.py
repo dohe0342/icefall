@@ -1301,6 +1301,7 @@ def run(rank, world_size, args):
 
         if tb_writer is not None:
             tb_writer.add_scalar("train/epoch", epoch, params.batch_idx_train)
+            wb_writer.log("train/epoch", epoch, params.batch_idx_train)
 
         params.cur_epoch = epoch
 
