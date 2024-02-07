@@ -1072,7 +1072,7 @@ def train_one_epoch(
             
             if wb_writer is not None:
                 wb_writer.log(
-                    "train/learning_rate", cur_lr, params.batch_idx_train
+                    {"train/learning_rate":cur_lr}, step=params.batch_idx_train
                 )
                 loss_info.write_summary(
                     wb_writer, "train/current_", params.batch_idx_train
