@@ -914,9 +914,9 @@ class MetricsTracker(collections.defaultdict):
 
     def write_summary(
         self,
-        tb_writer: SummaryWriter,
-        prefix: str,
-        batch_idx: int,
+        tb_writer: SummaryWriter = None,
+        prefix: str = None,
+        batch_idx: int = None,
         wb_writer = None,
     ) -> None:
         """Add logging information to a TensorBoard writer.
@@ -932,7 +932,6 @@ class MetricsTracker(collections.defaultdict):
         
         for k, v in self.norm_items():
             wb_writer.log(prefix + k, v, batch_idx)
-
 
 
 def concat(ragged: k2.RaggedTensor, value: int, direction: str) -> k2.RaggedTensor:
