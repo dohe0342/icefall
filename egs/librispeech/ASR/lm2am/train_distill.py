@@ -1131,12 +1131,16 @@ def run(rank, world_size, args):
     logging.info(params)
 
     if args.tensorboard and rank == 0:
-        exp_name = str(params.exp_dir).split('/')[-1]
         tb_writer = SummaryWriter(log_dir=f"{params.exp_dir}/tensorboard")
+    else:
+        tb_writer = None
+    
+    if args.tensorboard and rank == 0:
+        exp_name = str(params.exp_dir).split('/')[-1]
         wandb.tensorboard.patch(root_logdir=f"{params.exp_dir}/tensorboard")
         wb_writer = wandb.init(project="COMAT-v2", name=exp_name)
     else:
-        tb_writer = None
+        wb_writer = None
 
     lexicon = Lexicon(params.lang_dir)
     max_token_id = max(lexicon.tokens)
