@@ -915,9 +915,9 @@ class MetricsTracker(collections.defaultdict):
     def write_summary(
         self,
         tb_writer: SummaryWriter = None,
-        wb_writer = None,
         prefix: str = None,
         batch_idx: int = None,
+        wb_writer = None,
     ) -> None:
         """Add logging information to a TensorBoard writer.
 
