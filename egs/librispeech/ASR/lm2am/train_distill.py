@@ -1337,6 +1337,9 @@ def run(rank, world_size, args):
     if world_size > 1:
         torch.distributed.barrier()
         cleanup_dist()
+    
+    if args.tensorboard and rank == 0: wandb.finish()
+
 
 
 def scan_pessimistic_batches_for_oom(
