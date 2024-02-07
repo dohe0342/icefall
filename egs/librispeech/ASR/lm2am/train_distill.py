@@ -1087,6 +1087,11 @@ def train_one_epoch(
                 valid_info.write_summary(
                     tb_writer, "train/valid_", params.batch_idx_train
                 )
+            if wb_writer is not None:
+                valid_info.write_summary(
+                    tb_writer, "train/valid_", params.batch_idx_train
+                )
+
 
     loss_value = tot_loss["loss"] / tot_loss["frames"]
     params.train_loss = loss_value
