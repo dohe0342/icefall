@@ -79,6 +79,13 @@ def get_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--wandb",
+        type=str2bool,
+        default=True,
+        help="Should various information be logged in wandb.",
+    )
+
+    parser.add_argument(
         "--iter",
         type=int,
         default=0,
@@ -954,7 +961,6 @@ def main() -> None:
     '''
     exp_name = str(params.exp_dir).split('/')[-1]
     wb_writer = wandb.init(project="COMAT-v2", name=exp_name)
-
 
     for test_set, test_dl in zip(test_sets, test_dls):
         results_dict = decode_dataset(
