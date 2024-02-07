@@ -221,6 +221,13 @@ def get_parser() -> argparse.ArgumentParser:
         default=True,
         help="Should various information be logged in tensorboard.",
     )
+    
+    parser.add_argument(
+        "--wandb",
+        type=str2bool,
+        default=True,
+        help="Should various information be logged in wandb.",
+    )
 
     parser.add_argument(
         "--num-epochs",
