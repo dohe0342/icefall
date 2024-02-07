@@ -1,5 +1,5 @@
 WORLD_SIZE=4
-export CUDA_VISIBLE_DEVICES="0,1,2,3"
+export CUDA_VISIBLE_DEVICES="4,5,6,7"
 ./lm2am/train_distill.py \
 	--master-port 12351 \
 	--exp-dir lm2am/$1 \
