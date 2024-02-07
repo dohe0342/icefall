@@ -61,6 +61,8 @@ from icefall.utils import (
     write_error_stats,
 )
 
+import wandb
+
 
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
