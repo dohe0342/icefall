@@ -929,6 +929,10 @@ class MetricsTracker(collections.defaultdict):
         """
         for k, v in self.norm_items():
             tb_writer.add_scalar(prefix + k, v, batch_idx)
+        
+        for k, v in self.norm_items():
+            wb_writer.log(prefix + k, v, batch_idx)
+
 
 
 def concat(ragged: k2.RaggedTensor, value: int, direction: str) -> k2.RaggedTensor:
