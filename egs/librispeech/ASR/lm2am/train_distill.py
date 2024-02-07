@@ -1068,9 +1068,9 @@ def train_one_epoch(
                     "train/learning_rate", cur_lr, params.batch_idx_train
                 )
                 loss_info.write_summary(
-                    tb_writer, "train/current_", params.batch_idx_train
+                    wb_writer, "train/current_", params.batch_idx_train
                 )
-                tot_loss.write_summary(tb_writer, "train/tot_", params.batch_idx_train)
+                tot_loss.write_summary(wb_writer, "train/tot_", params.batch_idx_train)
 
         if batch_idx > 0 and batch_idx % params.valid_interval == 0:
             logging.info("Computing validation loss")
