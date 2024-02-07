@@ -1345,7 +1345,7 @@ def run(rank, world_size, args):
             valid_dl=valid_dl,
             scaler=scaler,
             tb_writer=tb_writer,
-            wb_writer=wb_wriiter,
+            wb_writer=wb_writer,
             world_size=world_size,
             rank=rank,
         )
