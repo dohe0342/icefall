@@ -1135,7 +1135,7 @@ def run(rank, world_size, args):
     else:
         tb_writer = None
     
-    if args.tensorboard and rank == 0:
+    if args.wandb and rank == 0:
         exp_name = str(params.exp_dir).split('/')[-1]
         wandb.tensorboard.patch(root_logdir=f"{params.exp_dir}/tensorboard")
         wb_writer = wandb.init(project="COMAT-v2", name=exp_name)
