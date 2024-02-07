@@ -937,6 +937,7 @@ def train_one_epoch(
     scaler: GradScaler,
     model_avg: Optional[torch.nn.Module] = None,
     tb_writer: Optional[SummaryWriter] = None,
+    wb_writer = None,
     world_size: int = 1,
     rank: int = 0,
 ) -> None:
