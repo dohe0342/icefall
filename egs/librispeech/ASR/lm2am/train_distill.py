@@ -1341,7 +1341,6 @@ def run(rank, world_size, args):
     if args.tensorboard and rank == 0: wandb.finish()
 
 
-
 def scan_pessimistic_batches_for_oom(
     model: Union[torch.nn.Module, DDP],
     train_dl: torch.utils.data.DataLoader,
