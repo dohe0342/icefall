@@ -968,6 +968,8 @@ def train_one_epoch(
         The stored model averaged from the start of training.
       tb_writer:
         Writer to write log messages to tensorboard.
+      wb_writer:
+        Writer to write log messages to wandb.
       world_size:
         Number of nodes in DDP training. If it is 1, DDP is disabled.
       rank:
