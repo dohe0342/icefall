@@ -959,8 +959,11 @@ def main() -> None:
     test_sets = ["test-clean"]
     test_dls = [test_clean_dl]
     '''
-    exp_name = str(params.exp_dir).split('/')[-1]
-    wb_writer = wandb.init(project="COMAT-v2", name=exp_name)
+    if params.wandb:
+        exp_name = str(params.exp_dir).split('/')[-1]
+        wb_writer = wandb.init(project="COMAT-v2", name=exp_name)
+    else:
+        wb_writer = None
 
     for test_set, test_dl in zip(test_sets, test_dls):
         results_dict = decode_dataset(
