@@ -1110,7 +1110,7 @@ def run(rank, world_size, args):
         exp_name = params.exp_dir.split('/')[-1]
         tb_writer = SummaryWriter(log_dir=f"{params.exp_dir}/tensorboard")
         wandb.tensorboard.patch(root_logdir=f"{params.exp_dir}/tensorboard")
-        wandb.init(project="COMAT-v2", name=)
+        wandb.init(project="COMAT-v2", name=exp_name)
     else:
         tb_writer = None
 
