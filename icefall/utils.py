@@ -926,8 +926,13 @@ class MetricsTracker(collections.defaultdict):
                 or "train/current_"
             batch_idx: The current batch index, used as the x-axis of the plot.
         """
-        for k, v in self.norm_items():
-            tb_writer.add_scalar(prefix + k, v, batch_idx)
+        try:
+            for k, v in self.norm_items():
+                tb_writer.add_scalar(prefix + k, v, batch_idx)
+        except:
+            for k, v in self.norm_items():
+                tb_writer.add_scalar(prefix + k, v, batch_idx)
+
 
 
 def concat(ragged: k2.RaggedTensor, value: int, direction: str) -> k2.RaggedTensor:
