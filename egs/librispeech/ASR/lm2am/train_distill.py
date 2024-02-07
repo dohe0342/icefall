@@ -1106,6 +1106,7 @@ def run(rank, world_size, args):
 
     if args.tensorboard and rank == 0:
         tb_writer = SummaryWriter(log_dir=f"{params.exp_dir}/tensorboard")
+        wandb.init(project="COMAT-v2", sync_tensorboard=True)
     else:
         tb_writer = None
 
