@@ -689,7 +689,7 @@ def save_results(
     
     if wb_writer is not None:
         wb_writer.log({test_set_name: wer})
-        
+
     logging.info(s)
 
 
