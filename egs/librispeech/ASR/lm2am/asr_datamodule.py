@@ -365,7 +365,7 @@ class LibriSpeechAsrDataModule:
             validate,
             sampler=valid_sampler,
             batch_size=None,
-            num_workers=9,
+            num_workers=self.args.num_workers,
             persistent_workers=False,
         )
 
