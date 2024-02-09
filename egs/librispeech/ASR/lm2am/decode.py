@@ -688,6 +688,7 @@ def save_results(
         wer = val
     
     if wb_writer is not None:
+        setting_name = f"{test_set_name}_{str(params.epoch)}_{str(params.avg)}"
         wb_writer.log({test_set_name: wer})
 
     logging.info(s)
