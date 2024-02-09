@@ -3,7 +3,7 @@ for epoch in "30" "40"; do
 		python3 ./lm2am/decode.py \
 			--exp-dir $1 \
 			--use-averaged-model True \
-			--epoch $2 \
+			--epoch $epoch \
 			--avg 10 \
 			--max-duration 1200 \
 			--num-decoder-layers 0 \
