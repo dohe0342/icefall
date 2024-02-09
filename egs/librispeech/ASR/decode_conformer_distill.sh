@@ -4,7 +4,7 @@ for epoch in "30" "40"; do
 			--exp-dir $1 \
 			--use-averaged-model True \
 			--epoch $epoch \
-			--avg 10 \
+			--avg $avg \
 			--max-duration 1200 \
 			--num-decoder-layers 0 \
 			--distill True \
