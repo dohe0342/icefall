@@ -1,5 +1,5 @@
 WORLD_SIZE=4
-export CUDA_VISIBLE_DEVICES="0,1,2,3"
+export CUDA_VISIBLE_DEVICES="4,5,6,7"
 port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
