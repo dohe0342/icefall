@@ -5,7 +5,7 @@ for epoch in "30" "40"; do
 			--use-averaged-model True \
 			--epoch $epoch \
 			--avg $avg \
-			--max-duration 1800 \
+			--max-duration 1200 \
 			--num-decoder-layers 0 \
 			--distill True \
 			--method ctc-greedy-search \
