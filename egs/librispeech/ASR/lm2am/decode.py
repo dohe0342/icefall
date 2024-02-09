@@ -683,9 +683,6 @@ def save_results(
     for key, val in test_set_wers:
         s += "{}\t{}{}\n".format(key, val, note)
         note = ""
-        print('-'*20)
-        print(key, val)
-        print('-'*20)
     logging.info(s)
 
 
@@ -983,7 +980,7 @@ def main() -> None:
             graph_compiler=graph_compiler,
         )
 
-        save_results(params=params, test_set_name=test_set, results_dict=results_dict)
+        save_results(params=params, test_set_name=test_set, results_dict=results_dict, wb_writer=wb_writer)
 
     logging.info("Done!")
 
