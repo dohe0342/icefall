@@ -969,8 +969,7 @@ def main() -> None:
     '''
     if params.wandb:
         exp_name = str(params.exp_dir).split('/')[-1]
-        try: wb_writer = wandb.init(project="COMAT-v2_res", name=exp_name, id=exp_name)
-        except: wb_writer = wandb.init(project="COMAT-v2_res", name=exp_name, id=exp_name, resume="must")
+        wb_writer = wandb.init(project="COMAT-v2_res", name=exp_name, resume=True)
     else:
         wb_writer = None
 
