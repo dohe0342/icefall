@@ -686,6 +686,10 @@ def save_results(
         s += "{}\t{}{}\n".format(key, val, note)
         note = ""
         wer = val
+    
+    if wb_writer is not None:
+        wb_writer.log({test_set_name: wer})
+        
     logging.info(s)
 
 
