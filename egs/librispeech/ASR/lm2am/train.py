@@ -1012,7 +1012,6 @@ def run(rank, world_size, args):
 
     fix_random_seed(params.seed)
     if world_size > 1:
-        params.master_port = int(params.master_port) + random.randint(-200, 200)
         setup_dist(rank, world_size, params.master_port)
 
     setup_logger(f"{params.exp_dir}/log/log-train")
