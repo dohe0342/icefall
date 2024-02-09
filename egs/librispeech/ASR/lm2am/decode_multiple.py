@@ -894,6 +894,7 @@ def main() -> None:
         for avg in [1, 10]:
             params.epoch = epoch
             params.avg = avg
+
             if not params.use_averaged_model:
                 if params.iter > 0:
                     filenames = find_checkpoints(params.exp_dir, iteration=-params.iter)[

@@ -1,6 +1,6 @@
 for epoch in "30" "40"; do
 	for avg in "1" "10"; do
-		python3 ./lm2am/decode.py \
+		python3 ./lm2am/decode_multiple.py \
 			--exp-dir $1 \
 			--use-averaged-model True \
 			--epoch $epoch \
