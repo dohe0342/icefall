@@ -133,7 +133,7 @@ class Conformer(Transformer):
             self.quant = GumbelVectorQuantizer(dim=d_model, 
                                                num_vars=120, 
                                                temp=(2, 0.5, 0.999995), 
-                                               groups=8, 
+                                               groups=6, 
                                                combine_groups=False, 
                                                vq_dim=768, 
                                                time_first=True,)
@@ -358,7 +358,7 @@ class Conformer(Transformer):
                 am_output = am_output['x']
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
-            lm_am_sim = 300*lm_am_sim
+            lm_am_sim = 200*lm_am_sim
             #print('0'*20)
             #print(am_output.size())
             #print(lm_output.size())
