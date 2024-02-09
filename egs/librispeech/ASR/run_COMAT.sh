@@ -4,7 +4,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3"
 	--exp-dir lm2am/$1 \
 	--full-libri 1 \
 	--use-fp16 True \
-	--num-workers 1 \
+	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 1200 \
 	--world-size ${WORLD_SIZE} \
