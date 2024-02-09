@@ -3,7 +3,7 @@ python3 ./lm2am/decode_multiple.py \
 	--use-averaged-model True \
 	--max-duration 1200 \
 	--num-decoder-layers 0 \
-	--distill True \
+	--distill False \
 	--method ctc-greedy-search \
 	--quant True \
 	--kernel-size 15 \
