@@ -645,6 +645,7 @@ def save_results(
     params: AttributeDict,
     test_set_name: str,
     results_dict: Dict[str, List[Tuple[str, List[str], List[str]]]],
+    wb_writer = None
 ) -> None:
     if params.method == "attention-decoder":
         # Set it to False since there are too many logs.
