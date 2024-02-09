@@ -10,4 +10,4 @@ python3 ./lm2am/decode.py \
 	--quant False \
 	--kernel-size 15 \
 	--lm-name gpt2 \
-	--wandb False
+	--wandb True
