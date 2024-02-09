@@ -689,7 +689,7 @@ def save_results(
     
     if wb_writer is not None:
         setting_name = f"{test_set_name}_{str(params.epoch)}_{str(params.avg)}"
-        wb_writer.log({test_set_name: wer})
+        wb_writer.log({setting_name: wer})
 
     logging.info(s)
 
@@ -991,6 +991,9 @@ def main() -> None:
         save_results(params=params, test_set_name=test_set, results_dict=results_dict, wb_writer=wb_writer)
 
     logging.info("Done!")
+    
+    if params.wandb:
+        wandb.finish()
 
 
 torch.set_num_threads(1)
