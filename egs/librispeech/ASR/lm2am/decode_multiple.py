@@ -890,8 +890,8 @@ def main() -> None:
         wb_writer = None
 
 
-    for epoch in [40]:
-        for avg in [1]:
+    for epoch in [30, 40]:
+        for avg in [1, 10]:
             params.epoch = epoch
             params.avg = avg
 
