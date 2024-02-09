@@ -16,6 +16,7 @@ export CUDA_VISIBLE_DEVICES="4,5,6,7"
 	--distill True \
 	--distill-rate 0.1 \
 	--unused-params True \
+	--quant False \
 	--kernel-size 15 \
 	--lm-name gpt2
 	#--lm-name gpt2
