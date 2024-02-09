@@ -683,7 +683,9 @@ def save_results(
     for key, val in test_set_wers:
         s += "{}\t{}{}\n".format(key, val, note)
         note = ""
+        print('-'*20)
         print(key, val, note)
+        print('-'*20)
     logging.info(s)
 
 
