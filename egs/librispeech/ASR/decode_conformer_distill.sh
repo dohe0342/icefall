@@ -1,8 +1,6 @@
 python3 ./lm2am/decode_multiple.py \
 	--exp-dir $1 \
 	--use-averaged-model True \
-	--epoch $epoch \
-	--avg $avg \
 	--max-duration 1200 \
 	--num-decoder-layers 0 \
 	--distill True \
