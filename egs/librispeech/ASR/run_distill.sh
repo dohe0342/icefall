@@ -1,7 +1,9 @@
 WORLD_SIZE=4
 export CUDA_VISIBLE_DEVICES="4,5,6,7"
+port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
+	--master-port $port \
 	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
