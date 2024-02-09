@@ -684,7 +684,7 @@ def save_results(
         s += "{}\t{}{}\n".format(key, val, note)
         note = ""
         print('-'*20)
-        print(key, val, note)
+        print(key, val)
         print('-'*20)
     logging.info(s)
 
