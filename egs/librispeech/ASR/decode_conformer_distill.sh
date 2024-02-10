@@ -1,4 +1,4 @@
-python3 ./lm2am/decode_multiple.py \
+CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode_multiple.py \
 	--exp-dir $1 \
 	--use-averaged-model True \
 	--max-duration 1200 \
