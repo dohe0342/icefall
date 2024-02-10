@@ -10,7 +10,7 @@ port=$(($RANDOM% 601+12300))
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 1200 \
 	--world-size ${WORLD_SIZE} \
-	--start-epoch 9 \
+	--start-epoch 1 \
 	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
