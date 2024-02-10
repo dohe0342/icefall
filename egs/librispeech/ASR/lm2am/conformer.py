@@ -135,7 +135,7 @@ class Conformer(Transformer):
                                                temp=(2, 0.5, 0.999995), 
                                                groups=4, 
                                                combine_groups=False, 
-                                               vq_dim=768, 
+                                               vq_dim=256, 
                                                time_first=True,)
         else:
             self.quant = None
