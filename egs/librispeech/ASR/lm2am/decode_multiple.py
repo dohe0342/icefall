@@ -892,8 +892,6 @@ def main() -> None:
 
     for epoch in [30]:
         for avg in [1, 10]:
-            if epoch-avg == 15:
-                continue
             params.epoch = epoch
             params.avg = avg
 
