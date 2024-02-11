@@ -890,8 +890,10 @@ def main() -> None:
         wb_writer = None
 
 
-    for epoch in [30]:
-        for avg in [1, 10]:
+    for epoch in [25, 30]:
+        for avg in [1, 5, 10]:
+            if epoch-avg == 15:
+                continue
             params.epoch = epoch
             params.avg = avg
 
