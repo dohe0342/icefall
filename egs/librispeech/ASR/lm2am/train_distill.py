@@ -610,7 +610,7 @@ def compute_loss(
             supervisions, subsampling_factor=params.subsampling_factor
         )
         
-        if not params.te2:
+        if not params.ted2:
             supervision_segments_lm, _ = encode_supervisions(
                 supervisions, subsampling_factor=16
             )
@@ -748,13 +748,14 @@ def compute_loss(
                 supervision_segments,
                 allow_truncate=params.subsampling_factor - 1,
             )
-            '''
-            dense_fsa_vec_lm = k2.DenseFsaVec(
-                lm_am_sim,
-                supervision_segments_lm,
-                allow_truncate=3,
-            )
-            '''
+
+            if not params.ted2:
+                dense_fsa_vec_lm = k2.DenseFsaVec(
+                    lm_am_sim,
+                    supervision_segments_lm,
+                    allow_truncate=3,
+                )
+            
             alignment_graph = graph_compiler.compile(alignment_target)
 
             ctc_loss = k2.ctc_loss(
