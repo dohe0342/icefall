@@ -14,7 +14,7 @@ fi
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 800 \
 	--world-size ${WORLD_SIZE} \
-	--start-epoch 31 \
+	--start-epoch 11 \
 	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
