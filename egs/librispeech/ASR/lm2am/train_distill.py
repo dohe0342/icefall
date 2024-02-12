@@ -1299,8 +1299,10 @@ def run(rank, world_size, args):
         valid_cuts += librispeech.dev_other_cuts()
         valid_dl = librispeech.valid_dataloaders(valid_cuts)
     
+    print('fuck!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!fuck')
     train_cuts = train_cuts.filter(remove_short_and_long_utt)
     train_cuts = train_cuts.filter(remove_invalid_utt_ctc)
+    print('fuck!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!fuck')
 
     if (
         params.start_epoch <= 1
