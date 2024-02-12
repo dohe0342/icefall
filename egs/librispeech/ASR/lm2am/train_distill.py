@@ -610,9 +610,10 @@ def compute_loss(
             supervisions, subsampling_factor=params.subsampling_factor
         )
         
-        supervision_segments_lm, _ = encode_supervisions(
-            supervisions, subsampling_factor=4
-        )
+        if not params.ted:
+            supervision_segments_lm, _ = encode_supervisions(
+                supervisions, subsampling_factor=16
+            )
 
         #token_ids = convert_texts_into_ids(texts, graph_compiler.sp)
         token_ids = graph_compiler.texts_to_ids(texts)
