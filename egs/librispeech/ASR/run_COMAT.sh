@@ -8,6 +8,7 @@ if [ $2 -eq 1 ];then
 fi
 ./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
+	--wandb False \
 	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
