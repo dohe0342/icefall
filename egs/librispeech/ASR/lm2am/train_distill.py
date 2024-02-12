@@ -1301,8 +1301,8 @@ def run(rank, world_size, args):
     
     print('fuck!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!fuck')
     train_cuts = train_cuts.filter(remove_short_and_long_utt)
-    train_cuts = train_cuts.filter(remove_invalid_utt_ctc)
     print('fuck!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!fuck')
+    train_cuts = train_cuts.filter(remove_invalid_utt_ctc)
 
     if (
         params.start_epoch <= 1
