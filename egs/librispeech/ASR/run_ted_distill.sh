@@ -9,6 +9,9 @@ fi
 
 port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
+	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+	--ted2 True \
 	--exp-dir lm2am/$1 \
 	--master-port $port \
 	--full-libri 1 \
