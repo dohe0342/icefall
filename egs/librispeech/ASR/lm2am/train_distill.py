@@ -611,7 +611,7 @@ def compute_loss(
         )
         
         supervision_segments_lm, _ = encode_supervisions(
-            supervisions, subsampling_factor=16
+            supervisions, subsampling_factor=8
         )
 
         #token_ids = convert_texts_into_ids(texts, graph_compiler.sp)
