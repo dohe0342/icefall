@@ -747,13 +747,13 @@ def compute_loss(
                 supervision_segments,
                 allow_truncate=params.subsampling_factor - 1,
             )
-            
+            '''
             dense_fsa_vec_lm = k2.DenseFsaVec(
                 lm_am_sim,
                 supervision_segments_lm,
                 allow_truncate=3,
             )
-
+            '''
             alignment_graph = graph_compiler.compile(alignment_target)
 
             ctc_loss = k2.ctc_loss(
@@ -766,7 +766,7 @@ def compute_loss(
             
             distill_loss = k2.ctc_loss(
                 decoding_graph=alignment_graph,
-                dense_fsa_vec=dense_fsa_vec_lm,
+                dense_fsa_vec=dense_fsa_vec,
                 output_beam=params.beam_size,
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
