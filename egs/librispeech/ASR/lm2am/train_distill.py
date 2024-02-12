@@ -1248,8 +1248,7 @@ def run(rank, world_size, args):
         # You should use ../local/display_manifest_statistics.py to get
         # an utterance duration distribution for your dataset to select
         # the threshold
-        print(c.duration)
-        return 5.0 <= c.duration <= 30.0 
+        return 1.0 <= c.duration <= 30.0 
 
     def remove_invalid_utt_ctc(c: Cut):
         # Caution: We assume the subsampling factor is 4!
