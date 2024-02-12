@@ -7,6 +7,9 @@ if [ $2 -eq 1 ];then
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
 fi
 ./lm2am/train_distill.py \
+	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+	--ted2 True \
 	--exp-dir lm2am/$1 \
 	--full-libri 1 \
 	--use-fp16 True \
@@ -28,9 +31,6 @@ fi
 #--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
 #--lm-name gpt2
-#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
-#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
-#--ted2 True \
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 #--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 
