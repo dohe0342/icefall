@@ -755,6 +755,8 @@ def compute_loss(
                     supervision_segments_lm,
                     allow_truncate=3,
                 )
+            else:
+                dense_fsa_vec_lm = None
             
             alignment_graph = graph_compiler.compile(alignment_target)
 
