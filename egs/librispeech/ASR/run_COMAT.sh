@@ -14,7 +14,7 @@ fi
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 800 \
 	--world-size ${WORLD_SIZE} \
-	--start-epoch 11 \
+	--start-epoch 1 \
 	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
@@ -22,7 +22,7 @@ fi
 	--distill-rate 0.1 \
 	--unused-params True \
 	--quant False \
-	--kernel-size 15 \
+	--kernel-size 31 \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
