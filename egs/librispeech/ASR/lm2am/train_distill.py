@@ -1249,7 +1249,7 @@ def run(rank, world_size, args):
         # an utterance duration distribution for your dataset to select
         # the threshold
         print(c.duration)
-        return 2.0 <= c.duration <= 30.0 
+        return 5.0 <= c.duration <= 30.0 
 
     def remove_invalid_utt_ctc(c: Cut):
         # Caution: We assume the subsampling factor is 4!
