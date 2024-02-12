@@ -765,10 +765,10 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
-            
+             
             distill_loss = k2.ctc_loss(
                 decoding_graph=alignment_graph,
-                dense_fsa_vec=dense_fsa_vec,
+                dense_fsa_vec=dense_fsa_vec_lm if params.ted2 else dense_fsa_vec,
                 output_beam=params.beam_size,
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
