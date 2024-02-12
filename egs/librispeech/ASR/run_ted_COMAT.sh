@@ -13,7 +13,7 @@ port=$(($RANDOM% 601+12300))
 	--ted2 True \
 	--exp-dir lm2am/$1 \
 	--master-port $port \
-	--wandb False \
+	--wandb True \
 	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
