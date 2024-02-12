@@ -6,11 +6,11 @@ fi
 if [ $2 -eq 1 ];then
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
 fi
+port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
-	--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
-	--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
-	--ted2 True \
 	--exp-dir lm2am/$1 \
+	--master-port $port \
+	--wandb False \
 	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
@@ -25,12 +25,15 @@ fi
 	--distill-rate 0.1 \
 	--unused-params True \
 	--quant False \
-	--kernel-size 31 \
+	--kernel-size 15 \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
 #--lm-name gpt2
+#--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
+#--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
+#--ted2 True \
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 #--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 
