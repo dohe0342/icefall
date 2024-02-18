@@ -294,6 +294,7 @@ class Conformer(Transformer):
         supervision: Optional[Supervisions] = None,
         warmup: float = 1.0,
         texts: list = None,
+        vis: bool = False,
     ) -> Tuple[torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
         """
         Args:
