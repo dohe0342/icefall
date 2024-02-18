@@ -380,7 +380,7 @@ class Conformer(Transformer):
                 for b in range(lm_am_sim_cp.size(0)):
                     plt.matshow(lm_am_sim_cp[b].T.cpu().numpy())
                     plt.colorbar()
-                    if not os.path.exists(f'./png/'):
+                    if not os.path.exists(f'./png/{file_name}'):
                         try: os.makedirs(f'./png/{model.w2v_encoder.num_updates}')
                         except: pass
                     plt.savefig(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}/alingment{b}.png')
