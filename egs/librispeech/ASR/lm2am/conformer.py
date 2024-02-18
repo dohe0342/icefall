@@ -383,7 +383,7 @@ class Conformer(Transformer):
                     if not os.path.exists(f'./png/{file_name}'):
                         try: os.makedirs(f'./png/{file_name}')
                         except: pass
-                    plt.savefig(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}/alingment{b}.png')
+                    plt.savefig(f'./png/{file_name}/alingment{b}.png')
                     plt.close()
             #print(lm_am_sim.size())
             #print('0'*20)
