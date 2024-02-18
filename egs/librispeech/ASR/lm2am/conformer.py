@@ -368,6 +368,7 @@ class Conformer(Transformer):
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             lm_am_sim = 200*lm_am_sim
+            lm_am_sim_cp = lm_am_sim.copy()
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
             lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
@@ -378,7 +379,7 @@ class Conformer(Transformer):
                 for b in range(lm_am_sim_cp.size(0)):
                     plt.matshow(lm_am_sim_cp[b].T.cpu().numpy())
                     plt.colorbar()
-                    if not os.path.exists(f'./png/{model.w2v_encoder.num_updates}'):
+                    if not os.path.exists(f'./png/'):
                         try: os.makedirs(f'./png/{model.w2v_encoder.num_updates}')
                         except: pass
                     plt.savefig(f'/home/work/workspace/fairseq/scripts/whale/png/{model.w2v_encoder.num_updates}/alingment{b}.png')
