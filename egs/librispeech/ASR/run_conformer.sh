@@ -32,7 +32,9 @@ WORLD_SIZE=4
     --num-epochs 40 \
     --att-rate 0.0 \
     --num-decoder-layers 0 \
-	--kernel-size 15
+	--dim-feedforward 2048 \
+	--dim-model 512 \
+	--kernel-size 31
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
 #--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 
