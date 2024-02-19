@@ -19,14 +19,14 @@ port=$(($RANDOM% 601+12300))
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
 	--num-epochs 30 \
-	--att-rate 0.0 \
-	--num-decoder-layers 0 \
 	--distill True \
 	--distill-rate 0.1 \
 	--unused-params True \
 	--dim-model 512 \
 	--dim-feedforward 2048 \
 	--kernel-size 31 \
+	--att-rate 0.0 \
+	--num-decoder-layers 0 \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
