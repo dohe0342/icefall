@@ -26,9 +26,9 @@ WORLD_SIZE=4
     --use-fp16 True \
     --num-workers 9 \
     --spec-aug-time-warp-factor 80 \
-    --max-duration 6600 \
+    --max-duration 600 \
     --world-size ${WORLD_SIZE} \
-    --start-epoch 40 \
+    --start-epoch 1 \
     --num-epochs 40 \
     --dim-feedforward 2048 \
 	--dim-model 512 \
