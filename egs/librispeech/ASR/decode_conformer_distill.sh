@@ -10,4 +10,4 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode_multiple.py \
 	--dim-model 512 \
 	--dim-feedforward 2048 \
 	--lm-name gpt2 \
-	--wandb True
+	--wandb False
