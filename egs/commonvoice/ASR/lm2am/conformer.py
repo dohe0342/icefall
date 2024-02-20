@@ -135,7 +135,7 @@ class Conformer(Transformer):
                                                temp=(2, 0.5, 0.999995), 
                                                groups=2, 
                                                combine_groups=False, 
-                                               vq_dim=512, 
+                                               vq_dim=256, 
                                                time_first=True,)
         else:
             self.quant = None
@@ -216,8 +216,8 @@ class Conformer(Transformer):
             #self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
             #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
             if 'gpt2' in lm_name:
-                #self.lm_decoder.append(nn.Linear(self.lm.embed_dim, 256, bias=False))
-                self.lm_decoder.append(nn.Linear(self.lm.embed_dim, d_model, bias=False))
+                self.lm_decoder.append(nn.Linear(self.lm.embed_dim, 256, bias=False))
+                #self.lm_decoder.append(nn.Linear(self.lm.embed_dim, d_model, bias=False))
                 #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
             else:
                 self.lm_decoder.append(nn.Linear(self.lm.config.hidden_size, d_model, bias=False))
