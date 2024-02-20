@@ -36,10 +36,11 @@ num_splits=1000
 #     - speech
 
 #dl_dir=/DB
-dl_dir=/home/work/workspace/LibriSpeech/cv4-st
+dl_dir=/home/work/workspace/LibriSpeech
 
 #release=cv-corpus-13.0-2023-03-09
-release=cv-corpus-5.1-2020-06-22
+#release=cv-corpus-5.1-2020-06-22
+release=cv4-st
 lang=en
 
 . shared/parse_options.sh || exit 1
