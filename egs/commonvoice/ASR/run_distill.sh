@@ -12,6 +12,7 @@ port=$(($RANDOM% 601+12300))
 	--exp-dir lm2am/$1 \
 	--master-port $port \
 	--cv True \
+	--language ca \
 	--wandb False \
 	--use-fp16 True \
 	--num-workers 9 \
