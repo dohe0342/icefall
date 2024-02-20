@@ -2,13 +2,13 @@
 
 set -eou pipefail
 
-nj=16
+nj=32
 stage=-1
 stop_stage=100
 
 # Split data/${lang}set to this number of pieces
 # This is to avoid OOM during feature extraction.
-num_splits=1000
+num_splits=50
 
 # We assume dl_dir (download dir) contains the following
 # directories and files. If not, they will be downloaded
