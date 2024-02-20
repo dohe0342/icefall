@@ -1022,9 +1022,7 @@ def run(rank, world_size, args):
         tb_writer = SummaryWriter(log_dir=f"{params.exp_dir}/tensorboard")
     else:
         tb_writer = None
-    
-    if params.cv:
-        params.lang_dir = f"data/{params.language}/lang_bpe_500"
+
     lexicon = Lexicon(params.lang_dir)
     max_token_id = max(lexicon.tokens)
     num_classes = max_token_id + 1  # +1 for the blank
