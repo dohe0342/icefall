@@ -11,7 +11,7 @@ port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
 	--master-port $port \
-	--full-libri 1 \
+	--cv True \
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
