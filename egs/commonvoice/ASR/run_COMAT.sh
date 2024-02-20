@@ -6,6 +6,7 @@ fi
 if [ $2 -eq 1 ];then
     export CUDA_VISIBLE_DEVICES="4,5,6,7"
 fi
+
 port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
