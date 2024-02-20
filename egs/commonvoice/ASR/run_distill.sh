@@ -13,6 +13,7 @@ port=$(($RANDOM% 601+12300))
 	--master-port $port \
 	--cv True \
 	--language ca \
+	--cv-manifest-dir data/ca/fbank \
 	--wandb False \
 	--use-fp16 True \
 	--num-workers 9 \
