@@ -55,6 +55,7 @@ import torch.multiprocessing as mp
 #from asr_datamodule import TedLiumAsrDataModule
 from asr_datamodule import LibriSpeechAsrDataModule
 from asr_datamodule_ted2 import TedAsrDataModule
+from asr_datamodule_cv import CommonVoiceAsrDataModule
 from conformer import Conformer
 from lhotse.dataset.sampling.base import CutSampler
 from lhotse.utils import fix_random_seed
@@ -1284,6 +1285,20 @@ def run(rank, world_size, args):
         valid_cuts = tedlium.dev_cuts()
         valid_dl = tedlium.valid_dataloaders(valid_cuts)
 
+    elif params.cv:
+        commonvoice = CommonVoiceAsrDataModule(args)
+
+        sampler_state_dict = None
+
+        train_cuts = commonvoice.train_cuts()
+     
+        train_dl = commonvoice.train_dataloaders(
+            train_cuts, sampler_state_dict=sampler_state_dict
+        )    
+
+        valid_cuts = commonvoice.dev_cuts()
+        valid_dl = commonvoice.valid_dataloaders(valid_cuts)
+
     else:
         librispeech = LibriSpeechAsrDataModule(args)
 
@@ -1423,7 +1438,9 @@ def scan_pessimistic_batches_for_oom(
 def main():
     parser = get_parser()
     #TedLiumAsrDataModule.add_arguments(parser)
-    LibriSpeechAsrDataModule.add_arguments(parser)
+    #LibriSpeechAsrDataModule.add_arguments(parser)
+    CommonVoiceAsrDataModule.add_arguments(parser)
+
     args = parser.parse_args()
     args.exp_dir = Path(args.exp_dir)
 
