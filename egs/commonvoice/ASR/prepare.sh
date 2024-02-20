@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-nj=32
+nj=16
 stage=-1
 stop_stage=100
 
