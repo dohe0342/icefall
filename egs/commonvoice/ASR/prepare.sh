@@ -36,7 +36,7 @@ num_splits=1000
 #     - speech
 
 #dl_dir=/DB
-dl_dir=/home/work/workspace/LibriSpeech
+dl_dir=/home/work/workspace/LibriSpeech/cv4-st
 
 #release=cv-corpus-13.0-2023-03-09
 release=cv-corpus-5.1-2020-06-22
