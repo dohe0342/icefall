@@ -8,7 +8,7 @@ stop_stage=100
 
 # Split data/${lang}set to this number of pieces
 # This is to avoid OOM during feature extraction.
-num_splits=20
+num_splits=200
 
 # We assume dl_dir (download dir) contains the following
 # directories and files. If not, they will be downloaded
