@@ -1152,7 +1152,9 @@ def run(rank, world_size, args):
         wb_writer = wandb.init(project="COMAT-v2", name=exp_name)
     else:
         wb_writer = None
-
+    
+    if params.cv:
+        params.lang_dir = f"data/{params.language}/lang_bpe_500"
     lexicon = Lexicon(params.lang_dir)
     max_token_id = max(lexicon.tokens)
     num_classes = max_token_id + 1  # +1 for the blank
