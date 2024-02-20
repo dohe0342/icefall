@@ -14,7 +14,7 @@ port=$(($RANDOM% 601+12300))
 	--cv True \
 	--language ca \
 	--cv-manifest-dir data/ca/fbank \
-	--wandb False \
+	--wandb True \
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
