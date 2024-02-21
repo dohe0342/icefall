@@ -421,7 +421,7 @@ class Conformer(Transformer):
                     if not os.path.exists(f'./png/{file_name}'):
                         try: os.makedirs(f'./png/{file_name}')
                         except: pass
-                    plt.savefig(f'./png/{file_name}/alingment{b}.png')
+                    plt.savefig(f'./png/{file_name}/alingment{batch}.png')
                     plt.close()
                     
                     print(aligned_idx)
