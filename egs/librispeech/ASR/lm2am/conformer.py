@@ -180,6 +180,7 @@ class Conformer(Transformer):
 
         self.distill = distill
         if self.distill:
+            print(self.distill)
             ########### for gpt2
             if 'bert' in lm_name:
                 self.tokenizer = BertTokenizer.from_pretrained(lm_name)
