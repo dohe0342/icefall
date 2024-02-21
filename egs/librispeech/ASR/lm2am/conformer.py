@@ -387,11 +387,12 @@ class Conformer(Transformer):
                     audio_len = lm_am_sim_cp.size(1)
                     target_len = lm_am_sim_cp.size(2)
                     
+                    aligned_idx = []
                     alignment = 0
                     
                     sorted_prob, sorted_idx = torch.sort(lm_am_sim_cp[batch], descending=True)
 
-                    for prob, idx in zip(sorted_prob, sorted_idx):
+                    for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
                         i = 0
                         while True:
                             now_alignment = idx[i] == alignment
@@ -403,9 +404,16 @@ class Conformer(Transformer):
 
                             if prob[i] < 0.5:
                                 print(f'warning: alignment prob is too low, prob: {100*prob[i]} %')
-                            if now_alignment: break
+
+                            if now_alignment: 
+                                aligned_idx.append(time)
+                                print(aligned_idx)
+                                break
                             else:
                                 i += 1
+                    print(aligned_idx)
+                    exit()
+
 
 
                 '''
