@@ -391,8 +391,12 @@ class Conformer(Transformer):
                     
                     sorted_prob, sorted_idx = torch.sort(lm_am_sim_cp[batch], descending=True)
 
-                    for time in sorted_idx:
-                    
+                    for prob, idx in zip(sorted_prob, sorted_idx):
+                        i = 0
+                        while True:
+                            now_alignment = prob[i] > 0.5 and idx[i] == alignment
+                            if now_alignment: break
+                            else: now_alignment += 1
                 '''
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 for b in range(lm_am_sim_cp.size(0)):
