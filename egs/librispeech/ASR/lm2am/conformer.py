@@ -396,7 +396,7 @@ class Conformer(Transformer):
                         while True:
                             now_alignment = prob[i] > 0.5 and idx[i] == alignment
                             if now_alignment: break
-                            else: now_alignment += 1
+                            else: i += 1
                 '''
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 for b in range(lm_am_sim_cp.size(0)):
