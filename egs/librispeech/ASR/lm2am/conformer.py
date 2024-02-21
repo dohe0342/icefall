@@ -397,10 +397,8 @@ class Conformer(Transformer):
                         while True:
                             now_alignment = idx[i].item() == alignment
                             should_move = idx[i].item() == (alignment + 1)
-
-                            print('now = ', now_alignment)
-                            print('should move = ', should_move)
                             
+                            print(now_alignment, should_move)
                             if should_move:
                                 alignment += 1
                                 now_alignment = idx[i] == alignment
