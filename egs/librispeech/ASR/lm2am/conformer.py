@@ -320,7 +320,9 @@ class Conformer(Transformer):
               memory_key_padding_mask for the decoder. Its shape is (N, S).
               It is None if `supervision` is None.
         """
-
+        print('0'*20)
+        print(self.distill)
+        print('0'*20)
         encoder_memory, memory_key_padding_mask = self.run_encoder(
             x, supervision, warmup
         )
