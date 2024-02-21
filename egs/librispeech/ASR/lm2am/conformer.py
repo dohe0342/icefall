@@ -395,8 +395,12 @@ class Conformer(Transformer):
                         i = 0
                         while True:
                             now_alignment = idx[i] == alignment
+
+                            if prob[i] < 0.5:
+                                print('warning: alignment prob is too low')
                             if now_alignment: break
-                            else: i += 1
+                            else:
+                                i += 1
 
                 '''
                 file_name = str(torch.randint(1, 10000, (1,)).item())
