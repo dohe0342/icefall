@@ -416,7 +416,7 @@ class Conformer(Transformer):
                             else:
                                 i += 1
                     
-                    plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
+                    plt.matshow(lm_am_sim_cp[batch][:20,:13].T.cpu().numpy())
                     plt.colorbar()
                     if not os.path.exists(f'./png/{file_name}'):
                         try: os.makedirs(f'./png/{file_name}')
