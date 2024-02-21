@@ -398,18 +398,26 @@ class Conformer(Transformer):
                         i = 0
                         while True:
                             now_alignment = idx[i].item() == alignment
-                            should_plus = idx[i].item() == (alignment + 1)
-                            should_plus = idx[i].item() == (alignment + 2)
+                            should_plus1 = idx[i].item() == (alignment + 1)
+                            should_plus2 = idx[i].item() == (alignment + 2)
+                            should_plus3 = idx[i].item() == (alignment + 3)
                             
-                            if should_plus:
+                            if should_plus1:
                                 alignment += 1
                                 now_alignment = idx[i] == alignment
+                            if should_plus2:
+                                alignment += 2
+                                now_alignment = idx[i] == alignment
+                            if should_plus3:
+                                alignment += 3
+                                now_alignment = idx[i] == alignment
 
+                            '''
                             if should_mius:
                                 alignment += 1
                                 now_alignment = idx[i+1] == alignment
                                 i += 1
-
+                            '''
                             if prob[0] < 0.5:
                                 print(f'warning: alignment prob is too low, prob: {100*prob[i]} %')
 
