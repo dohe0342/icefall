@@ -381,7 +381,7 @@ class Conformer(Transformer):
             
             if vis:
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
-                lm_am_sim_prob, lm_am_sim_dix = lm_am_sim_cp.max(-1)
+                lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
                 lm_am_sim_bool = lm_am_sim_prob > 0.6
                 for b in range(lm_am_sim_prob.size(0)):
                     
