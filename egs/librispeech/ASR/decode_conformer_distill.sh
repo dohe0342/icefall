@@ -5,9 +5,9 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
 	--use-averaged-model True \
 	--max-duration 1200 \
 	--num-decoder-layers 0 \
-	--distill False \
 	--method ctc-greedy-search \
-	--quant False \
+	--distill True \
+	--quant True \
 	--kernel-size 15 \
 	--lm-name gpt2 \
 	--wandb False
