@@ -383,13 +383,15 @@ class Conformer(Transformer):
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
                 #lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
                 #lm_am_sim_bool = lm_am_sim_prob > 0.6
-                for b in range(lm_am_sim_cp.size(0)):
+                for batch in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
                     target_len = lm_am_sim_cp.size(2)
                     
                     alignment = 0
                     
-                    _, sorted_idx = torch.sort(lm_am_sim_cp[0], descending=True)
+                    sorted_prob, sorted_idx = torch.sort(lm_am_sim_cp[batch], descending=True)
+
+                    for time in sorted_idx:
                     
                 '''
                 file_name = str(torch.randint(1, 10000, (1,)).item())
