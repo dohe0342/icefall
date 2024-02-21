@@ -399,6 +399,7 @@ class Conformer(Transformer):
                             
                             if should_move:
                                 alignment += 1
+                                now_alignment = idx[i] == alignment
 
                             if prob[i] < 0.5:
                                 print(f'warning: alignment prob is too low, prob: {100*prob[i]} %')
