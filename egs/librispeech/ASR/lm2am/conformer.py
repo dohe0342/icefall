@@ -396,12 +396,10 @@ class Conformer(Transformer):
 
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
                         i = 0
-                        print(idx[:3])
-                        print(prob[:3])
                         while True:
                             now_alignment = idx[i].item() == alignment
                             should_plus = idx[i].item() == (alignment + 1)
-                            should_mius = (idx[i+1].item() == (alignment + 1)) and (prob[i+1] > 0.1)
+                            should_mius = idx[i+1].item() == (alignment + 1)
                             
                             if should_plus:
                                 alignment += 1
