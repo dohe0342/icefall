@@ -1,5 +1,6 @@
 CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
 	--exp-dir $1 \
+	--epoch $3 \
 	--use-averaged-model True \
 	--max-duration 300 \
 	--num-decoder-layers 0 \
