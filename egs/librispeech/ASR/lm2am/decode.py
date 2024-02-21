@@ -974,6 +974,7 @@ def main() -> None:
     train_clean_cuts = librispeech.train_clean_100_cuts()
     train_clean_dl = librispeech.valid_dataloaders(train_clean_cuts)
     test_sets = ["train-clean-100"]
+    test_dls = [train_clean_dl]
     if params.wandb:
         exp_name = str(params.exp_dir).split('/')[-1]
         wb_writer = wandb.init(project="COMAT-v2_res", name=exp_name, resume=True)
