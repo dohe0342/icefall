@@ -395,7 +395,7 @@ class Conformer(Transformer):
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
                         i = 0
                         while True:
-                            now_alignment = idx[i] == alignment
+                            now_alignment = idx[i].item() == alignment
                             should_move = idx[i] == (alignment + 1)
                             
                             if should_move:
