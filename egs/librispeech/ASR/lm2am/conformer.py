@@ -385,7 +385,7 @@ class Conformer(Transformer):
                 lm_am_sim_bool = lm_am_sim_prob > 0.6
                 for b in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
-                    target_len = lm_am_sim_cp.size(1)
+                    target_len = lm_am_sim_cp.size(2)
                     print(audio_len, target_len)
                 '''
                 file_name = str(torch.randint(1, 10000, (1,)).item())
