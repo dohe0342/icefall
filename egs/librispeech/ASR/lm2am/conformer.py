@@ -381,6 +381,8 @@ class Conformer(Transformer):
             
             if vis:
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
+                lm_am_sim_prob, _ = lm_am_sim_cp.max(-1)
+                lm_am_sim_prob > 0.6
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 for b in range(lm_am_sim_cp.size(0)):
                     plt.matshow(lm_am_sim_cp[b].T.cpu().numpy())
