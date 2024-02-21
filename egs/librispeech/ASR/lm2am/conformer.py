@@ -332,6 +332,15 @@ class Conformer(Transformer):
             return (x, layer_outputs), encoder_memory, memory_key_padding_mask
         
         elif self.distill:
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
+            print('fuck!!!!!!!!!!!!!!!!')
             x = self.ctc_output(encoder_memory)
             ############for distillation###########
             device = encoder_memory.device
