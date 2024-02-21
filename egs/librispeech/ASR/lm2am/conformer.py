@@ -22,6 +22,7 @@ import warnings
 from typing import List, Optional, Tuple
 
 import numpy as np
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -332,7 +333,6 @@ class Conformer(Transformer):
         
         elif self.distill:
             if texts is None: texts = supervision["text"]
-            print(texts)
             x = self.ctc_output(encoder_memory)
             ############for distillation###########
             device = encoder_memory.device
