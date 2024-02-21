@@ -381,12 +381,16 @@ class Conformer(Transformer):
             
             if vis:
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
-                lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
-                lm_am_sim_bool = lm_am_sim_prob > 0.6
+                #lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
+                #lm_am_sim_bool = lm_am_sim_prob > 0.6
                 for b in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
                     target_len = lm_am_sim_cp.size(2)
-                    print(audio_len, target_len)
+                    
+                    alignment = 0
+                    
+                    _, sorted_idx = torch.sort(lm_am_sim_cp[0], descending=True)
+                    
                 '''
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 for b in range(lm_am_sim_cp.size(0)):
