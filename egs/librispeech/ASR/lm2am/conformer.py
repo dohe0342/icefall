@@ -332,14 +332,6 @@ class Conformer(Transformer):
         
         elif self.distill:
             print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
-            print('fuck!!!!!!!!!!!!!!!!')
             x = self.ctc_output(encoder_memory)
             ############for distillation###########
             device = encoder_memory.device
