@@ -378,6 +378,7 @@ class Conformer(Transformer):
             lm_am_sim = lm_am_sim.contiguous()
             
             if vis:
+                print('fuck!!!!!!!1')
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 for b in range(lm_am_sim_cp.size(0)):
