@@ -409,7 +409,7 @@ class Conformer(Transformer):
                                 print(f'warning: alignment prob is too low, prob: {100*prob[i]} %')
 
                             if now_alignment: 
-                                aligned_idx.append(time)
+                                aligned_idx.append(alignment)
                                 print(aligned_idx)
                                 break
                             else:
