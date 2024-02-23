@@ -395,6 +395,8 @@ class Conformer(Transformer):
                     sorted_prob, sorted_idx = torch.sort(lm_am_sim_cp[batch], descending=True)
 
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
+                        aligned_idx.append(idx[0])
+                        '''
                         i = 0
                         while True:
                             now_alignment = idx[i].item() == alignment
@@ -427,7 +429,9 @@ class Conformer(Transformer):
                                 break
                             else:
                                 i += 1
-                    
+
+                            #if i > 3:
+                        '''
                     #plt.matshow(lm_am_sim_cp[batch][:20,:13].T.cpu().numpy())
                     plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                     plt.colorbar()
