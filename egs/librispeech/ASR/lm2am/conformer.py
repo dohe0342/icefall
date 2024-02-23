@@ -397,7 +397,7 @@ class Conformer(Transformer):
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
                         aligned_idx.append(idx[0])
                     print(aligned_idx)
-                        '''
+                        """
                         i = 0
                         while True:
                             now_alignment = idx[i].item() == alignment
@@ -432,7 +432,7 @@ class Conformer(Transformer):
                                 i += 1
 
                             #if i > 3:
-                        '''
+                        """
                     #plt.matshow(lm_am_sim_cp[batch][:20,:13].T.cpu().numpy())
                     plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                     plt.colorbar()
