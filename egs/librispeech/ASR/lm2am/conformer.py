@@ -442,7 +442,7 @@ class Conformer(Transformer):
                     plt.savefig(f'./png/{file_name}/alingment{batch}.png')
                     plt.close()
                     '''
-                    print(aligned_idx)
+                    print(len(aligned_idx), aligned_idx)
                     exit()
 
             #print(lm_am_sim.size())
