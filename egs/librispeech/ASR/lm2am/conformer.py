@@ -438,6 +438,7 @@ class Conformer(Transformer):
                         except: pass
                     plt.savefig(f'./png/{file_name}/alingment{batch}.png')
                     plt.close()
+            exit()
             #print(lm_am_sim.size())
             #print('0'*20)
 
