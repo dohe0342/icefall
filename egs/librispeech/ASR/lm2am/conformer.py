@@ -390,7 +390,7 @@ class Conformer(Transformer):
                 pad_mask = (((pad_mask-5)//2)-5)//2
 
                 for i, idx in enumerate(aligned_idx):
-                    print(idx[:pad_mask[i])
+                    print(idx[:pad_mask[i]])
                 
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
