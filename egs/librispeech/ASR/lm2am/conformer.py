@@ -425,8 +425,6 @@ class Conformer(Transformer):
                                 break
                             else:
                                 i += 1
-
-                            #if i > 3:
                         """
                 '''
                 
