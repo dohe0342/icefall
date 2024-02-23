@@ -431,18 +431,15 @@ class Conformer(Transformer):
                         """
                     #plt.matshow(lm_am_sim_cp[batch][:20,:13].T.cpu().numpy())
                 '''
-                    '''
-                    plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
-                    plt.colorbar()
-                    if not os.path.exists(f'./png/{file_name}'):
-                        try: os.makedirs(f'./png/{file_name}')
-                        except: pass
-                    plt.savefig(f'./png/{file_name}/alingment{batch}.png')
-                    plt.close()
-                    '''
-                    print(len(aligned_idx), aligned_idx)
-                exit()
-
+                '''
+                plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
+                plt.colorbar()
+                if not os.path.exists(f'./png/{file_name}'):
+                    try: os.makedirs(f'./png/{file_name}')
+                    except: pass
+                plt.savefig(f'./png/{file_name}/alingment{batch}.png')
+                plt.close()
+                '''
             #print(lm_am_sim.size())
             #print('0'*20)
 
