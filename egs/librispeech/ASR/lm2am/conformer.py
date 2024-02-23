@@ -395,7 +395,7 @@ class Conformer(Transformer):
                     sorted_prob, sorted_idx = torch.sort(lm_am_sim_cp[batch], descending=True)
 
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
-                        aligned_idx.append(idx[0])
+                        aligned_idx.append(idx[0].item())
                         """
                         i = 0
                         while True:
