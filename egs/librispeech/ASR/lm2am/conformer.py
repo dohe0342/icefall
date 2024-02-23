@@ -384,7 +384,10 @@ class Conformer(Transformer):
                 #lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
                 #lm_am_sim_bool = lm_am_sim_prob > 0.6
                 file_name = str(torch.randint(1, 10000, (1,)).item())
-
+                
+                _, aligned_idx = lm_am_sim_cp.max(-1)
+                print(alinged_idx)
+                '''
                 for batch in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
                     target_len = lm_am_sim_cp.size(2)
@@ -433,6 +436,7 @@ class Conformer(Transformer):
                             #if i > 3:
                         """
                     #plt.matshow(lm_am_sim_cp[batch][:20,:13].T.cpu().numpy())
+                '''
                     '''
                     plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                     plt.colorbar()
