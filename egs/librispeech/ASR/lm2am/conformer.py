@@ -386,7 +386,7 @@ class Conformer(Transformer):
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 
                 _, aligned_idx = lm_am_sim_cp.max(-1)
-                print(alinged_idx)
+                print(aligned_idx)
                 exit()
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
