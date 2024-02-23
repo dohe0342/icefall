@@ -429,7 +429,8 @@ class Conformer(Transformer):
                             #if i > 3:
                         """
                 '''
-
+                
+                '''
                 for batch in range(lm_am_sim_cp.size(0)):
                     plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                     plt.colorbar()
@@ -438,6 +439,7 @@ class Conformer(Transformer):
                         except: pass
                     plt.savefig(f'./png/{file_name}/alingment{batch}.png')
                     plt.close()
+                '''
             #print(lm_am_sim.size())
             #print('0'*20)
 
