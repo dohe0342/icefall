@@ -430,14 +430,15 @@ class Conformer(Transformer):
                         """
                 '''
                 
-                for batch in range(lm_am_sim_cp.size(0)):
-                    plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
-                    plt.colorbar()
-                    if not os.path.exists(f'./png/{file_name}'):
-                        try: os.makedirs(f'./png/{file_name}')
-                        except: pass
-                    plt.savefig(f'./png/{file_name}/alingment{batch}.png')
-                    plt.close()
+                if 0:
+                    for batch in range(lm_am_sim_cp.size(0)):
+                        plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
+                        plt.colorbar()
+                        if not os.path.exists(f'./png/{file_name}'):
+                            try: os.makedirs(f'./png/{file_name}')
+                            except: pass
+                        plt.savefig(f'./png/{file_name}/alingment{batch}.png')
+                        plt.close()
                 exit()
             #print(lm_am_sim.size())
             #print('0'*20)
