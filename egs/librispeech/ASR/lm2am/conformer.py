@@ -372,7 +372,7 @@ class Conformer(Transformer):
                 am_output = am_output['x']
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
-            lm_am_sim = 300*lm_am_sim
+            lm_am_sim = 200*lm_am_sim
             lm_am_sim_cp = lm_am_sim.clone()
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
