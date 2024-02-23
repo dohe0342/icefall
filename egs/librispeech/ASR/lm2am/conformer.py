@@ -396,6 +396,7 @@ class Conformer(Transformer):
 
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
                         aligned_idx.append(idx[0])
+                    print(aligned_idx)
                         '''
                         i = 0
                         while True:
