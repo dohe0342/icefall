@@ -386,6 +386,7 @@ class Conformer(Transformer):
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 
                 _, aligned_idx = lm_am_sim_cp.max(-1)
+                print(aligned_idx)
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
