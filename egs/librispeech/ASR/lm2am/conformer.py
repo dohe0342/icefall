@@ -387,6 +387,7 @@ class Conformer(Transformer):
                 
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 print(alinged_idx)
+                exit()
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
