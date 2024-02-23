@@ -444,7 +444,7 @@ class Conformer(Transformer):
                     plt.close()
                     '''
                     print(len(aligned_idx), aligned_idx)
-                    print(memory_key_padding_mask)
+                    print(len(memory_key_padding_mask[0]))
                     exit()
 
             #print(lm_am_sim.size())
