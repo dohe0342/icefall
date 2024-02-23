@@ -388,6 +388,9 @@ class Conformer(Transformer):
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
+
+                for i, idx in enumerate(aligned_idx):
+                    print(idx[:pad_mask[i])
                 
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
