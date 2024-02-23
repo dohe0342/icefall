@@ -396,7 +396,6 @@ class Conformer(Transformer):
 
                     for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
                         aligned_idx.append(idx[0].item())
-                        print(idx[0].item())
                         """
                         i = 0
                         while True:
@@ -444,7 +443,6 @@ class Conformer(Transformer):
                     plt.close()
                     '''
                     print(len(aligned_idx), aligned_idx)
-                    print((~memory_key_padding_mask[0]).sum())
                     exit()
 
             #print(lm_am_sim.size())
