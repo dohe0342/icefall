@@ -386,8 +386,6 @@ class Conformer(Transformer):
                 file_name = str(torch.randint(1, 10000, (1,)).item())
                 
                 _, aligned_idx = lm_am_sim_cp.max(-1)
-                print(aligned_idx)
-                exit()
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
                     audio_len = lm_am_sim_cp.size(1)
@@ -432,7 +430,6 @@ class Conformer(Transformer):
                         """
                     #plt.matshow(lm_am_sim_cp[batch][:20,:13].T.cpu().numpy())
                 '''
-                '''
                 plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                 plt.colorbar()
                 if not os.path.exists(f'./png/{file_name}'):
@@ -440,7 +437,6 @@ class Conformer(Transformer):
                     except: pass
                 plt.savefig(f'./png/{file_name}/alingment{batch}.png')
                 plt.close()
-                '''
             #print(lm_am_sim.size())
             #print('0'*20)
 
