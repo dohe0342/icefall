@@ -417,12 +417,6 @@ class Conformer(Transformer):
                                 alignment += 3
                                 now_alignment = idx[i] == alignment
 
-                            '''
-                            if should_mius:
-                                alignment += 1
-                                now_alignment = idx[i+1] == alignment
-                                i += 1
-                            '''
                             if prob[0] < 0.3:
                                 print(f'warning: alignment prob is too low, prob: {100*prob[i]} %')
 
