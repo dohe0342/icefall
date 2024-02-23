@@ -389,6 +389,7 @@ class Conformer(Transformer):
                 print(aligned_idx)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
+                print(pad_mask)
                 
                 
                 '''
