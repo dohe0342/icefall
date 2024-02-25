@@ -390,7 +390,7 @@ class Conformer(Transformer):
 
             if self.lm_tune is not None:
                 am_output_clone = am_output.clone().detach()
-                am_lm = self.lm_tune(am_output)
+                am_lm = self.lm_tune(am_output_clone)
 
                 align_target = []
                 lm_target = []
