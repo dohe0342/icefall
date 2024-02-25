@@ -73,6 +73,7 @@ class Conformer(Transformer):
         distill:bool = False,
         lm_name:str = 'None', 
         quant: bool = False,
+        lm_tune: bool = False,
     ) -> None:
         """
         Args:
