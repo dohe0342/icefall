@@ -892,7 +892,7 @@ def compute_loss(
             loss = ctc_loss + params.distill_rate * distill_loss
             #loss = params.distill_rate * distill_loss
         elif params.mas:
-            loss = ctc_loss + params.distill_rate * distill_loss
+            loss = params.distill_rate * distill_loss
             #loss = params.distill_rate * distill_loss
 
         else:
