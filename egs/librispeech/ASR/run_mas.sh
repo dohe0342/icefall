@@ -16,6 +16,7 @@ port=$(($RANDOM% 601+12300))
 	--num-epochs 30 \
 	--distill False \
 	--mas True \
+	--quant False \
 	--distill-rate 1.0 \
 	--unused-params True \
 	--dim-model 512 \
