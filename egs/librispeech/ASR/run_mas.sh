@@ -1,8 +1,7 @@
 WORLD_SIZE=8
 export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
-port=$(($RANDOM% 601+12300))
 
-./lm2am/train_distill.py \
+./lm2am/train_mas.py \
 	--exp-dir lm2am/$1 \
 	--master-port $port \
 	--full-libri 1 \
