@@ -10,7 +10,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 800 \
 	--world-size ${WORLD_SIZE} \
-	--start-epoch 1 \
+	--start-epoch 5 \
 	--num-epochs 30 \
 	--distill True \
 	--quant False \
