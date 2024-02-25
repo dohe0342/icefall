@@ -421,6 +421,7 @@ class Conformer(Transformer):
                 if vis:
                     _, pred = x.max(-1)
                     acc = ((pred == lm_target).sum().item()) / len(lm_target)
+                    print('now acc = ', 100*acc, ' %')
 
                 return lm_loss, None, None
 
