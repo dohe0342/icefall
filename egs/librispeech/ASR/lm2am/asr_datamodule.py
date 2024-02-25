@@ -88,6 +88,14 @@ class LibriSpeechAsrDataModule:
             default=True,
             help="When enabled, use 960h LibriSpeech. Otherwise, use 100h subset.",
         )
+        
+        group.add_argument(
+            "--pure-libri",
+            type=str2bool,
+            default=False,
+            help="When enabled, use 960h LibriSpeech. Otherwise, use 100h subset.",
+        )
+
         group.add_argument(
             "--manifest-dir",
             type=Path,
