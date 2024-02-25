@@ -30,6 +30,7 @@ port=$(($RANDOM% 601+12300))
 	--unused-params True \
 	--kernel-size 15 \
 	--lm-tune True \
+	--enable-musan False \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
