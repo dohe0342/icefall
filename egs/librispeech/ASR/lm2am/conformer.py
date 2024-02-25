@@ -416,8 +416,8 @@ class Conformer(Transformer):
                         x = torch.cat([x, am[:len(align_target[i]),]], dim=0)
                     
                 lm_loss = self.lm_loss(x, lm_target)
-                print(lm_loss)
-                exit()
+
+                return lm_loss, _, _
 
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
