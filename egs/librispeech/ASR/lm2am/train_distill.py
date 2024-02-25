@@ -1237,7 +1237,17 @@ def run(rank, world_size, args):
         logging.info("Using DDP")
         model = DDP(model, device_ids=[rank], find_unused_parameters=params.unused_params)
     
-    optimizer = optim.Eve([p for n, p in model.named_parameters() if 'lm.' not in n], lr=params.initial_lr)
+    if params.lm_tune:
+        p_list = []
+        for n, p in model.named_parameters():
+            if 'lm_tune' in n:
+                p.requires_grad = True
+                p_list.append(p)
+            else:
+                p.requires_grad = False
+        optimizer = optim.Eve([p for n, p in model.named_parameters() if 'lm.' not in n], lr=params.initial_lr)
+    else:
+        optimizer = optim.Eve([p for n, p in model.named_parameters() if 'lm.' not in n], lr=params.initial_lr)
     scheduler = optim.Eden(optimizer, params.lr_batches, params.lr_epochs)
 
     if checkpoints and checkpoints.get("optimizer") is not None:
