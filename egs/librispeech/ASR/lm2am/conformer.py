@@ -153,7 +153,6 @@ class Conformer(Transformer):
                 with open(pickle_f, 'rb') as rb:
                     rb = pickle.load(rb)
                     self.alignment_dict.update(rb)
-            
         else:
             self.lm_tune = None
 
@@ -392,7 +391,7 @@ class Conformer(Transformer):
                 am_output = self.lm_tune(am_output)
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
-            #lm_am_sim = 200*lm_am_sim
+            lm_am_sim = 200*lm_am_sim
             lm_am_sim_cp = lm_am_sim.detach().clone()
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
