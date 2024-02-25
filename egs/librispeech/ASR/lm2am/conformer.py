@@ -389,7 +389,11 @@ class Conformer(Transformer):
             if self.lm_tune is not None:
                 am_output = am_output.detach()
                 am_output = self.lm_tune(am_output)
-            
+
+                align_target = []
+                for filename in filenames:
+                    align_target.append(self.alignment_dict[filename])
+
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             lm_am_sim = 200*lm_am_sim
             lm_am_sim_cp = lm_am_sim.detach().clone()
