@@ -742,7 +742,7 @@ def compute_loss(
                 lm_am_sim = nnet_output[1]
                 alignment_target = nnet_output[2]
                 nnet_output = nnet_output[0]
-            
+             
             dense_fsa_vec = k2.DenseFsaVec(
                 nnet_output,
                 supervision_segments,
@@ -753,7 +753,7 @@ def compute_loss(
                 dense_fsa_vec_lm = k2.DenseFsaVec(
                     lm_am_sim,
                     supervision_segments_lm,
-                    allow_truncate=3,
+                    allow_truncate=15,
                 )
             else:
                 dense_fsa_vec_lm = None
