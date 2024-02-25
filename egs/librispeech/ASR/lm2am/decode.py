@@ -963,8 +963,8 @@ def main() -> None:
     test_dls = [dev_clean_dl, dev_other_dl, test_clean_dl, test_other_dl]
     '''
 
-    test_clean_cuts = librispeech.test_clean_cuts()
-    
+    #test_clean_cuts = librispeech.test_clean_cuts()
+    test_clean_cuts = librispeech.train_all_pure_cuts
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
 
     test_sets = ["test-clean"]
