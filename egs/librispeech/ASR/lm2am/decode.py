@@ -350,7 +350,7 @@ def decode_one_batch(
     # at entry, feature is (N, T, C)
 
     supervisions = batch["supervisions"]
-    filenames = [c.id for c in supervisions]
+    filenames = [c.id for c in supervisions["cuts"]]
 
     nnet_output, memory, memory_key_padding_mask = model(feature, supervisions, vis=True, filenames=filenames,)
     if type(nnet_output) == tuple:
