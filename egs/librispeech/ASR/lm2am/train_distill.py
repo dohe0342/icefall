@@ -796,6 +796,7 @@ def compute_loss(
             for n, p in mmodel.named_parameters():
                 print(n, p[0][0])
                 break
+
         if not params.interctc and not params.condition and not params.distill and not params.lm_tune:
             if type(nnet_output) == tuple:
                 nnet_output = nnet_output[0]
