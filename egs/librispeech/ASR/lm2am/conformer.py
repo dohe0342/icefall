@@ -442,6 +442,16 @@ class Conformer(Transformer):
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
+                if 1:
+                    for batch in range(lm_am_sim_cp.size(0)):
+                        plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
+                        plt.colorbar()
+                        if not os.path.exists(f'./png'):
+                            try: os.makedirs(f'./png')
+                            except: pass
+                        plt.savefig(f'./png/{filenames[batch]}.png')
+                        plt.close()
+
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
                     
@@ -509,16 +519,7 @@ class Conformer(Transformer):
                         """
                 '''
                 
-                if 1:
-                    for batch in range(lm_am_sim_cp.size(0)):
-                        plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
-                        plt.colorbar()
-                        if not os.path.exists(f'./png'):
-                            try: os.makedirs(f'./png')
-                            except: pass
-                        plt.savefig(f'./png/{filenames[batch]}.png')
-                        plt.close()
-            
+                            
             if self.lm_tune is not None:
                 return lm_loss, None, None
             ##############################
