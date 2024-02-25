@@ -1230,7 +1230,7 @@ def run(rank, world_size, args):
             try: 
                 p.data = ckpt['model'][n]
             except:
-                print(n, "unchanged")
+                print(n, "unchanged!")
     
     model.to(device)
     if world_size > 1:
