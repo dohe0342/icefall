@@ -602,6 +602,7 @@ def compute_loss(
     supervisions = batch["supervisions"]
     for supervision in supervisions['cut']:
         print(supervision.id)
+    exit()
     feature_lens = supervisions["num_frames"].to(device)
 
     with torch.set_grad_enabled(is_training):
