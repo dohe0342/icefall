@@ -392,7 +392,6 @@ class Conformer(Transformer):
                 print('-'*20)
                 print(am_output.size())
                 print('-'*20)
-                print(am_output.size())
                 exit()
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
