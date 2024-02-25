@@ -843,6 +843,7 @@ def main() -> None:
         distill=params.distill,
         lm_name=params.lm_name,
         quant=params.quant,
+        lm_tune=params.lm_tune,
     )
 
     if not params.use_averaged_model:
