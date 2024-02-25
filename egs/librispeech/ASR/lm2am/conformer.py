@@ -411,8 +411,9 @@ class Conformer(Transformer):
                             now += 1
                             after += 1
                     
-                    #for enum, aligned in enumerate(idx):
-                    #    print(aligned, new_idx[enum])
+                    for enum, aligned in enumerate(idx):
+                        print(aligned, new_idx[enum])
+                    exit()
                 
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
