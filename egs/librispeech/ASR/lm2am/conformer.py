@@ -393,7 +393,6 @@ class Conformer(Transformer):
                     idx = idx[:pad_mask[i]]
                     print(filenames[i], idx.size())
                     
-                    
                     before = -1
                     now = 0
                     after = 1
