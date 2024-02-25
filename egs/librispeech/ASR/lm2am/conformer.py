@@ -400,8 +400,7 @@ class Conformer(Transformer):
                 for enum, align in enumerate(align_target):
                     lm_target.append([])
                     for idx in align:
-                        print(lm_token[enum][idx])
-                        lm_target[enum].append(lm_token[enum][idx])
+                        lm_target[enum].append(lm_token[enum][idx].item())
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             lm_am_sim = 200*lm_am_sim
