@@ -298,6 +298,7 @@ class Conformer(Transformer):
         warmup: float = 1.0,
         texts: list = None,
         vis: bool = False,
+        filenames: list = [],
     ) -> Tuple[torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
         """
         Args:

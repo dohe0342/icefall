@@ -603,6 +603,7 @@ def compute_loss(
     flienames = []
     for supervision in supervisions['cut']:
         filenames.append(supervision.id)
+
     feature_lens = supervisions["num_frames"].to(device)
 
     with torch.set_grad_enabled(is_training):
