@@ -143,6 +143,9 @@ class Conformer(Transformer):
         else:
             self.quant = None
 
+        if lm_tune:
+            self.lm_tune = ScaledLinear(256, 51000)
+
         encoder_layer = ConformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
