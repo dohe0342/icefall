@@ -395,6 +395,9 @@ class Conformer(Transformer):
                     filename = '-'.join(filename.split('-')[:2])
                     align_target.append(self.alignment_dict[filename])
 
+                print(align_target)
+                print(am_output.size())
+
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             lm_am_sim = 200*lm_am_sim
             lm_am_sim_cp = lm_am_sim.detach().clone()
