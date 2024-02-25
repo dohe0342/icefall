@@ -787,7 +787,7 @@ def compute_loss(
                 use_double_scores=params.use_double_scores,
             )
         
-        if params.lm_tune:
+        if params.distill and params.lm_tune:
             lm_loss = nnet_output
             ctc_loss = lm_loss
             distill_loss = torch.tensor([0])
