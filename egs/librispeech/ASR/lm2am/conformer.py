@@ -410,9 +410,9 @@ class Conformer(Transformer):
                             before += 1
                             now += 1
                             after += 1
-                    print(idx)
-                    print(new_idx)
-
+                    
+                    for enum, aligned in enumerate(idx):
+                        print(aligned, new_idx[enum])
                     exit()
                 
                 '''
