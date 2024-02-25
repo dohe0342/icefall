@@ -357,7 +357,7 @@ class Conformer(Transformer):
             with torch.no_grad():
                 lm_output = self.lm(**lm_input)
                 lm_output = lm_output['last_hidden_state']
-                #lm_output = F.normalize(lm_output, dim=2)
+                lm_output = F.normalize(lm_output, dim=2)
             
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
             
@@ -394,10 +394,7 @@ class Conformer(Transformer):
                 for filename in filenames:
                     filename = '-'.join(filename.split('-')[:3])
                     align_target.append(self.alignment_dict[filename])
-
-                print(align_target)
-                print(am_output.size())
-                exit()
+                
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             lm_am_sim = 200*lm_am_sim
