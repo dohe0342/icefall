@@ -20,7 +20,7 @@ port=$(($RANDOM% 601+12300))
 	--start-epoch 27 \
 	--num-epochs 30 \
 	--distill True \
-	--distill-rate 0.1 \
+	--distill-rate 1.0 \
 	--unused-params True \
 	--dim-model 512 \
 	--dim-feedforward 2048 \
