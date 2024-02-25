@@ -418,6 +418,10 @@ class Conformer(Transformer):
                 x = F.log_softmax(x, dim=-1)
                 lm_loss = self.lm_loss(x, lm_target)
 
+                if vis:
+                    _, pred = x.max(-1)
+                    acc = ((pred == lm_target).sum().item()) / len(lm_target)
+
                 return lm_loss, None, None
 
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
