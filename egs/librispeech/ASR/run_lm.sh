@@ -17,8 +17,8 @@ port=$(($RANDOM% 601+12300))
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 800 \
 	--world-size ${WORLD_SIZE} \
-	--start-epoch 31 \
-	--num-epochs 40 \
+	--start-epoch 2 \
+	--num-epochs 30 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
 	--distill True \
