@@ -748,7 +748,7 @@ def compute_loss(
 
             ctc_loss = (1-params.interctc_weight) * ctc_loss + params.interctc_weight * inter_ctc_loss
         
-        if params.distill:
+        if params.distill and not params.lm_tune:
             if type(nnet_output) == tuple:
                 lm_am_sim = nnet_output[1]
                 alignment_target = nnet_output[2]
