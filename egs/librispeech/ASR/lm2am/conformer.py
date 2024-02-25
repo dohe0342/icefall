@@ -407,6 +407,14 @@ class Conformer(Transformer):
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
+                x = None
+                for i, am in enumerate(am_output):
+                    if x is None:
+                        x = am[:pad_mask[i],]
+                    else:
+                        x = torch.cat([x, am[:pad_mask[i],]], dim=0)
+                print(x.size())
+                
                 return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
