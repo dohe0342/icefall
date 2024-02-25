@@ -409,7 +409,7 @@ class Conformer(Transformer):
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
                 x = None
-                for i, am in enumerate(am_output):
+                for i, am in enumerate(am_lm):
                     if x is None:
                         x = am[:len(align_target[i]),]
                     else:
