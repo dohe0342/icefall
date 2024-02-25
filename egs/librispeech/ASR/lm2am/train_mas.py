@@ -922,7 +922,7 @@ def compute_loss(
 
     # Note: We use reduction=sum while computing the loss.
     info["loss"] = loss.detach().cpu().item()
-    info["ctc_loss"] = ctc_loss.detach().cpu().item()
+    info["ctc_loss"] = ctc_loss.detach().cpu().item() if not params.mas else 0
     if params.att_rate > 0.0:
         info["att_loss"] = att_loss.detach().cpu().item()
     if params.distill:
