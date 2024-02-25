@@ -379,6 +379,7 @@ class Conformer(Transformer):
                 am_output = am_output['x']
 
             if self.lm_tune is not None:
+                am_output = am_output.detach()
                 am_output = self.lm_tune(am_output)
             
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
