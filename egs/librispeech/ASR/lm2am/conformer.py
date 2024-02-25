@@ -406,7 +406,11 @@ class Conformer(Transformer):
                             now += 1
                             after += 1
                         else:
-                            
+                            new_idx.append(now)
+                            before += 1
+                            now += 1
+                            after += 1
+
                     exit()
                 
                 '''
