@@ -407,6 +407,7 @@ class Conformer(Transformer):
                             after += 1
                         else:
                             print(aligned, before, now, after)
+                    exit()
                 
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
