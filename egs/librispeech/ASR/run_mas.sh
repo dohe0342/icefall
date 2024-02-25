@@ -1,7 +1,7 @@
 WORLD_SIZE=8
 export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
 
-./lm2am/train_mas.py \
+./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
 	--master-port 12355 \
 	--full-libri 1 \
