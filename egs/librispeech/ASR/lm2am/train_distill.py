@@ -1229,8 +1229,8 @@ def run(rank, world_size, args):
         for n, p in model.named_parameters():
             try: 
                 p.data = ckpt['model'][n]
-                print(n, "changed")
-            except: pass
+            except:
+                print(n, "unchanged")
     
     model.to(device)
     if world_size > 1:
