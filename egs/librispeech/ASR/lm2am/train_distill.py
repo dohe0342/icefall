@@ -487,6 +487,8 @@ def load_checkpoint_if_available(
         print('*'*20)
         print('fuck!!!!!!!!!!!!!!!!!!!!1')
         print('*'*20)
+    elif params.lm_tune:
+        filename = params.exp_dir / "baseline.pt"
     else:
         return None
 
