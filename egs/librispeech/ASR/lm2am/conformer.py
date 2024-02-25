@@ -414,7 +414,7 @@ class Conformer(Transformer):
                     else:
                         x = torch.cat([x, am[:pad_mask[i],]], dim=0)
 
-                    print(pad_mask[i], len(lm_target[i]))
+                    print(pad_mask[i].item(), len(lm_target[i]))
                 exit()
                 
                 return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
