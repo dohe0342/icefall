@@ -979,8 +979,6 @@ def main() -> None:
     test_dls = [train_clean_dl]
     '''
 
-    for n, p in model.named_parameters():
-        print(n, p[0][0])
     if params.wandb:
         exp_name = str(params.exp_dir).split('/')[-1]
         wb_writer = wandb.init(project="COMAT-v2_res", name=exp_name, resume=True)
