@@ -600,7 +600,7 @@ def compute_loss(
     feature = feature.to(device)
 
     supervisions = batch["supervisions"]
-    flienames = []
+    filenames = []
     for supervision in supervisions['cut']:
         filenames.append(supervision.id)
 
@@ -608,7 +608,7 @@ def compute_loss(
 
     with torch.set_grad_enabled(is_training):
         nnet_output, encoder_memory, memory_mask = model(
-            feature, supervisions, warmup=warmup, texts=supervisions["text"], vis=vis, filenames=filenames
+            feature, supervisions, warmup=warmup, texts=supervisions["text"], vis=vis, filenames=filenames,
         )
         
         supervision_segments, texts = encode_supervisions(
