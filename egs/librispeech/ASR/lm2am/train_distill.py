@@ -1245,7 +1245,7 @@ def run(rank, world_size, args):
                 p_list.append(p)
             else:
                 p.requires_grad = False
-        optimizer = optim.Eve([p for n, p in model.named_parameters() if 'lm.' not in n], lr=params.initial_lr)
+        optimizer = optim.Eve(p, lr=params.initial_lr)
     else:
         optimizer = optim.Eve([p for n, p in model.named_parameters() if 'lm.' not in n], lr=params.initial_lr)
     scheduler = optim.Eden(optimizer, params.lr_batches, params.lr_epochs)
