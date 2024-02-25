@@ -1227,7 +1227,9 @@ def run(rank, world_size, args):
         
         ckpt = torch.load(filename)
         for n, p in model.named_parameters():
-            try: p.data = ckpt['model'][n]
+            try: 
+                p.data = ckpt['model'][n]
+                print(n, "changed")
             except: pass
     
     model.to(device)
