@@ -397,7 +397,7 @@ class Conformer(Transformer):
                     after = 1
                     
                     new_idx = []
-                    for aligned in idx:
+                    for enum, aligned in enumerate(idx):
                         if aligned == now:
                             new_idx.append(now)
                         elif aligned == after:
@@ -406,7 +406,7 @@ class Conformer(Transformer):
                             now += 1
                             after += 1
                         else:
-                            print(aligned, before, now, after)
+                            
                     exit()
                 
                 '''
