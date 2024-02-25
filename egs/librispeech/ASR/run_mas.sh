@@ -3,7 +3,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
 
 ./lm2am/train_mas.py \
 	--exp-dir lm2am/$1 \
-	--master-port $port \
+	--master-port 12355 \
 	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 9 \
