@@ -153,8 +153,6 @@ class Conformer(Transformer):
                 with open(pickle_f, 'rb') as rb:
                     rb = pickle.load(rb)
                     self.alignment_dict.update(rb)
-            print(self.alignment_dict)
-            exit()
             
         else:
             self.lm_tune = None
