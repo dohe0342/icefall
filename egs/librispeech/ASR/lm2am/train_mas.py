@@ -617,7 +617,7 @@ def compute_loss(
         )
         
         if not params.ted2:
-            supervision_segments_lm, _ = encode_supervisions(
+            supervision_segments_lm, texts = encode_supervisions(
                 supervisions, subsampling_factor=16
             )
 
