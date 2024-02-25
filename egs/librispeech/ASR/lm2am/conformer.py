@@ -389,9 +389,10 @@ class Conformer(Transformer):
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
+                for i, sim in enumerate(lm_am_sim_cp):
+                    print(filenames[i], sim[:pad_mask,].size())
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
-                    print(filenames[i], idx.size())
                     
                     before = -1
                     now = 0
