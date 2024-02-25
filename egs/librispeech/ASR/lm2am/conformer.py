@@ -521,8 +521,9 @@ class Conformer(Transformer):
                             except: pass
                         plt.savefig(f'./png/{filenames[batch]}.png')
                         plt.close()
-
-            return lm_loss, None, None
+            
+            if self.lm_tune is not None:
+                return lm_loss, None, None
             ##############################
 
             #############for alignment target ###############################
