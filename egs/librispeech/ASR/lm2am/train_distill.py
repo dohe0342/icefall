@@ -1224,6 +1224,11 @@ def run(rank, world_size, args):
     if params.lm_tune:
         filename = params.exp_dir / "baseline.pt"
         _ = load_checkpoint(filename=filename, model=model)
+        
+        ckpt = torch.load(filename)
+        for n, p in model.named_parameters():
+            try: p.data = ckpt['model'][n]
+            except: pass
     
     model.to(device)
     if world_size > 1:
