@@ -412,7 +412,7 @@ class Conformer(Transformer):
                     if x is None:
                         x = am[:len(lm_target[i]),]
                     else:
-                        x = torch.cat([x, am[:pad_mask[i],]], dim=0)
+                        x = torch.cat([x, am[:len(lm_target[i]),]], dim=0)
 
                     print(pad_mask[i].item(), len(lm_target[i]))
                 exit()
