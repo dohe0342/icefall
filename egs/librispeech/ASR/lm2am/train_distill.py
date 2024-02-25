@@ -570,6 +570,7 @@ def compute_loss(
     batch: dict,
     is_training: bool,
     warmup: float = 1.0,
+    vis: bool = False,
 ) -> Tuple[Tensor, MetricsTracker]:
     """
     Compute CTC loss given the model and its inputs.
