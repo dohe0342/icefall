@@ -610,7 +610,7 @@ def compute_loss(
 
     with torch.set_grad_enabled(is_training):
         nnet_output, encoder_memory, memory_mask = model(
-            feature, supervisions, warmup=warmup, texts=supervisions["text"], vis=vis
+            feature, supervisions, warmup=warmup, texts=supervisions["text"], vis=vis,
         )
         
         supervision_segments_lm, texts = encode_supervisions(
