@@ -392,6 +392,7 @@ class Conformer(Transformer):
 
                 align_target = []
                 for filename in filenames:
+                    filename = '-'.join(filename.split('-')[:2])
                     align_target.append(self.alignment_dict[filename])
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
