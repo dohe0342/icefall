@@ -144,7 +144,7 @@ class Conformer(Transformer):
             self.quant = None
 
         if lm_tune:
-            self.lm_tune = ScaledLinear(256, 51000)
+            self.lm_tune = ScaledLinear(256, 50257, bias=False)
         else:
             self.lm_tune = None
 
