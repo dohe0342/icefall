@@ -783,34 +783,17 @@ def compute_loss(
                 alignment_target = nnet_output[2]
                 nnet_output = nnet_output[0]
              
-            dense_fsa_vec = k2.DenseFsaVec(
-                nnet_output,
-                supervision_segments,
-                allow_truncate=params.subsampling_factor - 1,
+            dense_fsa_vec_lm = k2.DenseFsaVec(
+                lm_am_sim,
+                supervision_segments_lm,
+                allow_truncate=15,
             )
-
-            if not params.ted2:
-                dense_fsa_vec_lm = k2.DenseFsaVec(
-                    lm_am_sim,
-                    supervision_segments_lm,
-                    allow_truncate=15,
-                )
-            else:
-                dense_fsa_vec_lm = None
             
             alignment_graph = graph_compiler.compile(alignment_target)
 
-            ctc_loss = k2.ctc_loss(
-                decoding_graph=decoding_graph,
-                dense_fsa_vec=dense_fsa_vec,
-                output_beam=params.beam_size,
-                reduction=params.reduction,
-                use_double_scores=params.use_double_scores,
-            )
-             
             distill_loss = k2.ctc_loss(
                 decoding_graph=alignment_graph,
-                dense_fsa_vec=dense_fsa_vec if params.ted2 else dense_fsa_vec_lm,
+                dense_fsa_vec=dense_fsa_vec_lm,
                 output_beam=params.beam_size,
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
