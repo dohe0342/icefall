@@ -14,7 +14,7 @@ port=$(($RANDOM% 601+12300))
 	--master-port $port \
 	--full-libri 1 \
 	--pure-libri True \
-	--initial-lr 0.005 \
+	--initial-lr 0.01 \
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
