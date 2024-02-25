@@ -433,7 +433,7 @@ class LibriSpeechAsrDataModule:
         )
     
     @lru_cache()
-    def train_all_shuf_cuts(self) -> CutSet:
+    def train_all_pure_cuts(self) -> CutSet:
         logging.info(
             "About to get the shuffled train-clean-100, \
             train-clean-360 and train-other-500 cuts"
