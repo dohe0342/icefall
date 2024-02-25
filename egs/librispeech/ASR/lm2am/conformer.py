@@ -423,7 +423,6 @@ class Conformer(Transformer):
                     acc = ((pred == lm_target).sum().item()) / len(lm_target)
                     print('now acc = ', 100*acc, ' %')
 
-
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
