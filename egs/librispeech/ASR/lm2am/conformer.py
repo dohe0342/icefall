@@ -410,6 +410,8 @@ class Conformer(Transformer):
                             before += 1
                             now += 1
                             after += 1
+                    print(idx)
+                    print(new_idx)
 
                     exit()
                 
