@@ -414,7 +414,8 @@ class Conformer(Transformer):
                         x = am[:len(align_target[i]),]
                     else:
                         x = torch.cat([x, am[:len(align_target[i]),]], dim=0)
-                    
+                
+                x = F.log_softmax(x, dim=-1)
                 lm_loss = self.lm_loss(x, lm_target)
 
                 return lm_loss, None, None
