@@ -1220,7 +1220,8 @@ def run(rank, world_size, args):
         params=params, model=model, model_avg=model_avg
     )
     
-    _ = load_checkpoint(filename=params.exp_dir / "baseline.pt", model)
+    if params.lm_tune:
+        _ = load_checkpoint(filename=params.exp_dir / "baseline.pt", model)
     
     model.to(device)
     if world_size > 1:
