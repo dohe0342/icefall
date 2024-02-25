@@ -154,7 +154,7 @@ class Conformer(Transformer):
                     rb = pickle.load(rb)
                     self.alignment_dict.update(rb)
 
-            self.lm_loss = torch.nn.CrossEntropyLoss(reduction=None)
+            self.lm_loss = torch.nn.CrossEntropyLoss(reduction='none')
         else:
             self.lm_tune = None
 
