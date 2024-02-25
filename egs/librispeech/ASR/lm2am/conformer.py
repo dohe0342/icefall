@@ -417,7 +417,7 @@ class Conformer(Transformer):
                     
                 lm_loss = self.lm_loss(x, lm_target)
 
-                return lm_loss, _, _
+                return lm_loss, None, None
 
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
