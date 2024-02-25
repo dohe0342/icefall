@@ -841,7 +841,8 @@ def compute_loss(
                 )
         else:
             att_loss = torch.tensor([0])
-
+        
+        ctc_loss = torch.tensor([0])
         ctc_loss_is_finite = torch.isfinite(ctc_loss)
         att_loss_is_finite = torch.isfinite(att_loss)
         if torch.any(~ctc_loss_is_finite) or torch.any(~att_loss_is_finite):
@@ -862,6 +863,7 @@ def compute_loss(
                     "There are too many utterances in this batch "
                     "leading to inf or nan losses."
                 )
+        
         if params.distill or params.mas:
             distill_loss_is_finite = torch.isfinite(distill_loss)
             if torch.any(~distill_loss_is_finite):
