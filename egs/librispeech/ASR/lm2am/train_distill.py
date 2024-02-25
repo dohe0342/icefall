@@ -487,8 +487,6 @@ def load_checkpoint_if_available(
         print('*'*20)
         print('fuck!!!!!!!!!!!!!!!!!!!!1')
         print('*'*20)
-    elif params.lm_tune:
-        filename = params.exp_dir / "baseline.pt"
     else:
         return None
 
@@ -502,10 +500,6 @@ def load_checkpoint_if_available(
         scheduler=scheduler,
     )
     
-    if params.lm_tune:
-        del saved_params['optimizer']
-        del saved_params['scheduler']
-
     keys = [
         "best_train_epoch",
         "best_valid_epoch",
