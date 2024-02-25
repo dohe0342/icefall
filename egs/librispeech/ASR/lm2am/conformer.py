@@ -147,6 +147,14 @@ class Conformer(Transformer):
 
         if lm_tune:
             self.lm_tune = ScaledLinear(256, 50257, bias=False)
+            self.alignment_dict = {}
+            pickle_list = glob('/home/work/workspace/fairseq/scripts/whale/train-960-alignment/*.pickle')
+            for pickle_f in pickle_list:
+                with open(pickle_f, 'rb') as rb:
+                    rb = pickle.load(rb)
+                    self.alignment_dict.update(rb)
+            print(self.alignment_dict)
+            
         else:
             self.lm_tune = None
 
