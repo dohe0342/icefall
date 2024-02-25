@@ -391,10 +391,17 @@ class Conformer(Transformer):
                 am_output = self.lm_tune(am_output)
 
                 align_target = []
+                lm_target = []
                 for filename in filenames:
                     filename = '-'.join(filename.split('-')[:3])
                     align_target.append(self.alignment_dict[filename])
-                
+
+                lm_token = lm_input['input_ids']
+                for enum, align in enumerate(align_target):
+                    lm_target.append([])
+                    for idx in align:
+                        print(lm_token[enum][idx])
+                        lm_target[enum].append(lm_token[enum][idx])
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             lm_am_sim = 200*lm_am_sim
