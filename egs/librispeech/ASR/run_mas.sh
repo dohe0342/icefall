@@ -8,7 +8,7 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
-	--max-duration 600 \
+	--max-duration 800 \
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
 	--num-epochs 30 \
