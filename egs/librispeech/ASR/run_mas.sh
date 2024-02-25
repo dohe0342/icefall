@@ -12,10 +12,9 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
 	--num-epochs 30 \
-	--distill False \
-	--mas True \
+	--distill True \
 	--quant False \
-	--distill-rate 1.0 \
+	--distill-rate 0.5 \
 	--unused-params True \
 	--dim-model 512 \
 	--dim-feedforward 2048 \
