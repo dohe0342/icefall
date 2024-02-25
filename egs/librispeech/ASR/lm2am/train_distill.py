@@ -97,6 +97,12 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
         type=str2bool,
         default=True,
     )
+    
+    parser.add_argument(
+        "--lm-tune",
+        type=str2bool,
+        default=True,
+    )
 
     parser.add_argument(
         "--num-encoder-layers",
