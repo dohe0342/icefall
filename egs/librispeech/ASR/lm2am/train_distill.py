@@ -789,6 +789,7 @@ def compute_loss(
         
         if params.lm_tune:
             lm_loss = nnet_output
+            ctc_loss = lm_loss
 
         if not params.interctc and not params.condition and not params.distill and not params.lm_tune:
             if type(nnet_output) == tuple:
