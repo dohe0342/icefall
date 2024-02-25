@@ -370,7 +370,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--mas",
         type=str2bool,
-        default=False,
+        default=True,
     )
 
     add_model_arguments(parser)
