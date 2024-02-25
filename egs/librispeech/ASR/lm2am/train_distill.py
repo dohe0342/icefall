@@ -505,6 +505,7 @@ def load_checkpoint_if_available(
     if params.lm_tune:
         del saved_params['optimizer']
         del saved_params['scheduler']
+
     keys = [
         "best_train_epoch",
         "best_valid_epoch",
