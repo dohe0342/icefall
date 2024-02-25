@@ -388,9 +388,11 @@ class Conformer(Transformer):
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
-
+                
                 for i, idx in enumerate(aligned_idx):
-                    idx = idx[:pad_mask[i]].tolist()
+                    idx = idx[:pad_mask[i]]
+                    print(filenames[i], idx)
+                    
                     
                     before = -1
                     now = 0
