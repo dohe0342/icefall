@@ -390,7 +390,7 @@ class Conformer(Transformer):
                 pad_mask = (((pad_mask-5)//2)-5)//2
 
                 for i, idx in enumerate(aligned_idx):
-                    idx = idx[:pad_mask[i]]
+                    idx = idx[:pad_mask[i]].tolist()
                     
                     before = -1
                     now = 0
