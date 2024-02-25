@@ -384,7 +384,6 @@ class Conformer(Transformer):
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
                 #lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
                 #lm_am_sim_bool = lm_am_sim_prob > 0.6
-                file_name = str(torch.randint(1, 10000, (1,)).item())
                 
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
@@ -461,10 +460,10 @@ class Conformer(Transformer):
                     for batch in range(lm_am_sim_cp.size(0)):
                         plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                         plt.colorbar()
-                        if not os.path.exists(f'./png/{file_name}'):
-                            try: os.makedirs(f'./png/{file_name}')
+                        if not os.path.exists(f'./png'):
+                            try: os.makedirs(f'./png')
                             except: pass
-                        plt.savefig(f'./png/{file_name}/alingment{batch}.png')
+                        plt.savefig(f'./png/{filenames[batch]}.png')
                         plt.close()
             ##############################
 
