@@ -612,14 +612,9 @@ def compute_loss(
             feature, supervisions, warmup=warmup, texts=supervisions["text"],
         )
         
-        supervision_segments, texts = encode_supervisions(
-            supervisions, subsampling_factor=params.subsampling_factor
+        supervision_segments_lm, texts = encode_supervisions(
+            supervisions, subsampling_factor=16
         )
-        
-        if not params.ted2:
-            supervision_segments_lm, texts = encode_supervisions(
-                supervisions, subsampling_factor=16
-            )
 
         #token_ids = convert_texts_into_ids(texts, graph_compiler.sp)
         token_ids = graph_compiler.texts_to_ids(texts)
@@ -781,6 +776,46 @@ def compute_loss(
                 reduction=params.reduction,
                 use_double_scores=params.use_double_scores,
             )
+
+        if params.mas:
+            if type(nnet_output) == tuple:
+                lm_am_sim = nnet_output[1]
+                alignment_target = nnet_output[2]
+                nnet_output = nnet_output[0]
+             
+            dense_fsa_vec = k2.DenseFsaVec(
+                nnet_output,
+                supervision_segments,
+                allow_truncate=params.subsampling_factor - 1,
+            )
+
+            if not params.ted2:
+                dense_fsa_vec_lm = k2.DenseFsaVec(
+                    lm_am_sim,
+                    supervision_segments_lm,
+                    allow_truncate=15,
+                )
+            else:
+                dense_fsa_vec_lm = None
+            
+            alignment_graph = graph_compiler.compile(alignment_target)
+
+            ctc_loss = k2.ctc_loss(
+                decoding_graph=decoding_graph,
+                dense_fsa_vec=dense_fsa_vec,
+                output_beam=params.beam_size,
+                reduction=params.reduction,
+                use_double_scores=params.use_double_scores,
+            )
+             
+            distill_loss = k2.ctc_loss(
+                decoding_graph=alignment_graph,
+                dense_fsa_vec=dense_fsa_vec if params.ted2 else dense_fsa_vec_lm,
+                output_beam=params.beam_size,
+                reduction=params.reduction,
+                use_double_scores=params.use_double_scores,
+            )
+
 
         if not params.interctc and not params.condition and not params.distill:
             if type(nnet_output) == tuple:
