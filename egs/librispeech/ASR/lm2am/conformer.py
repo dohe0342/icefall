@@ -423,7 +423,6 @@ class Conformer(Transformer):
                     acc = ((pred == lm_target).sum().item()) / len(lm_target)
                     print('now acc = ', 100*acc, ' %')
 
-                return lm_loss, None, None
 
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
@@ -513,7 +512,7 @@ class Conformer(Transformer):
                         """
                 '''
                 
-                if 0:
+                if 1:
                     for batch in range(lm_am_sim_cp.size(0)):
                         plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                         plt.colorbar()
@@ -522,6 +521,8 @@ class Conformer(Transformer):
                             except: pass
                         plt.savefig(f'./png/{filenames[batch]}.png')
                         plt.close()
+
+            return lm_loss, None, None
             ##############################
 
             #############for alignment target ###############################
