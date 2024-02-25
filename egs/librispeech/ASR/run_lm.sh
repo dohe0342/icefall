@@ -10,6 +10,7 @@ fi
 port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
 	--exp-dir lm2am/$1 \
+	--wandb False \
 	--master-port $port \
 	--full-libri 1 \
 	--use-fp16 True \
