@@ -1309,15 +1309,16 @@ def run(rank, world_size, args):
         librispeech = LibriSpeechAsrDataModule(args)
 
         sampler_state_dict = None
-
-        if params.full_libri:
-            train_cuts = librispeech.train_all_shuf_cuts()
-        else:
-            train_cuts = librispeech.train_clean_100_cuts()
-
+        
         if params.pure_libri:
             train_cuts = librispeech.train_all_pure_cuts()
-     
+        
+        else:
+            if params.full_libri:
+                train_cuts = librispeech.train_all_shuf_cuts()
+            else:
+                train_cuts = librispeech.train_clean_100_cuts()
+             
         train_dl = librispeech.train_dataloaders(
             train_cuts, sampler_state_dict=sampler_state_dict
         )    
