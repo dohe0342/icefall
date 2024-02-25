@@ -392,7 +392,7 @@ class Conformer(Transformer):
 
                 align_target = []
                 for filename in filenames:
-                    filename = '-'.join(filename.split('-')[:2])
+                    filename = '-'.join(filename.split('-')[:3])
                     align_target.append(self.alignment_dict[filename])
 
                 print(align_target)
