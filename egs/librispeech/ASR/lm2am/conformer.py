@@ -411,9 +411,8 @@ class Conformer(Transformer):
                             now += 1
                             after += 1
                     
-                    for enum, aligned in enumerate(idx):
-                        print(aligned, new_idx[enum])
-                    exit()
+                    #for enum, aligned in enumerate(idx):
+                    #    print(aligned, new_idx[enum])
                 
                 '''
                 for batch in range(lm_am_sim_cp.size(0)):
@@ -457,7 +456,7 @@ class Conformer(Transformer):
                         """
                 '''
                 
-                if 0:
+                if 1:
                     for batch in range(lm_am_sim_cp.size(0)):
                         plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                         plt.colorbar()
