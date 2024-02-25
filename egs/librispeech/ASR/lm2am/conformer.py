@@ -403,6 +403,8 @@ class Conformer(Transformer):
                     for idx in align:
                         lm_target.append(lm_token[enum][idx].item())
                 
+                lm_target = torch.LongTensor(lm_target).to(am_output.device)
+                
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
