@@ -26,6 +26,7 @@ port=$(($RANDOM% 601+12300))
 	--num-decoder-layers 0 \
 	--distill True \
 	--distill-rate 0.1 \
+	--quant True \
 	--unused-params True \
 	--kernel-size 15 \
 	--lm-tune True \
