@@ -18,6 +18,8 @@ port=$(($RANDOM% 601+12300))
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
+	--enable-musan False \
+	--enable-spec-aug False \
 	--max-duration 800 \
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
@@ -30,7 +32,6 @@ port=$(($RANDOM% 601+12300))
 	--unused-params True \
 	--kernel-size 15 \
 	--lm-tune True \
-	--enable-musan False \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
