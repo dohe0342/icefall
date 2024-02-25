@@ -1210,7 +1210,7 @@ def run(rank, world_size, args):
         interctc=params.interctc,
         interctc_condition=params.condition,
         learnable_alpha=params.learnable_alpha,
-        distill=params.distill,
+        distill=params.distill or params.mas,
         lm_name=params.lm_name,
         quant=params.quant,
     )
