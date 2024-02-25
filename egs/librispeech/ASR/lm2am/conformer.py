@@ -391,7 +391,7 @@ class Conformer(Transformer):
                 
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
-                    print(filenames[i], idx)
+                    print(filenames[i], idx.size())
                     
                     
                     before = -1
