@@ -428,7 +428,7 @@ class Conformer(Transformer):
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
-                if 0:
+                if 1:
                     for batch in range(lm_am_sim_cp.size(0)):
                         plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                         plt.colorbar()
@@ -437,7 +437,7 @@ class Conformer(Transformer):
                             except: pass
                         plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
-                
+                exit()
                 align_dict = {}
                 last_filename = None
                 for b in range(lm_am_sim_cp.size(0)):
