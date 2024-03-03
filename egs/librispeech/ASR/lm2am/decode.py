@@ -964,18 +964,26 @@ def main() -> None:
     test_dls = [dev_clean_dl, dev_other_dl, test_clean_dl, test_other_dl]
     '''
     
+    '''
     test_clean_cuts = librispeech.test_clean_cuts()
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
 
     test_sets = ["test-clean"]
     test_dls = [test_clean_dl]
-    
+    '''
+
     '''
     train_clean_cuts = librispeech.train_clean_100_cuts()
     train_clean_dl = librispeech.valid_dataloaders(train_clean_cuts)
     test_sets = ["train-clean-100"]
     test_dls = [train_clean_dl]
     '''
+    
+    test_clean_cuts = librispeech.train_all_shuf_cuts()
+    test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
+
+    test_sets = ["test-clean"]
+    test_dls = [test_clean_dl]
 
     if params.wandb:
         exp_name = str(params.exp_dir).split('/')[-1]
