@@ -1240,7 +1240,8 @@ def run(rank, world_size, args):
     if params.lm_tune:
         p_list = []
         for n, p in model.named_parameters():
-            if 'lm_tune' in n or 'lm_decoder' in n or 'quant' in n:
+            #if 'lm_tune' in n or 'lm_decoder' in n or 'quant' in n:
+            if 'lm_tune' in n:
                 p.requires_grad = True
                 p_list.append(p)
             else:
