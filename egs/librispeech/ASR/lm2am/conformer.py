@@ -437,7 +437,11 @@ class Conformer(Transformer):
                             except: pass
                         plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
-                    exit()
+
+                    for b in range(lm_am_sim_cp.size(0)):
+                        _, alignment = lm_am_sim_cp[b][:lm_lengths[b],].max(-1)
+                        align_dict[filename] = alignment.tolist()
+                        last_filename = filename
 
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
