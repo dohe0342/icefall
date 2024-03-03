@@ -450,9 +450,8 @@ class Conformer(Transformer):
                         if prob < 0.5:
                             last_idx = idx
                             break
-                        else:
-                            last_idx = idx
-                    align_dict[filename] = alignment.tolist()
+                    
+                    align_dict[filename] = alignment[:last_idx].tolist() if last_idx is not None else alignment.to_list()
                     last_filename = filename
 
                 with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
