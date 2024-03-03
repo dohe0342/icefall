@@ -445,6 +445,7 @@ class Conformer(Transformer):
                     _, alignment = lm_am_sim_cp[b][:pad_mask[b],].max(-1)
                     align_dict[filename] = alignment.tolist()
                     last_filename = filename
+
                 with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
                     pickle.dump(align_dict, fw) 
 
