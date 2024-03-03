@@ -353,6 +353,7 @@ def decode_one_batch(
     filenames = [c.id for c in supervisions["cut"]]
 
     nnet_output, memory, memory_key_padding_mask = model(feature, supervisions, vis=True, filenames=filenames,)
+    exit()
     if type(nnet_output) == tuple:
         nnet_output = nnet_output[0]
 
