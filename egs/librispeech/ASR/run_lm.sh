@@ -13,7 +13,7 @@ port=$(($RANDOM% 601+12300))
 	--wandb False \
 	--master-port $port \
 	--full-libri 1 \
-	--pure-libri True \
+	--pure-libri False \
 	--initial-lr 0.01 \
 	--use-fp16 False \
 	--num-workers 9 \
