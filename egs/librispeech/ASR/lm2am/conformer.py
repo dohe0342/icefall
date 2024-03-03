@@ -439,7 +439,7 @@ class Conformer(Transformer):
                         plt.close()
 
                     for b in range(lm_am_sim_cp.size(0)):
-                        filenames = filenames[batch]
+                        filenames = filenames[b]
                         _, alignment = lm_am_sim_cp[b][:pad_mask[b],].max(-1)
                         align_dict[filename] = alignment.tolist()
                         last_filename = filename
