@@ -1240,6 +1240,7 @@ def run(rank, world_size, args):
     if params.lm_tune:
         p_list = []
         for n, p in model.named_parameters():
+            print(n)
             #if 'lm_tune' in n:
             if 'lm' in n:
                 p.requires_grad = True
