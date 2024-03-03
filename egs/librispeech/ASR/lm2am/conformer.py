@@ -444,7 +444,7 @@ class Conformer(Transformer):
                 last_filename = None
                 for b in range(lm_am_sim_cp.size(0)):
                     filename = filenames[b]
-                    prob, alignment = lm_am_sim_cp[b][:pad_mask[b],].max(-1)
+                    prob, alignment = lm_am_sim_cp[b][:pad_mask[b], :alignment_lengths[b]].max(-1)
                     print(prob[-3:])
                     align_dict[filename] = alignment.tolist()
                     last_filename = filename
