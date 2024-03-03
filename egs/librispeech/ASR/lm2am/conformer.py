@@ -428,7 +428,7 @@ class Conformer(Transformer):
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
-                if 1:
+                if 0:
                     for batch in range(lm_am_sim_cp.size(0)):
                         plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                         plt.colorbar()
