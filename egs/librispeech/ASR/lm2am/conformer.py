@@ -448,7 +448,10 @@ class Conformer(Transformer):
                     last_idx = None
                     for idx, prob in enumerate(probs):
                         if prob < 0.5:
-                             
+                            last_idx = idx
+                            break
+                        else:
+                            last_idx = idx
                     align_dict[filename] = alignment.tolist()
                     last_filename = filename
 
