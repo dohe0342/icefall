@@ -8,7 +8,9 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
 	--method ctc-greedy-search \
 	--distill True \
 	--quant False \
-	--kernel-size 15 \
 	--lm-name gpt2 \
 	--wandb False \
-	--lm-tune False
+	--lm-tune False \
+	--dim-model 512 \
+	--dim-feedforward 2048 \
+	--kernel-size 31
