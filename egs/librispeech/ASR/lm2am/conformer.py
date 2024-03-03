@@ -451,7 +451,7 @@ class Conformer(Transformer):
                             last_idx = idx
                             break
                     
-                    align_dict[filename] = alignment[:last_idx].tolist() if last_idx is not None else alignment.to_list()
+                    align_dict[filename] = alignment[:last_idx].tolist() if last_idx is not None else alignment.tolist()
                     last_filename = filename
 
                 with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
