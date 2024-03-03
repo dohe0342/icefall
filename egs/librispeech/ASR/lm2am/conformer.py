@@ -438,6 +438,7 @@ class Conformer(Transformer):
                         plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
                 
+                align_dict = {}
                 last_filename = None
                 for b in range(lm_am_sim_cp.size(0)):
                     filenames = filenames[b]
