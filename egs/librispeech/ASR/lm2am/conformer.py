@@ -446,6 +446,7 @@ class Conformer(Transformer):
                     last_filename = filename
                 with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
                     pickle.dump(align_dict, fw) 
+
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
                     
