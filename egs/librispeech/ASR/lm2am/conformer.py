@@ -432,10 +432,10 @@ class Conformer(Transformer):
                     for batch in range(lm_am_sim_cp.size(0)):
                         plt.matshow(lm_am_sim_cp[batch].T.cpu().numpy())
                         plt.colorbar()
-                        if not os.path.exists(f'./png2'):
-                            try: os.makedirs(f'./png2')
+                        if not os.path.exists(f'./png3'):
+                            try: os.makedirs(f'./png3')
                             except: pass
-                        plt.savefig(f'./png2/{filenames[batch]}.png')
+                        plt.savefig(f'./png3/{filenames[batch]}.png')
                         plt.close()
 
                 for i, idx in enumerate(aligned_idx):
