@@ -445,6 +445,8 @@ class Conformer(Transformer):
                 
                 align_dict = {}
                 last_filename = None
+
+                '''
                 for b in range(lm_am_sim_cp.size(0)):
                     filename = filenames[b]
                     probs, alignment = lm_am_sim_cp[b][:pad_mask[b], :alignment_lengths[b]].max(-1)
@@ -459,7 +461,7 @@ class Conformer(Transformer):
 
                 with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
                     pickle.dump(align_dict, fw) 
-
+                '''
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
                     
