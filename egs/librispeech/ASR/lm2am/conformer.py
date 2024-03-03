@@ -428,7 +428,7 @@ class Conformer(Transformer):
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
                 
-                if 1:
+                if 0:
                     alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
                     for batch in range(lm_am_sim_cp.size(0)):
                         print(filenames[batch], lm_am_sim_cp[batch].size(), pad_mask[batch], alignment_lengths[batch])
@@ -440,7 +440,6 @@ class Conformer(Transformer):
                         plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
                 
-                exit()
                 align_dict = {}
                 last_filename = None
                 for b in range(lm_am_sim_cp.size(0)):
