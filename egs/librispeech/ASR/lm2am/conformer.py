@@ -438,12 +438,13 @@ class Conformer(Transformer):
                         plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
 
-                    for b in range(lm_am_sim_cp.size(0)):
-                        filenames = filenames[b]
-                        _, alignment = lm_am_sim_cp[b][:pad_mask[b],].max(-1)
-                        align_dict[filename] = alignment.tolist()
-                        last_filename = filename
-
+                for b in range(lm_am_sim_cp.size(0)):
+                    filenames = filenames[b]
+                    _, alignment = lm_am_sim_cp[b][:pad_mask[b],].max(-1)
+                    align_dict[filename] = alignment.tolist()
+                    last_filename = filename
+                with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
+                    pickle.dump(align_dict, fw) 
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
                     
