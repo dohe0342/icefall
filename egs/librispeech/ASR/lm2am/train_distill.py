@@ -1020,7 +1020,7 @@ def train_one_epoch(
                     batch=batch,
                     is_training=True,
                     warmup=(params.batch_idx_train / params.model_warm_step),
-                    vis=True if batch_idx % 200 == 0 else False
+                    vis=True if batch_idx % 1000 == 0 else False
                 )
             # summary stats
             tot_loss = (tot_loss * (1 - 1 / params.reset_interval)) + loss_info
