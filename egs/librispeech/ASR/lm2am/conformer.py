@@ -435,7 +435,7 @@ class Conformer(Transformer):
                         if not os.path.exists(f'./png2'):
                             try: os.makedirs(f'./png2')
                             except: pass
-                        plt.savefig(f'./png/{filenames[batch]}.png2')
+                        plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
 
                 for i, idx in enumerate(aligned_idx):
