@@ -432,7 +432,7 @@ class Conformer(Transformer):
                     alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
                     for batch in range(lm_am_sim_cp.size(0)):
                         #print(pad_mask[batch], lm_am_sim_cp[batch].size(), alignment_lengths[batch])
-                        plt.matshow(lm_am_sim_cp[batch][:alignment_lengths[batch],:pad_mask[batch]].T.cpu().numpy())
+                        plt.matshow(lm_am_sim_cp[batch][:pad_mask[batch]].T.cpu().numpy())
                         plt.colorbar()
                         if not os.path.exists(f'./png2'):
                             try: os.makedirs(f'./png2')
