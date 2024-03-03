@@ -437,7 +437,8 @@ class Conformer(Transformer):
                             except: pass
                         plt.savefig(f'./png2/{filenames[batch]}.png')
                         plt.close()
-
+                
+                last_filename = None
                 for b in range(lm_am_sim_cp.size(0)):
                     filenames = filenames[b]
                     _, alignment = lm_am_sim_cp[b][:pad_mask[b],].max(-1)
