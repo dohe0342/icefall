@@ -427,9 +427,9 @@ class Conformer(Transformer):
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 pad_mask = (((pad_mask-5)//2)-5)//2
+                alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
                 
                 if 0:
-                    alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
                     for batch in range(lm_am_sim_cp.size(0)):
                         print(filenames[batch], lm_am_sim_cp[batch].size(), pad_mask[batch], alignment_lengths[batch])
                         plt.matshow(lm_am_sim_cp[batch][:pad_mask[batch], :alignment_lengths[batch]].T.cpu().numpy())
