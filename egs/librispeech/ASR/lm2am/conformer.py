@@ -427,6 +427,7 @@ class Conformer(Transformer):
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
                 #pad_mask = int((int((pad_mask-5)/2)-5)/2)
+                print(pad_mask)
                 pad_mask = (((pad_mask-5)/2)-5)//2
                 
                 if 1:
