@@ -426,7 +426,7 @@ class Conformer(Transformer):
                 
                 _, aligned_idx = lm_am_sim_cp.max(-1)
                 pad_mask = (~memory_key_padding_mask).sum(dim=-1)
-                pad_mask = (((pad_mask-5)/2)-5)//2
+                pad_mask = (((pad_mask-5)//2)-5)//2
                 
                 if 1:
                     alignment_lengths = torch.sum(lm_input["attention_mask"], 1)
