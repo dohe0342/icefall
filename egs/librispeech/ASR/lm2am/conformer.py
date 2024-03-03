@@ -384,8 +384,7 @@ class Conformer(Transformer):
                 for filename in filenames:
                     #filename = '-'.join(filename.split('-')[:3])
                     align_target.append(self.alignment_dict[filename])
-                print(align_target)
-                exit()
+                
                 lm_token = lm_input['input_ids']
                 for enum, align in enumerate(align_target):
                     for idx in align:
