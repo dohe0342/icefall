@@ -25,7 +25,7 @@ port=$(($RANDOM% 601+12300))
 	--quant True \
 	--distill-rate 0.1 \
 	--unused-params True \
-	--kernel-size 31 \
+	--kernel-size 15 \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
