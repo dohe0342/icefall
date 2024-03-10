@@ -385,7 +385,8 @@ class Conformer(Transformer):
                     code = code.tolist()
                     try: codeword[code] += 1
                     except: codeword[code] = 1
-                    exit()
+                print(codeword)
+                exit()
                 am_output = am_output['x']
 
             if self.lm_tune is not None:
