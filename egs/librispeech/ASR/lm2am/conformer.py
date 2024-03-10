@@ -414,7 +414,7 @@ class Conformer(Transformer):
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
             lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
-            #lm_am_sim = 200*lm_am_sim
+            lm_am_sim = 200*lm_am_sim
             lm_am_sim_cp = lm_am_sim.detach().clone()
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
