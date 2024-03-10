@@ -562,6 +562,7 @@ def decode_dataset(
     eos_id: int,
     G: Optional[k2.Fsa] = None,
     graph_compiler = None,
+    vis = False
 ) -> Dict[str, List[Tuple[str, List[str], List[str]]]]:
     """Decode dataset.
 
