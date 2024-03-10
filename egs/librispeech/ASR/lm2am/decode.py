@@ -1016,6 +1016,7 @@ def main() -> None:
             sos_id=sos_id,
             eos_id=eos_id,
             graph_compiler=graph_compiler,
+            vis=True,
         )
 
         save_results(params=params, test_set_name=test_set, results_dict=results_dict, wb_writer=wb_writer)
