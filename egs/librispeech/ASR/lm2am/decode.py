@@ -623,6 +623,9 @@ def decode_dataset(
             vis=vis,
         )
         
+        if vis:
+            hyps_dict, codeword = hyps_dict[0], hyps_dict[1]
+
         if hyps_dict is not None:
             for lm_scale, hyps in hyps_dict.items():
                 this_batch = []
