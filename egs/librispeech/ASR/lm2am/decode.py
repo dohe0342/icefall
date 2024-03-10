@@ -427,7 +427,7 @@ def decode_one_batch(
         hyps = [[w for w in s.split() if w != unk] for s in hyps]
         key = "ctc-greedy-search"
 
-        return {key: hyps}
+        return {key: hyps}, codeword
     
     if params.method == "greedy-search":
         unsorted_token_ids = graph_compiler.texts_to_ids(supervisions["text"])
