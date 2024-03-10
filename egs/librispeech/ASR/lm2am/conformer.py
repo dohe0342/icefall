@@ -370,7 +370,8 @@ class Conformer(Transformer):
             #am_output = self.lm_decoder[-1](am_output)
             lm_output = self.lm_decoder[-1](lm_output)
             #am_output = F.normalize(am_output, dim=2)
-
+            
+            
             if self.quant is not None:
                 am_output = self.quant(am_output)
                 print(am_output.keys())
@@ -378,6 +379,7 @@ class Conformer(Transformer):
                 print(am_output['code_perplexity'])
                 print(am_output['prob_perplexity'])
                 print(am_output['temp'])
+                print(am_output['x'].size())
                 exit()
                 am_output = am_output['x']
 
