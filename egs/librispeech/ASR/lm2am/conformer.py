@@ -384,6 +384,7 @@ class Conformer(Transformer):
                 for code in codebooks:
                     try: codeword[code] += 1
                     except: codeword[code] = 1
+                print(codeword.values())
                 exit()
                 am_output = am_output['x']
 
