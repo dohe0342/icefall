@@ -660,7 +660,7 @@ def decode_dataset(
             logging.info(f"batch {batch_str}, cuts processed until now is {num_cuts}")
 
     codewords = dict(sorted(codewords.items(), key=lambda x:x[1], reverse=True))
-    print(codewords.values())
+    print(codewords.values()[:100])
     return results
 
 
