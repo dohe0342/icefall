@@ -542,7 +542,11 @@ def decode_one_batch(
             ans[lm_scale_str] = hyps
     else:
         ans = None
-    return ans
+
+    if vis:
+        return ans, codeword
+    else:
+        return ans
 
 
 def decode_dataset(
