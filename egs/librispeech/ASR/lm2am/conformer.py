@@ -373,6 +373,7 @@ class Conformer(Transformer):
 
             if self.quant is not None:
                 am_output = self.quant(am_output)
+                print(am_output.keys())
                 am_output = am_output['x']
 
             if self.lm_tune is not None:
