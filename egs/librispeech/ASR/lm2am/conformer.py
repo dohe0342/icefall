@@ -383,7 +383,7 @@ class Conformer(Transformer):
                 codebooks = am_output['x'].view(-1, 256)
                 for code in codebooks:
                     try: codeword[code] += 1
-                    except
+                    except: codeword[code] = 1
                 exit()
                 am_output = am_output['x']
 
