@@ -604,6 +604,8 @@ def decode_dataset(
         num_batches = "?"
 
     results = defaultdict(list)
+    
+    codewords = {}
     for batch_idx, batch in enumerate(dl):
         texts = batch["supervisions"]["text"]
         cut_ids = [cut.id for cut in batch["supervisions"]["cut"]]
@@ -625,6 +627,10 @@ def decode_dataset(
         
         if vis:
             hyps_dict, codeword = hyps_dict[0], hyps_dict[1]
+
+        for k, v in codeword.items():
+            try: codewords[k] += v
+            except: codewords[k] = v
 
         if hyps_dict is not None:
             for lm_scale, hyps in hyps_dict.items():
@@ -652,6 +658,9 @@ def decode_dataset(
             batch_str = f"{batch_idx}/{num_batches}"
 
             logging.info(f"batch {batch_str}, cuts processed until now is {num_cuts}")
+
+    codewords = sorted(codewords.items(), key=lambda x:x[1], reverse=True)
+    print(codewords.values())
     return results
 
 
