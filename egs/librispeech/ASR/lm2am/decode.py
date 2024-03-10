@@ -662,7 +662,7 @@ def decode_dataset(
     codewords = dict(sorted(codewords.items(), key=lambda x:x[1], reverse=True))
     code_value = list(codewords)
     print(list(codewords.values())[:100])
-    print(len(
+    print(len(code_value))
     return results
 
 
