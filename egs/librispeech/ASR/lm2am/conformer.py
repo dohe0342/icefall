@@ -374,18 +374,16 @@ class Conformer(Transformer):
             codeword = {} 
             if self.quant is not None:
                 am_output = self.quant(am_output)
-                print(am_output.keys())
-                print(am_output['num_vars'])
-                print(am_output['code_perplexity'])
-                print(am_output['prob_perplexity'])
-                print(am_output['temp'])
-                print(am_output['x'].size())
+                #print(am_output.keys())
+                #print(am_output['num_vars'])
+                #print(am_output['code_perplexity'])
+                #print(am_output['prob_perplexity'])
+                #print(am_output['temp'])
+                #print(am_output['x'].size())
                 codebooks = am_output['x'].view(-1, 256)
                 for code in codebooks:
                     try: codeword[code] += 1
                     except: codeword[code] = 1
-                print(codeword.values())
-                exit()
                 am_output = am_output['x']
 
             if self.lm_tune is not None:
@@ -560,7 +558,10 @@ class Conformer(Transformer):
                 alignment_flat = torch.cat([alignment_flat, temp_target])
                 alignment_flat = alignment_flat.to(torch.cuda.IntTensor())
             #############for alignment target ###############################
-            return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
+            if vis:
+                return (x, lm_am_sim, alignment_target, codeword), encoder_memory, memory_key_padding_mask
+            else:
+                return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
         
         else:
             x = self.ctc_output(encoder_memory)
