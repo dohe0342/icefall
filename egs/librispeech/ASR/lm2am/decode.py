@@ -292,6 +292,7 @@ def decode_one_batch(
     eos_id: int,
     G: Optional[k2.Fsa] = None,
     graph_compiler = None,
+    vis = False,
 ) -> Dict[str, List[List[str]]]:
     """Decode one batch and return the result in a dict. The dict has the
     following format:
@@ -619,7 +620,7 @@ def decode_dataset(
             eos_id=eos_id,
             graph_compiler=graph_compiler,
         )
-
+        
         if hyps_dict is not None:
             for lm_scale, hyps in hyps_dict.items():
                 this_batch = []
