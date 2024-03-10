@@ -374,6 +374,10 @@ class Conformer(Transformer):
             if self.quant is not None:
                 am_output = self.quant(am_output)
                 print(am_output.keys())
+                print(am_output['num_vars'])
+                print(am_output['code_perplexity'])
+                print(am_output['prob_perplexity'])
+                print(am_output['temp'])
                 exit()
                 am_output = am_output['x']
 
