@@ -382,7 +382,7 @@ class Conformer(Transformer):
                 #print(am_output['x'].size())
                 codebooks = am_output['targets'].view(-1, 2)
                 for code in codebooks:
-                    print(code)
+                    code = code.tolist()
                     try: codeword[code] += 1
                     except: codeword[code] = 1
                     exit()
