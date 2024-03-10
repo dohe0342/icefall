@@ -373,7 +373,8 @@ class Conformer(Transformer):
             
             codeword = {} 
             if self.quant is not None:
-                am_output = self.quant(am_output)
+                am_output = self.quant(am_output, produce_targets=True)
+                print(am_output['targets'])
                 #print(am_output.keys())
                 #print(am_output['num_vars'])
                 #print(am_output['code_perplexity'])
