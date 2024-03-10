@@ -382,8 +382,10 @@ class Conformer(Transformer):
                 #print(am_output['x'].size())
                 codebooks = am_output['x'].view(-1, 256)
                 for code in codebooks:
+                    print(code)
                     try: codeword[code] += 1
                     except: codeword[code] = 1
+                    exit()
                 am_output = am_output['x']
 
             if self.lm_tune is not None:
