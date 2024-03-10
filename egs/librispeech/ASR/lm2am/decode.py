@@ -562,7 +562,7 @@ def decode_dataset(
     eos_id: int,
     G: Optional[k2.Fsa] = None,
     graph_compiler = None,
-    vis = False
+    vis = False,
 ) -> Dict[str, List[Tuple[str, List[str], List[str]]]]:
     """Decode dataset.
 
@@ -620,6 +620,7 @@ def decode_dataset(
             sos_id=sos_id,
             eos_id=eos_id,
             graph_compiler=graph_compiler,
+            vis=vis,
         )
         
         if hyps_dict is not None:
