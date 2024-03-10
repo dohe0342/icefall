@@ -353,7 +353,7 @@ def decode_one_batch(
     supervisions = batch["supervisions"]
     filenames = [c.id for c in supervisions["cut"]]
 
-    nnet_output, memory, memory_key_padding_mask = model(feature, supervisions, vis=True, filenames=filenames,)
+    nnet_output, memory, memory_key_padding_mask = model(feature, supervisions, vis=vis, filenames=filenames,)
     if vis:
         codeword = nnet_output[-1]
 
