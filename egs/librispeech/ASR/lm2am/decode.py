@@ -1008,8 +1008,8 @@ def main() -> None:
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
     '''
 
-    test_sets = ["test-clean"]
-    test_dls = [test_clean_dl]
+    #test_sets = ["test-clean"]
+    #test_dls = [test_clean_dl]
 
     if params.wandb:
         exp_name = str(params.exp_dir).split('/')[-1]
