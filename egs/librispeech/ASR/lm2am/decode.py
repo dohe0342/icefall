@@ -973,7 +973,6 @@ def main() -> None:
     args.return_cuts = True
     librispeech = LibriSpeechAsrDataModule(args)
     
-    '''
     dev_clean_cuts = librispeech.dev_clean_cuts()
     dev_other_cuts = librispeech.dev_other_cuts()
     test_clean_cuts = librispeech.test_clean_cuts()
@@ -986,7 +985,6 @@ def main() -> None:
 
     test_sets = ["dev-clean", "dev-other", "test-clean", "test-other"]
     test_dls = [dev_clean_dl, dev_other_dl, test_clean_dl, test_other_dl]
-    '''
     '''
     test_clean_cuts = librispeech.test_clean_cuts()
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
@@ -1002,13 +1000,14 @@ def main() -> None:
     test_dls = [train_clean_dl]
     '''
     
+    '''
     #test_clean_cuts = librispeech.test_clean_cuts()
     test_clean_cuts = librispeech.train_all_pure_cuts()
     #test_clean_cuts = librispeech.train_all_shuf_cuts()
     test_clean_dl = librispeech.test_dataloaders(test_clean_cuts)
     test_sets = ["test-clean"]
     test_dls = [test_clean_dl]
-
+    '''
     if params.wandb:
         exp_name = str(params.exp_dir).split('/')[-1]
         wb_writer = wandb.init(project="COMAT-v2_res", name=exp_name, resume=True)
