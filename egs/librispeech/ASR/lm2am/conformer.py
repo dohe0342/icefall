@@ -159,6 +159,15 @@ class Conformer(Transformer):
         else:
             self.lm_tune = None
 
+        if 1:
+            self.alignment_dict = {}
+            #pickle_list = glob('/home/work/workspace/fairseq/scripts/whale/train-960-alignment/*.pickle')
+            pickle_list = glob('./pickle/*.pickle')
+            for pickle_f in pickle_list:
+                with open(pickle_f, 'rb') as rb:
+                    rb = pickle.load(rb)
+                    self.alignment_dict.update(rb)
+
         encoder_layer = ConformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
