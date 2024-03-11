@@ -3,7 +3,7 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
 	--epoch $3 \
 	--avg 10 \
 	--use-averaged-model True \
-	--max-duration 3000 \
+	--max-duration 1200 \
 	--num-decoder-layers 0 \
 	--method ctc-greedy-search \
 	--distill True \
