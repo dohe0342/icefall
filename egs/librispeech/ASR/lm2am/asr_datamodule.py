@@ -214,6 +214,13 @@ class LibriSpeechAsrDataModule:
             default="PrecomputedFeatures",
             help="AudioSamples or PrecomputedFeatures",
         )
+        
+        group.add_argument(
+            "--num",
+            type=str,
+            default="PrecomputedFeatures",
+            help="AudioSamples or PrecomputedFeatures",
+        )
 
     def train_dataloaders(
         self,
