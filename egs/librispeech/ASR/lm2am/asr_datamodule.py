@@ -444,7 +444,7 @@ class LibriSpeechAsrDataModule:
             train-clean-360 and train-other-500 cuts"
         )
         return load_manifest_lazy(
-            self.args.manifest_dir / "librispeech_cuts_train-all-origin0.jsonl"
+            self.args.manifest_dir / f"librispeech_cuts_train-all-origin{self.args.num}.jsonl"
         )
 
     @lru_cache()
