@@ -53,6 +53,7 @@ from fairseq.modules import (
 )
 
 from cif_middleware import CifMiddleware
+from torch_cif import cif_function
 
 
 class Conformer(Transformer):
