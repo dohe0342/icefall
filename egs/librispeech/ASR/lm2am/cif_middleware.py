@@ -17,15 +17,15 @@ class CifMiddleware(nn.Module):
         super().__init__()
 
         # Load configurations
-        self.cif_threshold = cfg.cif_threshold
-        self.cif_output_dim = cfg.cif_embedding_dim
-        self.encoder_embed_dim = cfg.encoder_embed_dim
-        self.produce_weight_type = cfg.produce_weight_type
-        self.conv_cif_width = cfg.conv_cif_width
-        self.conv_cif_dropout = cfg.conv_cif_dropout
-        self.apply_scaling = cfg.apply_scaling
-        self.apply_tail_handling = cfg.apply_tail_handling
-        self.tail_handling_firing_threshold = cfg.tail_handling_firing_threshold
+        self.cif_threshold = cif_threshold
+        self.cif_output_dim = cif_embedding_dim
+        self.encoder_embed_dim = encoder_embed_dim
+        self.produce_weight_type = produce_weight_type
+        self.conv_cif_width = conv_cif_width
+        self.conv_cif_dropout = conv_cif_dropout
+        self.apply_scaling = apply_scaling
+        self.apply_tail_handling = apply_tail_handling
+        self.tail_handling_firing_threshold = tail_handling_firing_threshold
 
         # Build weight generator
         if self.produce_weight_type == "dense":
