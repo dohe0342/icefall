@@ -433,9 +433,13 @@ class LibriSpeechAsrDataModule:
             "About to get the shuffled train-clean-100, \
             train-clean-360 and train-other-500 cuts"
         )
-        return load_manifest_lazy(
-            self.args.manifest_dir / "librispeech_cuts_train-all-shuf.jsonl"
-        )
+        cuts = load_manifest_lazy(self.args.manifest_dir / "librispeech_cuts_train-clean-100.jsonl")
+        cuts += load_manifest_lazy(self.args.manifest_dir / "librispeech_cuts_train-clean-360.jsonl")
+        cuts += load_manifest_lazy(self.args.manifest_dir / "librispeech_cuts_train-other-500.jsonl")
+
+        #return load_manifest_lazy(
+        #    self.args.manifest_dir / "librispeech_cuts_train-all-shuf.jsonl"
+        #)
     
     @lru_cache()
     def train_all_pure_cuts(self) -> CutSet:
