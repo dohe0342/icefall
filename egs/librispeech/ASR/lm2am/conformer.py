@@ -234,17 +234,19 @@ class Conformer(Transformer):
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 self.lm = PhiModel.from_pretrained("microsoft/phi-2", torch_dtype="auto", trust_remote_code=True)
             
-            self.lm_decoder = nn.ModuleList()
-            conv_layers = [(d_model, 5, 2)] * 2
-            for conv in conv_layers:
-                d, k, s = conv
-                self.lm_decoder.append(ScaledConv1d(d, d, k, s, bias=False))
-                self.lm_decoder.append(nn.Sequential(
-                              TransposeLast(),
-                              nn.LayerNorm(d, elementwise_affine=True),
-                              TransposeLast(),
-                              )) 
-                self.lm_decoder.append(nn.GELU())
+            if cif:
+            else:
+                self.lm_decoder = nn.ModuleList()
+                conv_layers = [(d_model, 5, 2)] * 2
+                for conv in conv_layers:
+                    d, k, s = conv
+                    self.lm_decoder.append(ScaledConv1d(d, d, k, s, bias=False))
+                    self.lm_decoder.append(nn.Sequential(
+                                  TransposeLast(),
+                                  nn.LayerNorm(d, elementwise_affine=True),
+                                  TransposeLast(),
+                                  )) 
+                    self.lm_decoder.append(nn.GELU())
             #self.lm_decoder.append(ScaledLinear(d, 768, bias=False))
             #self.lm_decoder.append(nn.Linear(d_model, self.lm.embed_dim, bias=False))
             if 'gpt2' in lm_name:
