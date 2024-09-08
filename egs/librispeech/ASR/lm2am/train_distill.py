@@ -95,7 +95,7 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--quant",
         type=str2bool,
-        default=True,
+        default=False,
     )
     
     parser.add_argument(
