@@ -4,6 +4,7 @@ from scaling import (
         ScaledLinear as Linear
         ScaledConv1d as Conv1d,
         ScaledConv2d as Conv2d,
+        )
 
 class CifMiddleware(nn.Module):
     def __init__(self,
