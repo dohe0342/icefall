@@ -15,7 +15,7 @@ port=$(($RANDOM% 601+12300))
 	--wandb False \
 	--full-libri 1 \
 	--use-fp16 True \
-	--num-workers 9 \
+	--num-workers 19 \
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 2000 \
 	--world-size ${WORLD_SIZE} \
@@ -23,7 +23,7 @@ port=$(($RANDOM% 601+12300))
 	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
-	--distill False \
+	--distill True \
 	--distill-rate 0.1 \
 	--unused-params True \
 	--quant False \
