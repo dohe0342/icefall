@@ -210,6 +210,7 @@ class Conformer(Transformer):
             self.condition_layer = None
 
         self.distill = distill
+        self.cif = cif
         if self.distill:
             ########### for gpt2
             if 'bert' in lm_name:
@@ -232,7 +233,7 @@ class Conformer(Transformer):
                 self.tokenizer = AutoTokenizer.from_pretrained("microsoft/phi-2", trust_remote_code=True)
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 self.lm = PhiModel.from_pretrained("microsoft/phi-2", torch_dtype="auto", trust_remote_code=True)
-
+            
             self.lm_decoder = nn.ModuleList()
             conv_layers = [(d_model, 5, 2)] * 2
             for conv in conv_layers:
