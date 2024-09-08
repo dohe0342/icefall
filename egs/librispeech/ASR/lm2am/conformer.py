@@ -399,6 +399,7 @@ class Conformer(Transformer):
                                 "encoder_padding_mask" : memory_key_padding_mask
                             }
                 am_output = self.lm_decoder(cif_input)
+                print(am_output)
                  
             else:
                 for layer in self.lm_decoder[:-1]:
