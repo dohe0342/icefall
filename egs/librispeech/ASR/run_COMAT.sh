@@ -28,6 +28,7 @@ port=$(($RANDOM% 601+12300))
 	--unused-params True \
 	--quant False \
 	--kernel-size 15 \
+	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
 	--lm-name gpt2
 	#--lm-name gpt2
 #--lm-name gpt2-medium
