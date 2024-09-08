@@ -243,8 +243,8 @@ class Conformer(Transformer):
                                         produce_weight_type="conv",
                                         conv_cif_width=3,
                                         conv_cif_dropout=0.1,
-                                        apply_scaling=True,
-                                        apply_tail_handling=True,
+                                        apply_scaling=False,
+                                        apply_tail_handling=False,
                                         tail_handling_firing_threshold=0.5,
                                 ))
             else:
