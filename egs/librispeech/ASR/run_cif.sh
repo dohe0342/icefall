@@ -9,8 +9,8 @@ export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"
 #    export CUDA_VISIBLE_DEVICES="4,5,6,7"
 #fi
 port=$(($RANDOM% 601+12300))
-./lm2am/train_distill.py \
-	--exp-dir lm2am/$1 \
+./lm2am_cif/train_distill.py \
+	--exp-dir lm2am_cif/$1 \
 	--master-port $port \
 	--wandb False \
 	--full-libri 1 \
