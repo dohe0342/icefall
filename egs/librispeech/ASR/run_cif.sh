@@ -27,6 +27,7 @@ port=$(($RANDOM% 601+12300))
 	--distill-rate 0.1 \
 	--unused-params True \
 	--quant False \
+	--cif True \
 	--kernel-size 15 \
 	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
 	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500 \
