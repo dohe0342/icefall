@@ -399,7 +399,7 @@ class Conformer(Transformer):
                 print("padding_mask1 = ", memory_key_padding_mask)
                 cif_input = {
                                 "encoder_raw_out": am_output,
-                                "encoder_padding_mask" : memory_key_padding_mask
+                                "encoder_padding_mask" : padding_mask_tensor
                             }
                 target_lengths = torch.sum(lm_input["attention_mask"], 1)
                 am_output = self.lm_decoder[0](cif_input, target_lengths)
