@@ -99,6 +99,12 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
     )
     
     parser.add_argument(
+        "--cif",
+        type=str2bool,
+        default=False,
+    )
+
+    parser.add_argument(
         "--lm-tune",
         type=str2bool,
         default=False,
