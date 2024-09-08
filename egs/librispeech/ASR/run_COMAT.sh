@@ -13,7 +13,7 @@ port=$(($RANDOM% 601+12300))
 	--exp-dir lm2am/$1 \
 	--master-port $port \
 	--wandb False \
-	--full-libri 1 \
+	--full-libri 2 \
 	--use-fp16 True \
 	--num-workers 19 \
 	--spec-aug-time-warp-factor 80 \
