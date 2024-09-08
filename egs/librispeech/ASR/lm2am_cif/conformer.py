@@ -389,9 +389,10 @@ class Conformer(Transformer):
                 lm_output = lm_output['last_hidden_state']
                 lm_output = F.normalize(lm_output, dim=2)
             
-            am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
+            am_output = encoder_memory.transpose(0, 1).transpose(1, 2).continugous()
             
             if self.cif:
+                am_output = am_output.trans
                 print("am_output size = ", am_output.size())
                 print("padding_mask = ", memory_key_padding_mask.size())
                 print("padding_mask1 = ", memory_key_padding_mask)
