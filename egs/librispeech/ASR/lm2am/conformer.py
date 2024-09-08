@@ -236,8 +236,8 @@ class Conformer(Transformer):
             
             if cif:
                 self.lm_decoder = CifMiddleware(
-                                        cif_threshold
-                                        cif_embedding_dim
+                                        cif_threshold=0.99,
+                                        cif_embedding_dim=d_model,
                                         encoder_embed_dim
                                         produce_weight_type
                                         conv_cif_width
