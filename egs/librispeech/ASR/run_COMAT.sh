@@ -13,13 +13,13 @@ port=$(($RANDOM% 601+12300))
 	--exp-dir lm2am/$1 \
 	--master-port $port \
 	--wandb False \
-	--full-libri 3 \
+	--full-libri 1 \
 	--use-fp16 True \
 	--num-workers 19 \
 	--spec-aug-time-warp-factor 80 \
 	--max-duration 2500 \
 	--world-size ${WORLD_SIZE} \
-	--start-epoch 1 \
+	--start-epoch 3 \
 	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
