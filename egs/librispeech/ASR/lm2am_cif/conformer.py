@@ -395,15 +395,15 @@ class Conformer(Transformer):
                 am_output = am_output.transpose(1, 2).contiguous()
                 padding_mask_tensor = memory_key_padding_mask.long()
                 print("am_output size = ", am_output.size())
-                print("padding_mask = ", memory_key_padding_mask.size())
-                print("padding_mask1 = ", memory_key_padding_mask)
+                print("padding_mask = ", padding_mask_tensor.size())
+                print("padding_mask1 = ", padding_mask_tensor)
                 cif_input = {
                                 "encoder_raw_out": am_output,
                                 "encoder_padding_mask" : padding_mask_tensor
                             }
                 target_lengths = torch.sum(lm_input["attention_mask"], 1)
                 am_output = self.lm_decoder[0](cif_input, target_lengths)
-                print(am_output)
+                print(am_output[)
                 lm_output = self.lm_decoder[-1](lm_output)
                  
             else:
