@@ -1210,6 +1210,7 @@ def run(rank, world_size, args):
         lm_name=params.lm_name,
         quant=params.quant,
         lm_tune=params.lm_tune,
+        cif=params.cif,
     )
     logging.info(model)
 
