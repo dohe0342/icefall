@@ -238,13 +238,13 @@ class Conformer(Transformer):
                 self.lm_decoder = CifMiddleware(
                                         cif_threshold=0.99,
                                         cif_embedding_dim=d_model,
-                                        encoder_embed_dim
-                                        produce_weight_type
-                                        conv_cif_width
-                                        conv_cif_dropout
-                                        apply_scaling
-                                        apply_tail_handling
-                                        tail_handling_firing_threshold
+                                        encoder_embed_dim=d_model,
+                                        produce_weight_type="conv",
+                                        conv_cif_width=3,
+                                        conv_cif_dropout=0.1,
+                                        apply_scaling=True,
+                                        apply_tail_handling=True,
+                                        tail_handling_firing_threshold=0.5
                                 )
             else:
                 self.lm_decoder = nn.ModuleList()
