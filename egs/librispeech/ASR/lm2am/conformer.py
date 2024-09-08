@@ -244,7 +244,7 @@ class Conformer(Transformer):
                                         conv_cif_dropout=0.1,
                                         apply_scaling=True,
                                         apply_tail_handling=True,
-                                        tail_handling_firing_threshold=0.5
+                                        tail_handling_firing_threshold=0.5,
                                 )
             else:
                 self.lm_decoder = nn.ModuleList()
