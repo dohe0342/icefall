@@ -392,7 +392,7 @@ class Conformer(Transformer):
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2).contiguous()
             
             if self.cif:
-                am_output = am_output.transpose(1, 2).continugous()
+                am_output = am_output.transpose(1, 2).contiguous()
                 print("am_output size = ", am_output.size())
                 print("padding_mask = ", memory_key_padding_mask.size())
                 print("padding_mask1 = ", memory_key_padding_mask)
