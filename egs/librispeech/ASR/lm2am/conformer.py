@@ -235,6 +235,7 @@ class Conformer(Transformer):
                 self.lm = PhiModel.from_pretrained("microsoft/phi-2", torch_dtype="auto", trust_remote_code=True)
             
             if cif:
+
             else:
                 self.lm_decoder = nn.ModuleList()
                 conv_layers = [(d_model, 5, 2)] * 2
