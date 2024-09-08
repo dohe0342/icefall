@@ -159,7 +159,7 @@ class Conformer(Transformer):
         else:
             self.lm_tune = None
 
-        if 1:
+        if 0:
             self.alignment_dict = {}
             #pickle_list = glob('/home/work/workspace/fairseq/scripts/whale/train-960-alignment/*.pickle')
             pickle_list = glob('./pickle/*.pickle')
