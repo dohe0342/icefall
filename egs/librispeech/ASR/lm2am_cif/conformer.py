@@ -237,6 +237,7 @@ class Conformer(Transformer):
             
             if cif:
                 self.lm_decoder = nn.ModuleList()
+                '''
                 self.lm_decoder.append(CifMiddleware(
                                         cif_threshold=0.99,
                                         cif_embedding_dim=d_model,
@@ -248,6 +249,7 @@ class Conformer(Transformer):
                                         apply_tail_handling=True,
                                         tail_handling_firing_threshold=0.5,
                                 ))
+                '''
             else:
                 self.lm_decoder = nn.ModuleList()
                 conv_layers = [(d_model, 5, 2)] * 2
