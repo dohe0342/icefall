@@ -132,7 +132,6 @@ class CifMiddleware(nn.Module):
 
             # Decide whether to fire a boundary
             cur_is_fired = ((prev_accumulated_weight + weight[:, i]) >= self.cif_threshold).unsqueeze(dim=-1)
-            print(prev_accumulated_weight + weight[:, i])
             # cur_is_fired with shape B x 1
 
             # Update the accumulated weights
