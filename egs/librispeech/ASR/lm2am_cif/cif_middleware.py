@@ -111,7 +111,8 @@ class CifMiddleware(nn.Module):
             normalize_scalar = torch.unsqueeze(
                 target_lengths / weight_sum, -1)    # normalize_scalar has shape B x 1
             weight = weight * normalize_scalar
-
+        
+        print(weight[0])
         # Prepare for Integrate and fire
         batch_size = encoder_raw_outputs.size(0)
         max_length = encoder_raw_outputs.size(1)
