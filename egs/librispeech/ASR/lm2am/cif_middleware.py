@@ -3,7 +3,17 @@ import torch.nn as nn
 
 
 class CifMiddleware(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self,
+                 cif_threshold,
+                 cif_embedding_dim,
+                 encoder_embed_dim,
+                 produce_weight_type,
+                 conv_cif_width,
+                 conv_cif_dropout,
+                 apply_scaling,
+                 apply_tail_handling,
+                 tail_handling_firing_threshold,
+                 ):
         super().__init__()
 
         # Load configurations
