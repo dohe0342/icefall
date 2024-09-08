@@ -765,8 +765,8 @@ def compute_loss(
                 supervision_segments,
                 allow_truncate=params.subsampling_factor - 1,
             )
-
-            if not params.ted2:
+            
+            if not params.ted2 and not params.cif:
                 dense_fsa_vec_lm = k2.DenseFsaVec(
                     lm_am_sim,
                     supervision_segments_lm,
