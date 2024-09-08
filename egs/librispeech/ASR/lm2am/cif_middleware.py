@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from scaling import (
-        ScaledLinear as Linear
+        ScaledLinear as Linear, 
         ScaledConv1d as Conv1d,
         ScaledConv2d as Conv2d,
         )
