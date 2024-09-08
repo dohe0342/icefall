@@ -775,7 +775,6 @@ def compute_loss(
             else:
                 dense_fsa_vec_lm = None
             
-            alignment_graph = graph_compiler.compile(alignment_target)
 
             ctc_loss = k2.ctc_loss(
                 decoding_graph=decoding_graph,
@@ -788,6 +787,7 @@ def compute_loss(
             if params.cif:
                 print(lm_am_sim.size())
             else:
+                alignment_graph = graph_compiler.compile(alignment_target)
                 distill_loss = k2.ctc_loss(
                     decoding_graph=alignment_graph,
                     dense_fsa_vec=dense_fsa_vec if params.ted2 else dense_fsa_vec_lm,
