@@ -96,7 +96,7 @@ class CifMiddleware(nn.Module):
             sig_input = self.weight_proj(proj_input)
             weight = torch.sigmoid(sig_input)
             print(weight)
-            print(weight.size())
+            print(weight[0])
         else:
             sig_input = self.weight_proj(encoder_raw_outputs)
             weight = torch.sigmoid(sig_input)
