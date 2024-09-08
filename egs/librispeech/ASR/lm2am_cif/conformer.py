@@ -237,14 +237,14 @@ class Conformer(Transformer):
             if cif:
                 self.lm_decoder = nn.ModuleList()
                 self.lm_decoder.append(CifMiddleware(
-                                        cif_threshold=0.2,
+                                        cif_threshold=0.99,
                                         cif_embedding_dim=d_model,
                                         encoder_embed_dim=d_model,
                                         produce_weight_type="conv",
                                         conv_cif_width=3,
                                         conv_cif_dropout=0.1,
-                                        apply_scaling=False,
-                                        apply_tail_handling=False,
+                                        apply_scaling=True,
+                                        apply_tail_handling=True,
                                         tail_handling_firing_threshold=0.5,
                                 ))
             else:
