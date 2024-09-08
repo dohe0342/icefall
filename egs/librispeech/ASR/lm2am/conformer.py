@@ -76,6 +76,7 @@ class Conformer(Transformer):
         lm_name:str = 'None', 
         quant: bool = False,
         lm_tune: bool = False,
+        cif: bool = False,
     ) -> None:
         """
         Args:
