@@ -37,7 +37,7 @@ class CifMiddleware(nn.Module):
             self.weight_proj = Linear(
                 self.encoder_embed_dim, 1).cuda()
         elif self.produce_weight_type == "conv":
-            self.conv = torch.nn.Conv1d(
+            self.conv = Conv1d(
                 self.encoder_embed_dim,
                 self.encoder_embed_dim,
                 self.conv_cif_width,
