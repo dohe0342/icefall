@@ -787,7 +787,7 @@ def compute_loss(
             if params.cif:
                 diagonal_elements = torch.diagonal(lm_am_sim, dim1=-2, dim2=-1)
                 target = torch.ones_like(diagonal_elements)
-                distill_loss = torch.mean((diagonal_elements - target) ** 2)
+                distill_loss = torch.sum((diagonal_elements - target) ** 2)
             else:
                 alignment_graph = graph_compiler.compile(alignment_target)
                 distill_loss = k2.ctc_loss(
