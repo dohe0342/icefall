@@ -404,7 +404,6 @@ class Conformer(Transformer):
                 target_lengths = torch.sum(lm_input["attention_mask"], 1)
                 print('target_lengths', target_lengths)
                 am_output = self.lm_decoder[0](cif_input, target_lengths)
-                print(am_output[)
                 lm_output = self.lm_decoder[-1](lm_output)
                  
             else:
