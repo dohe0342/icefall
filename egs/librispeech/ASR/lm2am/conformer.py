@@ -52,7 +52,7 @@ from fairseq.modules import (
     GumbelVectorQuantizer,
 )
 
-from cif_ciddleware import CifMiddleware
+from cif_middleware import CifMiddleware
 
 
 class Conformer(Transformer):
