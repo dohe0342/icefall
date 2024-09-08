@@ -95,6 +95,7 @@ class CifMiddleware(nn.Module):
             proj_input = self.conv_dropout(proj_input)
             sig_input = self.weight_proj(proj_input)
             weight = torch.sigmoid(sig_input)
+            print('1', weight[0][0])
         else:
             sig_input = self.weight_proj(encoder_raw_outputs)
             weight = torch.sigmoid(sig_input)
@@ -103,6 +104,7 @@ class CifMiddleware(nn.Module):
         not_padding_mask = ~encoder_padding_mask
         weight = torch.squeeze(weight, dim=-1) * not_padding_mask.int()  # weight has shape B x T
         org_weight = weight
+        print('2', weight[0][0])
 
         # Apply scaling strategies
         if self.training and self.apply_scaling and target_lengths is not None:
