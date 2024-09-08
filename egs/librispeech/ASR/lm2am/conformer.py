@@ -394,7 +394,11 @@ class Conformer(Transformer):
                 print("am_output size = ", am_output.size())
                 print("padding_mask = ", memory_key_padding_mask.size())
                 print("padding_mask1 = ", memeory_key_padding_mask)
-                cif_input = {"encoder_raw_out": am_output
+                cif_input = {
+                                "encoder_raw_out": am_output,
+                                "encoder_padding_mask" : memeory_key_padding_mask
+                            }
+                
             else:
                 for layer in self.lm_decoder[:-1]:
                     am_output = layer(am_output)
