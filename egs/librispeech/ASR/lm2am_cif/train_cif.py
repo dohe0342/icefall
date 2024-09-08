@@ -785,6 +785,7 @@ def compute_loss(
             )
             
             if params.cif:
+                lm_am_sim = lm_am_sim[:,:,:-1]
                 print(lm_am_sim.size())
             else:
                 alignment_graph = graph_compiler.compile(alignment_target)
