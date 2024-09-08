@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-
+from scaling import ScaledLinear, ScaledConv1d, ScaledConv2d
 
 class CifMiddleware(nn.Module):
     def __init__(self,
