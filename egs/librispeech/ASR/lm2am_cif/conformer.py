@@ -393,6 +393,7 @@ class Conformer(Transformer):
             
             if self.cif:
                 am_output = am_output.transpose(1, 2).contiguous()
+                padding_mask_tensor = memory_key_padding_mask.long()
                 print("am_output size = ", am_output.size())
                 print("padding_mask = ", memory_key_padding_mask.size())
                 print("padding_mask1 = ", memory_key_padding_mask)
