@@ -235,7 +235,8 @@ class Conformer(Transformer):
                 self.lm = PhiModel.from_pretrained("microsoft/phi-2", torch_dtype="auto", trust_remote_code=True)
             
             if cif:
-                self.lm_decoder = CifMiddleware(
+                self.lm_decoder = nn.ModuleList()
+                self.lm_decoder.append(CifMiddleware(
                                         cif_threshold=0.99,
                                         cif_embedding_dim=d_model,
                                         encoder_embed_dim=d_model,
@@ -245,7 +246,7 @@ class Conformer(Transformer):
                                         apply_scaling=True,
                                         apply_tail_handling=True,
                                         tail_handling_firing_threshold=0.5,
-                                )
+                                ))
             else:
                 self.lm_decoder = nn.ModuleList()
                 conv_layers = [(d_model, 5, 2)] * 2
@@ -398,8 +399,9 @@ class Conformer(Transformer):
                                 "encoder_raw_out": am_output,
                                 "encoder_padding_mask" : memory_key_padding_mask
                             }
-                am_output = self.lm_decoder(cif_input)
+                am_output = self.lm_decoder[0](cif_input)
                 print(am_output)
+                lm_output = self.lm_decoder[-1](lm_output)
                  
             else:
                 for layer in self.lm_decoder[:-1]:
