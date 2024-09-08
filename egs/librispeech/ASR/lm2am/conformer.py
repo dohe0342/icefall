@@ -235,6 +235,7 @@ class Conformer(Transformer):
                 self.lm = PhiModel.from_pretrained("microsoft/phi-2", torch_dtype="auto", trust_remote_code=True)
             
             if cif:
+                self.lm_decoder = CifMiddleware
 
             else:
                 self.lm_decoder = nn.ModuleList()
