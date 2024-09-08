@@ -13,7 +13,7 @@ class CifMiddleware(nn.Module):
                  apply_scaling,
                  apply_tail_handling,
                  tail_handling_firing_threshold,
-                 ):
+        ):
         super().__init__()
 
         # Load configurations
