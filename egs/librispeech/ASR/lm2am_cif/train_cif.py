@@ -786,7 +786,7 @@ def compute_loss(
             )
             
             if params.cif:
-
+                print(lm_am_sim.size())
             else:
                 distill_loss = k2.ctc_loss(
                     decoding_graph=alignment_graph,
