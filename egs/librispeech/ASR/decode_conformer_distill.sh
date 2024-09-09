@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
+CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am_cif/decode.py \
 	--exp-dir $1 \
 	--epoch $3 \
 	--avg 10 \
