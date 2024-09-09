@@ -11,5 +11,6 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am_cif/decode.py \
 	--lm-name gpt2 \
 	--wandb False \
 	--lm-tune False \
+	--cif True \
 	--kernel-size 15 \
 	--dim-model 256 
