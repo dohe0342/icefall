@@ -868,6 +868,7 @@ def main() -> None:
         lm_name=params.lm_name,
         quant=params.quant,
         lm_tune=params.lm_tune,
+        cif=params.cif,
     )
 
     if not params.use_averaged_model:
