@@ -470,7 +470,7 @@ class Conformer(Transformer):
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
             lm_am_sim = F.pad(lm_am_sim, (1, 0, 0, 0, 0, 0), value=np.log(np.e**-1))
             lm_am_sim = lm_am_sim.contiguous()
-            
+            '''
             if vis:
                 lm_am_sim_cp = F.softmax(lm_am_sim_cp, dim=-1)
                 #lm_am_sim_prob, lm_am_sim_idx = lm_am_sim_cp.max(-1)
@@ -495,22 +495,6 @@ class Conformer(Transformer):
                 align_dict = {}
                 last_filename = None
 
-                '''
-                for b in range(lm_am_sim_cp.size(0)):
-                    filename = filenames[b]
-                    probs, alignment = lm_am_sim_cp[b][:pad_mask[b], :alignment_lengths[b]].max(-1)
-                    last_idx = None
-                    for idx, prob in enumerate(probs):
-                        if prob < 0.5:
-                            last_idx = idx
-                            break
-                    
-                    align_dict[filename] = alignment[:last_idx].tolist() if last_idx is not None else alignment.tolist()
-                    last_filename = filename
-
-                with open(f'./pickle/{last_filename}.pickle','wb') as fw: 
-                    pickle.dump(align_dict, fw) 
-                '''
                 for i, idx in enumerate(aligned_idx):
                     idx = idx[:pad_mask[i]]
                     
@@ -535,49 +519,7 @@ class Conformer(Transformer):
                     
                     #for enum, aligned in enumerate(idx):
                     #    print(aligned, new_idx[enum])
-                
-                '''
-                for batch in range(lm_am_sim_cp.size(0)):
-                    audio_len = lm_am_sim_cp.size(1)
-                    target_len = lm_am_sim_cp.size(2)
-                    
-                    aligned_idx = []
-                    alignment = 0
-                    
-                    sorted_prob, sorted_idx = torch.sort(lm_am_sim_cp[batch], descending=True)
-
-                    for time, (prob, idx) in enumerate(zip(sorted_prob, sorted_idx)):
-                        aligned_idx.append(idx[0].item())
-                        """
-                        i = 0
-                        while True:
-                            now_alignment = idx[i].item() == alignment
-                            should_plus1 = idx[i].item() == (alignment + 1)
-                            should_plus2 = idx[i].item() == (alignment + 2)
-                            should_plus3 = idx[i].item() == (alignment + 3)
-                            
-                            if should_plus1:
-                                alignment += 1
-                                now_alignment = idx[i] == alignment
-                            if should_plus2:
-                                alignment += 2
-                                now_alignment = idx[i] == alignment
-                            if should_plus3:
-                                alignment += 3
-                                now_alignment = idx[i] == alignment
-
-                            if prob[0] < 0.3:
-                                print(f'warning: alignment prob is too low, prob: {100*prob[i]} %')
-
-                            if now_alignment: 
-                                aligned_idx.append(alignment)
-                                print(aligned_idx)
-                                break
-                            else:
-                                i += 1
-                        """
-                '''
-                
+            '''
                             
             if self.lm_tune is not None:
                 return lm_loss, None, None
