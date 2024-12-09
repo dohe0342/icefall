@@ -224,7 +224,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--tensorboard",
         type=str2bool,
-        default=True,
+        default=False,
         help="Should various information be logged in tensorboard.",
     )
     
