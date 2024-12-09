@@ -28,6 +28,7 @@ port=$(($RANDOM% 601+12300))
 	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
 	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500 \
 	--lm-name gpt2
+
 #--quant True \
 #--lm-name gpt2
 #--lm-name gpt2-medium
