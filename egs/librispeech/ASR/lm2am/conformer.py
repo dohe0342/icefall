@@ -469,6 +469,7 @@ class Conformer(Transformer):
                 #lm_output = lm_output.unsqueeze(1)
                 am_output = am_output.expand(-1, -1, lm_output.size(1), -1)
                 lm_output = lm_output.expand(-1, am_output.size(1), -1, -1)
+                lm_am_sim = torch.sqrt(torch.sum((tensor1_expanded - tensor2_expanded) ** 2, dim=-1))
             #lm_am_sim = 200*lm_am_sim
             #lm_am_sim_cp = lm_am_sim.detach().clone()
 
