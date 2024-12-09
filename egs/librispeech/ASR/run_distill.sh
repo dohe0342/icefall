@@ -22,14 +22,14 @@ port=$(($RANDOM% 601+12300))
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
 	--distill True \
-	--quant True \
 	--distill-rate 0.1 \
 	--unused-params True \
 	--kernel-size 15 \
 	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
 	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500 \
 	--lm-name gpt2
-	#--lm-name gpt2
+#--quant True \
+#--lm-name gpt2
 #--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
 #--lm-name gpt2
