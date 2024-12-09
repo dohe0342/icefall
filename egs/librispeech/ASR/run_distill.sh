@@ -1,6 +1,6 @@
 WORLD_SIZE=4
 if [ $2 -eq 0 ];then
-	export CUDA_VISIBLE_DEVICES="0,1,2,3"
+	export CUDA_VISIBLE_DEVICES="1,2,3,4"
 fi
 
 if [ $2 -eq 1 ];then
