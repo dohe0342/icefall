@@ -12,4 +12,6 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
 	--wandb False \
 	--lm-tune False \
 	--kernel-size 15 \
+	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
+	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500 \
 	--dim-model 256 
