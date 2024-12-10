@@ -468,7 +468,8 @@ class Conformer(Transformer):
                 am_output = am_output.unsqueeze(2)
                 lm_output = lm_output.unsqueeze(1)
                 lm_am_sim = torch.sqrt(torch.sum((am_output - lm_output) ** 2, dim=-1))
-            #lm_am_sim = 200*lm_am_sim
+            
+            lm_am_sim = 200*lm_am_sim
             #lm_am_sim_cp = lm_am_sim.detach().clone()
 
             lm_am_sim = F.log_softmax(lm_am_sim, dim=-1)
