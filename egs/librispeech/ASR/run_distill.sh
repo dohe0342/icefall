@@ -21,8 +21,8 @@ port=$(($RANDOM% 601+12300))
 	--num-epochs 40 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
-	--distill False \
-	--distill-rate 0.1 \
+	--distill True \
+	--distill-rate 0.3 \
 	--unused-params True \
 	--kernel-size 15 \
 	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
