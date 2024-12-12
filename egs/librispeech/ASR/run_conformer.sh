@@ -46,7 +46,7 @@ WORLD_SIZE=2
     --use-fp16 True \
     --num-workers 9 \
     --spec-aug-time-warp-factor 80 \
-    --max-duration 1200 \
+    --max-duration 1000 \
     --world-size ${WORLD_SIZE} \
     --start-epoch 40 \
     --num-epochs 40 \
