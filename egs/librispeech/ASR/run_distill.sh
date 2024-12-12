@@ -1,4 +1,4 @@
-WORLD_SIZE=4
+WORLD_SIZE=2
 if [ $2 -eq 0 ];then
 	export CUDA_VISIBLE_DEVICES="0,1,2,3"
 fi
