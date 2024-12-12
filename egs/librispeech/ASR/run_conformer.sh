@@ -52,5 +52,7 @@ WORLD_SIZE=2
     --num-epochs 40 \
     --att-rate 0.0 \
     --num-decoder-layers 0 \
-	--kernel-size 15
+	--kernel-size 15 \
+	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
+	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500
 
