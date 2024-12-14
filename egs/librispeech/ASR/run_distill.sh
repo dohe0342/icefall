@@ -17,7 +17,7 @@ fi
 
 port=$(($RANDOM% 601+12300))
 ./lm2am/train_distill.py \
-	--exp-dir lm2am/$1 \
+	--exp-dir /workspace/icefall_dh/egs/librispeech/ASR/lm2am/$1 \
 	--master-port $port \
 	--full-libri 1 \
 	--use-fp16 True \
