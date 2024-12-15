@@ -63,7 +63,7 @@ class Conformer(Transformer):
         num_decoder_layers: int = 6,
         dropout: float = 0.1,
         layer_dropout: float = 0.075,
-        cnn_module_kernel: int = 31,
+        cnn_module_kernel: int = 15,
     ) -> None:
         super(Conformer, self).__init__(
             num_features=num_features,
