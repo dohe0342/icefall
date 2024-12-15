@@ -60,7 +60,7 @@ class Conformer(Transformer):
         nhead: int = 4,
         dim_feedforward: int = 1024,
         num_encoder_layers: int = 12,
-        num_decoder_layers: int = 6,
+        num_decoder_layers: int = 0,
         dropout: float = 0.1,
         layer_dropout: float = 0.075,
         cnn_module_kernel: int = 15,
