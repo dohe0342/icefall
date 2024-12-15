@@ -39,7 +39,7 @@ END
 #--lang-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/lang_bpe_500 \
 WORLD_SIZE=2
     export CUDA_VISIBLE_DEVICES="6,7"
-    ./conformer_ctc2/train.py \
+    ./conformer_ctc2_origin/train.py \
     --master-port 12311 \
     --exp-dir lm2am/$1 \
     --full-libri 1 \
