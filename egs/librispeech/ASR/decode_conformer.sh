@@ -5,9 +5,8 @@ python3 ./conformer_ctc2/decode.py \
 	--avg 1 \
 	--max-duration 300 \
 	--num-decoder-layers 0 \
-	--kernel-size 31 \
-	--dim-model 512 \
-	--dim-feedforward 2048 \
+	--kernel-size 15 \
+	--dim-model 256 \
 	--method ctc-greedy-search
 
 #--manifest-dir /home/work/workspace/icefall/egs/tedlium2/ASR/data/fbank \
