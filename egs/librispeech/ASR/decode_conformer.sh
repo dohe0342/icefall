@@ -3,7 +3,7 @@ python3 ./conformer_ctc2/decode.py \
 	--use-averaged-model True \
 	--epoch $2 \
 	--avg 1 \
-	--max-duration 300 \
+	--max-duration 1200 \
 	--num-decoder-layers 0 \
 	--kernel-size 15 \
 	--dim-model 256 \
