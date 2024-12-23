@@ -18,7 +18,7 @@ port=$(($RANDOM% 601+12300))
 	--max-duration 600 \
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
-	--num-epochs 30 \
+	--num-epochs 40 \
 	--distill True \
 	--distill-rate 1.0 \
 	--unused-params True \
