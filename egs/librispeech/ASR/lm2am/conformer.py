@@ -384,10 +384,10 @@ class Conformer(Transformer):
             tgt_list = [text.lower() for text in texts]
             lm_input = self.tokenizer(tgt_list, return_tensors='pt', padding=True, return_attention_mask=True).to(device)
             with torch.no_grad():
-                if 0: ##original distillation
+                if 1: ##original distillation
                     lm_output = self.lm(**lm_input)
                     lm_output = lm_output['last_hidden_state']
-                if 1:
+                if 0:
                     lm_output = self.lm.wte(lm_input.input_ids)
                 #lm_output = F.normalize(lm_output, dim=2)
             
