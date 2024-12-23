@@ -17,8 +17,8 @@ WORLD_SIZE=4
 	--master-port 12355
 END
 
-WORLD_SIZE=4
-    export CUDA_VISIBLE_DEVICES="0,1,2,3"
+WORLD_SIZE=2
+    export CUDA_VISIBLE_DEVICES="6,7"
     ./conformer_ctc2/train.py \
     --master-port 12355 \
     --exp-dir conformer_ctc2/$1 \
