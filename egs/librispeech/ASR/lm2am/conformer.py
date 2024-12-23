@@ -411,12 +411,6 @@ class Conformer(Transformer):
             codeword = {} 
             if self.quant is not None:
                 am_output = self.quant(am_output, produce_targets=True)
-                #print(am_output.keys())
-                #print(am_output['num_vars'])
-                #print(am_output['code_perplexity'])
-                #print(am_output['prob_perplexity'])
-                #print(am_output['temp'])
-                #print(am_output['x'].size())
                 codebooks = am_output['targets'].view(-1, 2)
                 for code in codebooks:
                     code = tuple(code.tolist())
