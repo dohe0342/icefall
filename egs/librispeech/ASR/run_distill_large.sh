@@ -1,10 +1,18 @@
-WORLD_SIZE=4
+WORLD_SIZE=2
 if [ $2 -eq 0 ];then
-	export CUDA_VISIBLE_DEVICES="0,1,2,3"
+	export CUDA_VISIBLE_DEVICES="0,1"
 fi
 
 if [ $2 -eq 1 ];then
-	export CUDA_VISIBLE_DEVICES="4,5,6,7"
+	export CUDA_VISIBLE_DEVICES="2,3"
+fi
+
+if [ $2 -eq 2 ];then
+	export CUDA_VISIBLE_DEVICES="4,5"
+fi
+
+if [ $2 -eq 3 ];then
+	export CUDA_VISIBLE_DEVICES="6,7"
 fi
 
 port=$(($RANDOM% 601+12300))
