@@ -388,7 +388,7 @@ class Conformer(Transformer):
                     lm_output = self.lm(**lm_input)
                     lm_output = lm_output['last_hidden_state']
                 if 1:
-                    inputs_embeds = self.lm.wte(lm_input.input_ids)
+                    lm_output = self.lm.wte(lm_input.input_ids)
                 #lm_output = F.normalize(lm_output, dim=2)
             
             am_output = encoder_memory.transpose(0, 1).transpose(1, 2)
