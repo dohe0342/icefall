@@ -11,8 +11,7 @@ CUDA_VISIBLE_DEVICES=$2 python3 ./lm2am/decode.py \
 	--lm-name gpt2 \
 	--wandb False \
 	--lm-tune False \
-	--kernel-size 31 \
-	--dim-model 512 \
-	--dim-feedforward 2048 \
+	--kernel-size 15 \
+	--dim-model 256 \
 	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
 	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500
