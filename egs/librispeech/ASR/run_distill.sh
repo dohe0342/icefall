@@ -23,7 +23,7 @@ port=$(($RANDOM% 601+12300))
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
-	--max-duration 2000 \
+	--max-duration 1500 \
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
 	--num-epochs 40 \
@@ -35,7 +35,7 @@ port=$(($RANDOM% 601+12300))
 	--kernel-size 15 \
 	--manifest-dir /workspace/icefall_kt/egs/librispeech/ASR/data/fbank \
 	--lang-dir /workspace/icefall_kt/egs/librispeech/ASR/data/lang_bpe_500 \
-	--lm-name gpt2-medium
+	--lm-name gpt2-large
 
 #--quant True \
 #--lm-name gpt2
