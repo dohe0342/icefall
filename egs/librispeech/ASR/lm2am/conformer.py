@@ -459,7 +459,7 @@ class Conformer(Transformer):
                 '''
                 #return (x, lm_am_sim, alignment_target), encoder_memory, memory_key_padding_mask
 
-            lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
+            #lm_am_sim = torch.bmm(am_output, lm_output.transpose(1, 2))
             if 1:
                 am_output = am_output.unsqueeze(2)
                 lm_output = lm_output.unsqueeze(1)
