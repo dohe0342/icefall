@@ -52,8 +52,6 @@ from transformers import (
 #    GumbelVectorQuantizer,
 #)
 
-import torch.nn as nn
-
 
 class TransposeLast(nn.Module):
     def __init__(self, deconstruct_idx=None, tranpose_dim=-2):
