@@ -46,6 +46,7 @@ def save_checkpoint(
     scaler: Optional[GradScaler] = None,
     sampler: Optional[CutSampler] = None,
     rank: int = 0,
+    exclude: bool = True,
 ) -> None:
     """Save training information to a file.
 
