@@ -23,7 +23,7 @@ port=$(($RANDOM% 601+12300))
 	--use-fp16 True \
 	--num-workers 9 \
 	--spec-aug-time-warp-factor 80 \
-	--max-duration 1500 \
+	--max-duration 1000 \
 	--world-size ${WORLD_SIZE} \
 	--start-epoch 1 \
 	--num-epochs 40 \
@@ -35,7 +35,7 @@ port=$(($RANDOM% 601+12300))
 	--kernel-size 31 \
 	--att-rate 0.0 \
 	--num-decoder-layers 0 \
-	--lm-name gpt2
+	--lm-name gpt2-large
 	#--lm-name gpt2
 #--lm-name gpt2-medium
 #--lm-name mistralai/Mistral-7B-v0.1
