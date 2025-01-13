@@ -78,8 +78,8 @@ def save_checkpoint(
     if isinstance(model, DDP):
         model = model.module
     
-    if exclude:
-        model = {k: v for k, v in model.state_dict().items() if model.state_dict()[k].requires_grad}
+    #if exclude:
+    #    model = {k: v for k, v in model.state_dict().items() if model.state_dict()[k].requires_grad}
 
     checkpoint = {
         "model": model.state_dict(),
