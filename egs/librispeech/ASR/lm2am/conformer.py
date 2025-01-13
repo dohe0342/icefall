@@ -47,10 +47,10 @@ from transformers import (
     AutoTokenizer, 
     MistralModel,
 )
-from fairseq.modules import (
-    TransposeLast,
-    GumbelVectorQuantizer,
-)
+#from fairseq.modules import (
+#    TransposeLast,
+#    GumbelVectorQuantizer,
+#)
 
 from cif_middleware import CifMiddleware
 
